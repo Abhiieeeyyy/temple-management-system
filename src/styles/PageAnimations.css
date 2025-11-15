@@ -1,0 +1,29 @@
+/* Page Heading Fade-in Animation */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.page-heading-animated {
+  animation: fadeInLeft 0.8s ease-out;
+}
+
+.page-heading-animated h1 {
+  animation: fadeInLeft 0.8s ease-out;
+}
+
+/* Staggered animation for subtitles */
+.page-subtitle-animated {
+  animation: fadeInLeft 1s ease-out 0.2s both;
+}
+
+/* For content sections */
+.content-fade-in {
+  animation: fadeInLeft 1s ease-out 0.4s both;
+}

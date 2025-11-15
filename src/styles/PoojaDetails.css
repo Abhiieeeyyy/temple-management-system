@@ -1,0 +1,2376 @@
+.pooja-details-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.pooja-details-page h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.pooja-intro {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  background-color: #fee;
+  color: #c00;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.success-message {
+  background-color: #efe;
+  color: #0c0;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.pooja-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.pooja-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.pooja-card:hover {
+  transform: translateY(-5px);
+}
+
+.pooja-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.pooja-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Add specific styling for nagapooja image */
+.pooja-image img[src*="nagapooja"] {
+  object-position: center 20%; /* Move the image down by adjusting the vertical position */
+}
+
+.pooja-content {
+  padding: 1.5rem;
+}
+
+.pooja-content h2 {
+  margin: 0 0 1rem;
+  color: #333;
+}
+
+.pooja-info {
+  margin-bottom: 1.5rem;
+}
+
+.pooja-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #2c5282;
+  margin-bottom: 0.5rem;
+}
+
+.pooja-description {
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.pooja-duration {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.pooja-benefits,
+.pooja-requirements {
+  margin-bottom: 1rem;
+}
+
+.pooja-benefits h3,
+.pooja-requirements h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.pooja-benefits ul,
+.pooja-requirements ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pooja-benefits li,
+.pooja-requirements li {
+  color: #666;
+  margin-bottom: 0.25rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.pooja-benefits li:before,
+.pooja-requirements li:before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  color: #2c5282;
+}
+
+
+
+.book-button:disabled {
+  background-color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.book-button.disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.book-button.disabled:hover {
+  background-color: #cccccc;
+  transform: none;
+}
+
+/* Booking Modal Styles */
+.booking-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.booking-modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.booking-modal-content h2 {
+  margin: 0 0 1.5rem;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #2c5282;
+  box-shadow: 0 0 0 2px rgba(44, 82, 130, 0.2);
+}
+
+.form-group input:disabled,
+.form-group select:disabled {
+  background-color: #f7fafc;
+  cursor: not-allowed;
+}
+
+.time-slot-message {
+  color: #666;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.booking-summary {
+  background-color: #f7fafc;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.booking-summary h3 {
+  margin: 0 0 0.5rem;
+  color: #333;
+}
+
+.booking-summary p {
+  margin: 0.25rem 0;
+  color: #666;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.cancel-button,
+.submit-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-button {
+  background-color: #e2e8f0;
+  color: #4a5568;
+  border: none;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background-color: #cbd5e0;
+}
+
+.submit-button {
+  background-color: #2c5282;
+  color: white;
+  border: none;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #2b6cb0;
+}
+
+.cancel-button:disabled,
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pooja-details-page {
+    padding: 1rem;
+  }
+
+  .pooja-list {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .cancel-button,
+  .submit-button {
+    width: 100%;
+  }
+}
+
+.admin-controls {
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+.admin-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.admin-button.add-pooja {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.admin-button.add-pooja:hover {
+  background-color: #45a049;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.admin-button.edit {
+  background-color: #2196F3;
+  color: white;
+}
+
+.admin-button.edit:hover {
+  background-color: #1976D2;
+}
+
+.admin-button.delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.admin-button.delete:hover {
+  background-color: #d32f2f;
+}
+
+.edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.edit-modal-content h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.edit-modal-content .form-group {
+  margin-bottom: 1rem;
+}
+
+.edit-modal-content label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.edit-modal-content input,
+.edit-modal-content textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.edit-modal-content textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.edit-modal-content .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.edit-modal-content .cancel-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-modal-content .cancel-button:hover {
+  background-color: #f5f5f5;
+}
+
+.edit-modal-content .submit-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-modal-content .submit-button:hover {
+  background-color: #45a049;
+}
+
+.edit-modal-content .submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pooja-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.pooja-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pooja-content h1 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.pooja-intro {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+/* Pooja Cards */
+.pooja-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.pooja-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e1e8ed;
+}
+
+.pooja-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.pooja-image {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pooja-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.pooja-card:hover .pooja-image img {
+  transform: scale(1.05);
+}
+
+.pooja-details {
+  padding: 1.5rem;
+}
+
+.pooja-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.pooja-header h2 {
+  color: #b51414;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.english-name {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Info Grid */
+.pooja-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.info-item .label {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.info-item .value {
+  font-size: 1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Description */
+.pooja-description {
+  margin-bottom: 1.5rem;
+}
+
+.pooja-description p {
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Benefits */
+.pooja-benefits {
+  margin-bottom: 1.5rem;
+}
+
+.pooja-benefits h3 {
+  color: #b51414;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.pooja-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pooja-benefits li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #555;
+  line-height: 1.4;
+}
+
+.pooja-benefits li::before {
+  content: '✓';
+  color: #27ae60;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+/* Book Button */
+.book-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #b51414;
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-button:hover {
+  background-color: #8b0f0f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(181, 20, 20, 0.3);
+}
+
+/* Booking Modal */
+.booking-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.booking-modal-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 2.5rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 15px 40px rgba(181, 20, 20, 0.15);
+  border: 1px solid rgba(181, 20, 20, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 3px solid #b51414;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  padding: 1rem;
+  border-radius: 10px;
+  margin: -0.5rem -0.5rem 2rem -0.5rem;
+}
+
+.modal-header h2 {
+  color: #b51414;
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Booking Form */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #b51414;
+  box-shadow: 0 0 0 4px rgba(181, 20, 20, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #b51414;
+  box-shadow: 0 0 0 3px rgba(181, 20, 20, 0.1);
+}
+
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+  border-color: #dc3545;
+  background-color: #fff8f8;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancel-button,
+.submit-button {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-button {
+  background-color: #fff;
+  color: #b51414;
+  border: 2px solid #b51414;
+}
+
+.cancel-button:hover {
+  background-color: #b51414;
+  color: white;
+}
+
+.submit-button {
+  background-color: #b51414;
+  color: white;
+  border: 2px solid #b51414;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #8b0f0f;
+  border-color: #8b0f0f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(181, 20, 20, 0.3);
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Messages */
+.error-message {
+  background-color: #fee;
+  color: #c00;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  border: 1px solid #fcc;
+}
+
+.success-message {
+  background-color: #efe;
+  color: #0c0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  border: 1px solid #cfc;
+}
+
+/* Authentication Required */
+.auth-required {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.auth-required p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.login-button,
+.signup-button {
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.login-button {
+  background-color: #b51414;
+  color: white;
+}
+
+.signup-button {
+  background-color: #fff;
+  color: #b51414;
+  border: 2px solid #b51414;
+}
+
+.login-button:hover {
+  background-color: #8b0f0f;
+  transform: translateY(-2px);
+}
+
+.signup-button:hover {
+  background-color: #b51414;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pooja-container {
+    padding: 1rem;
+  }
+
+  .pooja-content {
+    padding: 1.5rem;
+  }
+
+  .pooja-content h1 {
+    font-size: 2rem;
+  }
+
+  .pooja-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .pooja-info-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+  }
+
+  .login-button,
+  .signup-button {
+    width: 100%;
+  }
+
+  .booking-modal-content {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .modal-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .pooja-card {
+    margin: 0 0.5rem;
+  }
+
+  .pooja-details {
+    padding: 1rem;
+  }
+
+  .booking-modal-content {
+    padding: 1rem;
+  }
+}
+
+/* Card Element and Payment Info Styling */
+.card-element-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.payment-info-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #f7fafc;
+  margin-top: 0.5rem;
+}
+
+.payment-info-box p {
+  margin-bottom: 1rem;
+  color: #4a5568;
+}
+
+.payment-info-box strong {
+  color: #2d3748;
+}
+
+/* Main Poojas Section - Single Row Layout */
+.main-poojas-section {
+  margin-bottom: 3rem;
+}
+
+.main-poojas-section h2 {
+  color: #b51414;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.main-pooja-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.main-pooja-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e1e8ed;
+}
+
+.main-pooja-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.main-pooja-image {
+  height: 120px;
+  overflow: hidden;
+}
+
+.main-pooja-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.main-pooja-card:hover .main-pooja-image img {
+  transform: scale(1.05);
+}
+
+.main-pooja-details {
+  padding: 1rem;
+  text-align: center;
+}
+
+.main-pooja-header {
+  margin-bottom: 0.75rem;
+}
+
+.main-pooja-header h3 {
+  color: #b51414;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.main-pooja-price {
+  color: #27ae60;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.main-pooja-duration {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.main-book-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #b51414;
+  color: white !important;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none;
+  outline: none;
+}
+
+.main-book-button:hover {
+  background-color: #8b0f0f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(181, 20, 20, 0.2);
+}
+
+.main-book-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.main-book-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(181, 20, 20, 0.2);
+}
+
+/* Book Individual Button - Match main button style */
+.book-individual-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #b51414;
+  color: white !important;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-individual-btn:hover {
+  background-color: #8b0f0f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(181, 20, 20, 0.3);
+}
+
+/* Other Poojas Dropdown Section */
+.other-poojas-section {
+  margin-top: 3rem;
+}
+
+.other-poojas-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.other-poojas-toggle {
+  background-color: #f8f9fa;
+  border: 2px solid #b51414;
+  color: #b51414;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.other-poojas-toggle:hover {
+  background-color: #b51414;
+  color: white;
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.other-pooja-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design for New Layout */
+@media (max-width: 768px) {
+  .main-pooja-list {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .main-pooja-details {
+    padding: 0.75rem;
+  }
+  
+  .main-pooja-header h3 {
+    font-size: 1rem;
+  }
+  
+  .other-pooja-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .other-poojas-toggle {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-pooja-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .main-poojas-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .other-poojas-toggle {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.payment-info-box ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.payment-info-box li {
+  margin-bottom: 0.5rem;
+  color: #4a5568;
+}
+
+.payment-info-box .note {
+  font-style: italic;
+  color: #718096;
+  margin-bottom: 0;
+}
+
+/* Multiple Selection Controls */
+.multiple-selection-controls {
+  background-color: #f8f9fa;
+  border: 2px solid #b51414;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.selection-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.selection-summary span {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.total-price {
+  background-color: #27ae60;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.book-selected-button {
+  background-color: #b51414;
+  color: white !important;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.book-selected-button:hover {
+  background-color: #8b0f0f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(181, 20, 20, 0.3);
+}
+
+/* Pooja Selection Styles */
+.pooja-card.selected {
+  border-color: #b51414;
+  box-shadow: 0 0 0 2px rgba(181, 20, 20, 0.2);
+  background-color: #fff8f8;
+}
+
+.pooja-selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+}
+
+.pooja-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.pooja-checkbox {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #b51414;
+}
+
+.pooja-checkbox-label h2 {
+  margin: 0;
+  color: #b51414;
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.pooja-price-tag {
+  background-color: #27ae60;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.pooja-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.book-single-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #6c757d;
+  color: white !important;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-single-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments for multiple selection */
+@media (max-width: 768px) {
+  .multiple-selection-controls {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .selection-summary {
+    justify-content: center;
+  }
+  
+  .book-selected-button {
+    width: 100%;
+  }
+  
+  .pooja-selection-header {
+    flex-direction: row-reverse;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .pooja-checkbox-label {
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex: 1;
+  }
+  
+  .pooja-checkbox-label h2 {
+    text-align: left;
+    flex: 1;
+  }
+
+  .pooja-card-actions {
+    order: -1;
+  }
+
+  .book-individual-btn {
+    white-space: nowrap;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pooja-selection-header {
+    padding: 0.75rem;
+    flex-direction: row-reverse;
+  }
+  
+  .pooja-checkbox-label {
+    flex-direction: row-reverse;
+    gap: 0.5rem;
+  }
+
+  .pooja-checkbox-label h2 {
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  .multiple-selection-controls {
+    padding: 1rem;
+  }
+  
+  .selection-summary {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .book-individual-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Removed authentication-related button styles and hover messages */
+.book-selected-button:hover:not(.authenticated) {
+  background: linear-gradient(135deg, #ffc107, #ff9800);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+/* Removed authentication requirement tooltip *//* Authent
+ication info banner */
+.auth-info-banner {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 100%);
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+}
+
+.auth-info-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.auth-info-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.auth-info-content p {
+  margin: 0;
+  color: #1976d2;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.auth-info-login-btn {
+  background: linear-gradient(135deg, #2196f3, #1976d2);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.auth-info-login-btn:hover {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+/* Responsive design for auth banner */
+@media (max-width: 768px) {
+  .auth-info-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.8rem;
+  }
+
+  .auth-info-login-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+
+/* People Selection Styles */
+.booking-for-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.booking-for-options {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.75rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.people-selection-section {
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.people-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.person-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.person-checkbox:hover {
+  border-color: #b51414;
+  background: #fff5f5;
+}
+
+.person-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.person-checkbox input[type="checkbox"]:checked + .person-info {
+  color: #b51414;
+}
+
+.person-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.person-info strong {
+  font-size: 1rem;
+  color: #333;
+}
+
+.person-info small {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.selected-count {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .booking-for-options {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .people-checkboxes {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Payment Method Selection Styles */
+.payment-method-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.payment-radio {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.payment-radio:hover {
+  border-color: #b51414;
+  background: #fff5f5;
+}
+
+.payment-radio input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.payment-radio input[type="radio"]:checked + .payment-option {
+  color: #b51414;
+}
+
+.payment-radio input[type="radio"]:checked {
+  accent-color: #b51414;
+}
+
+.payment-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.payment-option strong {
+  font-size: 1rem;
+  color: #333;
+}
+
+.payment-option small {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.payment-info-box {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border-left: 4px solid #6c757d;
+}
+
+.payment-info-box.online {
+  background: #e8f5e9;
+  border-left-color: #4caf50;
+}
+
+
+
+.payment-info-box p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.payment-info-box ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.payment-info-box li {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.payment-info-box .note {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .payment-method-selection {
+    gap: 0.75rem;
+  }
+  
+  .payment-radio {
+    padding: 0.75rem;
+  }
+}
+
+
+/* Other Poojas Grid Layout */
+.other-pooja-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.other-pooja-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #e1e8ed;
+}
+
+.other-pooja-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.other-pooja-card.selected {
+  border-color: #b51414;
+  box-shadow: 0 0 0 2px rgba(181, 20, 20, 0.2);
+  background-color: #fff8f8;
+}
+
+.pooja-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem;
+  background: #f8f9fa;
+  gap: 1rem;
+}
+
+.pooja-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.pooja-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #b51414;
+  flex-shrink: 0;
+}
+
+.checkbox-custom {
+  display: none;
+}
+
+.pooja-title {
+  margin: 0;
+  color: #b51414;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  flex: 1;
+  font-family: 'Noto Sans Malayalam', 'Manjari', 'Arial', sans-serif;
+  font-weight: 600;
+}
+
+.pooja-price-badge {
+  background-color: #27ae60;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pooja-card-content {
+  padding: 1.25rem;
+}
+
+.pooja-description {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.pooja-benefits {
+  margin-bottom: 1rem;
+}
+
+.pooja-benefits h4 {
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefits-list li {
+  padding: 0.35rem 0;
+  padding-left: 1.25rem;
+  position: relative;
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.benefits-list li::before {
+  content: '✓';
+  color: #27ae60;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.benefits-list .more-benefits {
+  color: #b51414;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.pooja-card-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-header h2 {
+  color: #b51414;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Sticky Controls */
+.sticky-controls {
+  position: sticky;
+  top: 80px;
+  z-index: 10;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.selected-count {
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Responsive Design for Other Poojas */
+@media (max-width: 768px) {
+  .other-pooja-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pooja-card-header {
+    padding: 1rem;
+  }
+
+  .pooja-title {
+    font-size: 1.1rem;
+  }
+
+  .pooja-card-content {
+    padding: 1rem;
+  }
+
+  .sticky-controls {
+    top: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pooja-card-header {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+
+  .pooja-price-badge {
+    align-self: flex-start;
+  }
+
+  .book-individual-btn {
+    width: 100%;
+  }
+}
+
+
+/* Search Box Styles */
+.pooja-search-container {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+.pooja-search-input {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1.25rem;
+  border: 2px solid #b51414;
+  border-radius: 50px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.pooja-search-input:focus {
+  box-shadow: 0 0 0 4px rgba(181, 20, 20, 0.1);
+  border-color: #8b0f0f;
+}
+
+.pooja-search-input::placeholder {
+  color: #999;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #b51414;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.clear-search-btn:hover {
+  background: #8b0f0f;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.no-results p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .pooja-search-container {
+    max-width: 100%;
+  }
+  
+  .pooja-search-input {
+    padding: 0.875rem 3rem 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Cart System Styles */
+.cart-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.view-cart-button {
+  background: white;
+  color: #b51414;
+  border: 2px solid #b51414;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.view-cart-button:hover {
+  background: #b51414;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.add-to-cart-button {
+  background-color: #b51414;
+  color: white !important;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.add-to-cart-button:hover {
+  background-color: #8b0f0f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(181, 20, 20, 0.3);
+}
+
+/* Cart Form Modal */
+.cart-form-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 550px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.selected-poojas-summary {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #b51414;
+}
+
+.selected-poojas-summary h3 {
+  color: #b51414;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.selected-poojas-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.selected-poojas-summary li {
+  padding: 0.5rem 0;
+  color: #555;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.selected-poojas-summary li:last-child {
+  border-bottom: none;
+}
+
+.total-per-person {
+  color: #27ae60;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.cart-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cart-form small {
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.cart-form-total {
+  background: #fff5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid #b51414;
+}
+
+.cart-form-total strong {
+  color: #b51414;
+  font-size: 1.3rem;
+}
+
+/* Cart Modal */
+.cart-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.empty-cart p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.continue-shopping-btn {
+  background: #b51414;
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.continue-shopping-btn:hover {
+  background: #8b0f0f;
+  transform: translateY(-2px);
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cart-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.cart-item:hover {
+  border-color: #b51414;
+  box-shadow: 0 4px 12px rgba(181, 20, 20, 0.1);
+}
+
+.cart-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.cart-item-header h3 {
+  color: #b51414;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.remove-item-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.remove-item-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+.cart-item-details {
+  color: #555;
+}
+
+.cart-item-details p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.cart-item-poojas {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+}
+
+.cart-item-poojas li {
+  padding: 0.25rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.cart-item-total {
+  color: #27ae60 !important;
+  font-size: 1.1rem !important;
+  margin-top: 1rem !important;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cart-summary {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #b51414;
+}
+
+.cart-total {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.cart-total h3 {
+  color: #b51414;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+}
+
+.cart-total p {
+  color: #666;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.checkout-button {
+  width: 100%;
+  background: linear-gradient(135deg, #b51414 0%, #8b0f0f 100%);
+  color: white !important;
+  border: none;
+  padding: 1.25rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.checkout-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(181, 20, 20, 0.4);
+}
+
+.checkout-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design for Cart */
+@media (max-width: 768px) {
+  .cart-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .view-cart-button,
+  .add-to-cart-button {
+    width: 100%;
+  }
+
+  .cart-form-modal,
+  .cart-modal {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .cart-item {
+    padding: 1rem;
+  }
+
+  .cart-item-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .cart-total h3 {
+    font-size: 1.5rem;
+  }
+
+  .checkout-button {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .selected-poojas-summary {
+    padding: 1rem;
+  }
+
+  .cart-form-modal,
+  .cart-modal {
+    padding: 1rem;
+  }
+
+  .cart-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .remove-item-btn {
+    align-self: flex-end;
+  }
+}
+
+
+/* Malayalam name styling */
+.malayalam-name {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: 500;
+}
+
+

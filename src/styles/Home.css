@@ -1,0 +1,572 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f1eb 0%, #e8ddd4 100%);
+  padding: 0;
+  position: relative;
+}
+
+/* Hero Layout */
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 4rem 2rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+/* Left Hero Section */
+.hero-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 2rem;
+}
+
+.hero-text {
+  text-align: left;
+  max-width: 400px;
+}
+
+.hero-subtitle {
+  color: #8b7355;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.1;
+  color: #2c2c2c;
+  margin-bottom: 1.5rem;
+  font-family: 'Georgia', serif;
+}
+
+.hero-description {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.explore-btn {
+  display: inline-block;
+  background-color: #b51414;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(181, 20, 20, 0.3);
+}
+
+.explore-btn:hover {
+  background-color: #8f1010;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(181, 20, 20, 0.4);
+}
+
+/* Center Temple Section */
+.hero-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.temple-card {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: white;
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: all 0.3s ease;
+}
+
+.temple-card:hover {
+  transform: perspective(1000px) rotateY(0deg) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.temple-image {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.temple-card:hover .image-overlay {
+  opacity: 1;
+}
+
+.overlay-text {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+
+
+/* Info Cards Section - Below Temple Image */
+.info-cards-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.info-icon {
+  font-size: 3rem;
+  font-weight: 400;
+  color: #b51414;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+}
+
+.info-text {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.get-started-button,
+.login-button,
+.profile-button,
+.learn-more-button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.get-started-button,
+.profile-button,
+.learn-more-button {
+  background-color: #b51414;
+  color: white;
+  border: none;
+}
+
+.get-started-button:hover,
+.profile-button:hover,
+.learn-more-button:hover {
+  background-color: #8f1010;
+  transform: translateY(-2px);
+}
+
+.login-button {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.login-button:hover {
+  background-color: white;
+  color: #b51414;
+}
+
+/* Auth Form Overlay */
+.auth-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.auth-form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.close-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Quick Access Section */
+.quick-access {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 3rem 2rem;
+  margin: 2rem;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.quick-access-title {
+  text-align: center;
+  color: #b51414;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.quick-access-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #b51414, #d4af37, #b51414, transparent);
+  border-radius: 2px;
+}
+
+.access-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.access-grid .access-card:nth-child(1),
+.access-grid .access-card:nth-child(2),
+.access-grid .access-card:nth-child(3) {
+  grid-column: span 2;
+}
+
+.access-grid .access-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.access-grid .access-card:nth-child(5) {
+  grid-column: 4 / span 2;
+}
+
+.access-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(181, 20, 20, 0.1);
+  min-height: 200px;
+  justify-content: center;
+}
+
+.access-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #b51414, #d4af37);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.access-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  border-color: rgba(181, 20, 20, 0.2);
+}
+
+.access-card:hover::before {
+  transform: scaleX(1);
+}
+
+.access-icon {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #b51414;
+  background: rgba(181, 20, 20, 0.1);
+  padding: 0.8rem 1.2rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.access-card:hover .access-icon {
+  opacity: 1;
+  background: rgba(181, 20, 20, 0.2);
+  transform: translateY(-2px);
+}
+
+.access-card h3 {
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  transition: color 0.3s ease;
+  font-weight: 600;
+}
+
+.access-card:hover h3 {
+  color: #b51414;
+}
+
+.access-card p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+  }
+
+  .hero-left {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .temple-card {
+    transform: none;
+    max-width: 400px;
+  }
+
+  .info-cards-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0 2rem 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-layout {
+    padding: 2rem 1rem 1rem;
+    gap: 2rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .temple-card {
+    max-width: 350px;
+  }
+
+  .temple-image {
+    height: 280px;
+  }
+
+  .info-cards-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 0 1rem 2rem;
+  }
+
+  .info-card {
+    height: 240px;
+    padding: 1.5rem;
+  }
+
+  .info-icon {
+    font-size: 2.5rem;
+  }
+
+  .access-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .access-grid .access-card:nth-child(1),
+  .access-grid .access-card:nth-child(2),
+  .access-grid .access-card:nth-child(3),
+  .access-grid .access-card:nth-child(4),
+  .access-grid .access-card:nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .access-grid .access-card:nth-child(5) {
+    grid-column: span 2;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .quick-access {
+    margin: 1rem;
+    padding: 2rem 1rem;
+  }
+
+  .access-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-layout {
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+  }
+
+  .temple-card {
+    max-width: 300px;
+  }
+
+  .temple-image {
+    height: 240px;
+  }
+
+  .info-cards-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    padding: 0 0.5rem 1.5rem;
+  }
+
+  .info-card {
+    height: 200px;
+    padding: 1rem;
+  }
+
+  .info-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .info-text {
+    font-size: 0.75rem;
+  }
+
+  .access-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .access-grid .access-card:nth-child(1),
+  .access-grid .access-card:nth-child(2),
+  .access-grid .access-card:nth-child(3),
+  .access-grid .access-card:nth-child(4),
+  .access-grid .access-card:nth-child(5) {
+    grid-column: span 1;
+    max-width: none;
+  }
+
+  .access-card {
+    padding: 1.2rem;
+  }
+
+  .access-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .access-icon {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+}

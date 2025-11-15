@@ -1,0 +1,131 @@
+.auth-required-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.auth-required-content {
+  text-align: center;
+  max-width: 500px;
+  padding: 3rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(181, 20, 20, 0.1);
+}
+
+.auth-required-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+}
+
+.auth-required-content h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.auth-required-content p {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.auth-required-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.auth-required-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.auth-required-btn.login-btn {
+  background: transparent;
+  color: #b51414;
+  border: 2px solid #b51414;
+}
+
+.auth-required-btn.login-btn:hover {
+  background: #b51414;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(181, 20, 20, 0.3);
+}
+
+.auth-required-btn.signup-btn {
+  background: linear-gradient(135deg, #b51414, #8f1010);
+  color: white;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 15px rgba(181, 20, 20, 0.3);
+}
+
+.auth-required-btn.signup-btn:hover {
+  background: linear-gradient(135deg, #8f1010, #6d0c0c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(181, 20, 20, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .auth-required-container {
+    padding: 1rem;
+    min-height: 50vh;
+  }
+
+  .auth-required-content {
+    padding: 2rem;
+  }
+
+  .auth-required-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .auth-required-content p {
+    font-size: 1rem;
+  }
+
+  .auth-required-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .auth-required-btn {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-required-content {
+    padding: 1.5rem;
+  }
+
+  .auth-required-icon {
+    font-size: 3rem;
+  }
+
+  .auth-required-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .auth-required-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
