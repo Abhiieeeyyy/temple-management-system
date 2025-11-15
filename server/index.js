@@ -43,7 +43,19 @@ const app = express()
 
 // Security middleware
 app.use(helmet())
-app.use(cors())
+
+// CORS configuration
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://temple-frontend-ytue.onrender.com'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions))
+
 app.use(compression())
 
 // Rate limiting
