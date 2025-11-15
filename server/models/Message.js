@@ -17,7 +17,15 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Phone number is required'],
     trim: true,
-    match: [/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number']
+    validate: {
+      validator: function(v) {
+        // Remove all non-digit characters
+        const cleaned = v.replace(/\D/g, '')
+        // Accept 10 digits or 12 digits (with country code)
+        return cleaned.length === 10 || cleaned.length === 12
+      },
+      message: 'Please enter a valid phone number (10 digits)'
+    }
   },
   subject: {
     type: String,
