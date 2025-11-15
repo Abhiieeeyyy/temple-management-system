@@ -365,9 +365,10 @@ router.post('/create-admin', async (req, res) => {
 })
 
 // POST /api/auth/init-admin - Initialize admin user (one-time setup)
-router.post('/init-admin', async (req, res) => {
+// GET or POST /api/auth/init-admin - Initialize admin user (one-time setup)
+router.get('/init-admin', async (req, res) => {
   try {
-    const adminKey = req.body.adminKey || req.query.adminKey
+    const adminKey = req.query.adminKey
     
     // Check admin creation key
     if (adminKey !== process.env.ADMIN_CREATION_KEY) {
