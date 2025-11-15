@@ -364,4 +364,62 @@ router.post('/create-admin', async (req, res) => {
   }
 })
 
+// POST /api/auth/init-admin - Initialize admin user (one-time setup)
+router.post('/init-admin', async (req, res) => {
+  try {
+    const adminKey = req.body.adminKey || req.query.adminKey
+    
+    // Check admin creation key
+    if (adminKey !== process.env.ADMIN_CREATION_KEY) {
+      return res.status(403).json({
+        success: false,
+        message: 'Invalid admin creation key'
+      })
+    }
+
+    // Check if admin already exists
+    const existingAdmin = await User.findOne({ 
+      email: 'srikainariayyappatemple@gmail.com' 
+    })
+    
+    if (existingAdmin) {
+      return res.status(200).json({
+        success: true,
+        message: 'Admin user already exists',
+        credentials: {
+          email: 'srikainariayyappatemple@gmail.com',
+          password: 'Use existing password: Skat@666'
+        }
+      })
+    }
+
+    // Create admin user
+    const admin = await User.create({
+      firstName: 'Temple',
+      lastName: 'Admin',
+      email: 'srikainariayyappatemple@gmail.com',
+      phone: '9999999999',
+      password: 'Skat@666',
+      role: 'admin',
+      isActive: true
+    })
+
+    res.status(201).json({
+      success: true,
+      message: 'Admin user created successfully',
+      credentials: {
+        email: 'srikainariayyappatemple@gmail.com',
+        password: 'Skat@666'
+      }
+    })
+  } catch (error) {
+    console.error('Init admin error:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Failed to initialize admin user',
+      error: error.message
+    })
+  }
+})
+
 export default router
