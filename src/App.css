@@ -61,7 +61,16 @@ body {
 }
 
 @media (max-width: 768px) {
+  .app {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   .main-content {
     padding: 0 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
   }
 } 
