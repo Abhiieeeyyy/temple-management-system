@@ -452,13 +452,21 @@
   }
 
   .quick-access {
-    padding: 2rem 1rem;
-    margin: 1rem;
+    padding: 2rem 1.5rem;
+    margin: 1rem 0.5rem;
+    width: calc(100% - 1rem);
+    max-width: 100%;
+  }
+
+  .quick-access-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
   }
 
   .access-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 1.2rem;
+    width: 100%;
   }
 
   .access-grid .access-card:nth-child(1),
@@ -470,7 +478,28 @@
   }
 
   .access-card {
-    padding: 1.5rem 1rem;
-    min-height: 180px;
+    padding: 1.5rem 1.2rem;
+    min-height: 160px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .access-icon {
+    font-size: 1.5rem;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .access-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .access-card p {
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
 }

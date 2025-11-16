@@ -34,9 +34,13 @@ const AdminLogin = () => {
     const result = await login(formData.email, formData.password)
 
     if (result.success) {
-      // Check if user is admin
-      if (result.user?.isAdmin || result.user?.role === 'admin') {
-        navigate('/admin-panel')
+      // Check if user is admin - wait a bit for state to update
+      const userRole = result.user?.role
+      if (userRole === 'admin') {
+        // Small delay to ensure state is updated
+        setTimeout(() => {
+          navigate('/admin-panel')
+        }, 100)
       } else {
         setError('Access denied. Admin credentials required.')
         setLoading(false)

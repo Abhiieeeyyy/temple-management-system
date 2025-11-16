@@ -86,14 +86,30 @@ const PoojaDetails = () => {
     const fetchAdminPoojas = async () => {
       try {
         const response = await api.get('/api/poojas')
+        console.log('Poojas API response:', response)
+        
+        // Handle both array and object responses
+        const poojasData = Array.isArray(response.data) ? response.data : (response.data?.poojas || response.data?.data || [])
+        
+        if (!Array.isArray(poojasData)) {
+          console.error('Invalid poojas data format:', poojasData)
+          setAdminPoojas([])
+          setFilteredPoojas([])
+          return
+        }
+        
         // Filter out the main poojas (ones that should remain at the top)
-        const adminAddedPoojas = response.data.filter(pooja => 
-          !['Ganapathi Homam', 'Daily Pooja', 'Naga Pooja', 'Chuttu Vilakku', 'ഗണപതി ഹോമം', 'ദൈനിക പൂജ', 'നാഗ പൂജ', 'ചുറ്റുവിളക്ക്'].includes(pooja.name)
+        const adminAddedPoojas = poojasData.filter(pooja => 
+          pooja && pooja.name && !['Ganapathi Homam', 'Daily Pooja', 'Naga Pooja', 'Chuttu Vilakku', 'ഗണപതി ഹോമം', 'ദൈനിക പൂജ', 'നാഗ പൂജ', 'ചുറ്റുവിളക്ക്'].includes(pooja.name)
         )
+        
+        console.log('Filtered admin poojas:', adminAddedPoojas)
         setAdminPoojas(adminAddedPoojas)
         setFilteredPoojas(adminAddedPoojas)
       } catch (error) {
         console.error('Error fetching admin poojas:', error)
+        setAdminPoojas([])
+        setFilteredPoojas([])
       }
     }
     

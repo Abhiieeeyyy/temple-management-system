@@ -132,27 +132,131 @@
   min-width: 50px;
 }
 
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Hamburger Menu Button - Hidden on Desktop */
+.hamburger-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1001;
+  position: relative;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 4px;
+  background-color: #b51414;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+  box-shadow: 0 1px 2px rgba(181, 20, 20, 0.3);
+}
+
+.hamburger-menu-btn:hover .hamburger-line {
+  background-color: #8f1010;
+  box-shadow: 0 2px 4px rgba(181, 20, 20, 0.5);
+}
+
+.hamburger-menu-btn:active .hamburger-line {
+  background-color: #6d0c0c;
+}
+
+/* Hamburger Animation */
+.hamburger-line.open:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger-line.open:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-line.open:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
   .navbar-header {
     padding: 0.75rem 1rem;
   }
 
+  /* Show hamburger button on mobile */
+  .hamburger-menu-btn {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+
+  .hamburger-line {
+    height: 4px;
+    background-color: #b51414;
+    box-shadow: 0 2px 3px rgba(181, 20, 20, 0.4);
+  }
+
+  /* Hide navigation by default on mobile */
   .navbar-navigation {
-    padding: 0.75rem 1rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 1rem;
+  }
+
+  /* Show navigation when menu is open */
+  .navbar-navigation.mobile-open {
+    max-height: 500px;
+    padding: 1rem;
   }
 
   .navbar-links {
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
   }
 
   .nav-link {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    width: 100%;
+  }
+
+  .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .nav-link:hover {
+    background: rgba(181, 20, 20, 0.1);
+  }
+
+  .nav-link::after {
+    display: none;
   }
 
   .temple-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .temple-logo {
+    width: 40px;
+    height: 40px;
   }
 }
