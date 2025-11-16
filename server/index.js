@@ -125,6 +125,65 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' })
 })
 
+// Ensure admin user exists
+const ensureAdminUser = async () => {
+  try {
+    const User = (await import('./models/User.js')).default
+    const ADMIN_EMAIL = 'srikainariayyappatemple@gmail.com'
+    const ADMIN_PASSWORD = 'Skat@666'
+    
+    // Find admin user
+    let admin = await User.findOne({ email: ADMIN_EMAIL })
+    
+    if (!admin) {
+      console.log('👤 Admin user not found. Creating...')
+      admin = await User.create({
+        firstName: 'Temple',
+        lastName: 'Admin',
+        email: ADMIN_EMAIL,
+        phone: '9999999999',
+        password: ADMIN_PASSWORD,
+        role: 'admin',
+        isActive: true
+      })
+      console.log('✅ Admin user created successfully')
+      console.log(`📧 Email: ${ADMIN_EMAIL}`)
+      console.log(`🔑 Password: ${ADMIN_PASSWORD}`)
+    } else {
+      let needsUpdate = false
+      
+      // Ensure role is set correctly
+      if (admin.role !== 'admin') {
+        console.log('🔧 Updating admin role...')
+        admin.role = 'admin'
+        needsUpdate = true
+      }
+      
+      // Verify password is correct
+      const isPasswordCorrect = await admin.comparePassword(ADMIN_PASSWORD)
+      if (!isPasswordCorrect) {
+        console.log('🔧 Updating admin password...')
+        admin.password = ADMIN_PASSWORD
+        needsUpdate = true
+      }
+      
+      if (needsUpdate) {
+        await admin.save()
+        console.log('✅ Admin user updated')
+      } else {
+        console.log('✅ Admin user verified')
+      }
+      
+      console.log(`📧 Email: ${ADMIN_EMAIL}`)
+      console.log(`🔑 Password: ${ADMIN_PASSWORD}`)
+      console.log(`👤 Role: ${admin.role}`)
+    }
+  } catch (error) {
+    console.error('❌ Error ensuring admin user:', error.message)
+    console.error('Full error:', error)
+  }
+}
+
 // Initialize poojas
 const initializePoojas = async () => {
   try {
@@ -147,6 +206,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
   .then(async () => {
     console.log('Connected to MongoDB')
+    
+    // Ensure admin user exists
+    await ensureAdminUser()
     
     // Load payment routes dynamically after env vars are confirmed loaded
     try {

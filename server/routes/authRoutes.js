@@ -108,6 +108,7 @@ router.post('/login', async (req, res) => {
     // Compare password
     const isPasswordValid = await user.comparePassword(password)
     if (!isPasswordValid) {
+      console.log(`❌ Login failed: Invalid password for ${email}`)
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password'
@@ -128,6 +129,12 @@ router.post('/login', async (req, res) => {
       ...userData,
       role: user.role || 'user',
       isAdmin: user.role === 'admin'
+    }
+
+    // Log admin login for debugging
+    if (user.role === 'admin') {
+      console.log(`✅ Admin login successful: ${email}`)
+      console.log(`   Role: ${userResponse.role}, isAdmin: ${userResponse.isAdmin}`)
     }
 
     res.json({
