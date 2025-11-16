@@ -121,10 +121,19 @@ router.post('/login', async (req, res) => {
     user.lastLogin = new Date()
     await user.save()
 
+    // Get user data with role field explicitly included
+    const userData = user.toJSON()
+    // Ensure role is included (should be from schema, but explicitly set it)
+    const userResponse = {
+      ...userData,
+      role: user.role || 'user',
+      isAdmin: user.role === 'admin'
+    }
+
     res.json({
       success: true,
       message: 'Login successful',
-      user: user.toJSON(),
+      user: userResponse,
       token
     })
 

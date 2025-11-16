@@ -472,14 +472,20 @@
   .access-grid .access-card:nth-child(1),
   .access-grid .access-card:nth-child(2),
   .access-grid .access-card:nth-child(3),
-  .access-grid .access-card:nth-child(4),
-  .access-grid .access-card:nth-child(5) {
+  .access-grid .access-card:nth-child(4) {
     grid-column: span 1;
   }
 
+  /* Center the 5th card (Contact) */
+  .access-grid .access-card:nth-child(5) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: calc(50% - 0.6rem);
+  }
+
   .access-card {
-    padding: 1.5rem 1.2rem;
-    min-height: 160px;
+    padding: 1.2rem 1rem;
+    min-height: 140px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -488,18 +494,18 @@
   }
 
   .access-icon {
-    font-size: 1.5rem;
-    padding: 0.6rem 1rem;
-    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
+    padding: 0.5rem 0.8rem;
+    margin-bottom: 0.6rem;
   }
 
   .access-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
   }
 
   .access-card p {
-    font-size: 0.85rem;
-    line-height: 1.4;
+    font-size: 0.8rem;
+    line-height: 1.3;
   }
 }

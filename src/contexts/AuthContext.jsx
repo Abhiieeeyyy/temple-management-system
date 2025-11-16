@@ -23,6 +23,12 @@ export const AuthProvider = ({ children }) => {
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData)
+        // Ensure role is set correctly
+        if (!parsedUser.role && parsedUser.isAdmin) {
+          parsedUser.role = 'admin'
+        } else if (!parsedUser.role) {
+          parsedUser.role = 'user'
+        }
         setUser(parsedUser)
         setIsAuthenticated(true)
       } catch (error) {
@@ -52,11 +58,16 @@ export const AuthProvider = ({ children }) => {
       console.log('Response data:', data)
 
       if (data.success) {
-        setUser(data.user)
+        // Ensure user object has role field
+        const userData = {
+          ...data.user,
+          role: data.user.role || (data.user.isAdmin ? 'admin' : 'user')
+        }
+        setUser(userData)
         setIsAuthenticated(true)
         localStorage.setItem('temple_token', data.token)
-        localStorage.setItem('temple_user', JSON.stringify(data.user))
-        return { success: true, user: data.user }
+        localStorage.setItem('temple_user', JSON.stringify(userData))
+        return { success: true, user: userData }
       } else {
         return { success: false, message: data.message }
       }
@@ -199,7 +210,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('temple_user', JSON.stringify(updatedUser))
   }
 
-  const isAdmin = user?.role === 'admin'
+  // Check if user is admin - check both role field and isAdmin flag
+  const isAdmin = user?.role === 'admin' || user?.isAdmin === true
 
   const value = {
     user,

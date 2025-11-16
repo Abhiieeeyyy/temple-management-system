@@ -12,6 +12,11 @@ export default defineConfig({
       }
     }
   },
+  preview: {
+    // Enable SPA fallback for preview server
+    port: 4173,
+    strictPort: false,
+  },
   build: {
     rollupOptions: {
       output: {

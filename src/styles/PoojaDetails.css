@@ -1188,7 +1188,7 @@
 /* Responsive Design for New Layout */
 @media (max-width: 768px) {
   .main-pooja-list {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
   
@@ -1213,7 +1213,7 @@
 
 @media (max-width: 480px) {
   .main-pooja-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
   
   .main-poojas-section h2 {
@@ -1903,7 +1903,7 @@ ication info banner */
 /* Responsive Design for Other Poojas */
 @media (max-width: 768px) {
   .other-pooja-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
 

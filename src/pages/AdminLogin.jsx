@@ -31,22 +31,30 @@ const AdminLogin = () => {
     setLoading(true)
     setError('')
 
-    const result = await login(formData.email, formData.password)
+    try {
+      const result = await login(formData.email, formData.password)
 
-    if (result.success) {
-      // Check if user is admin - wait a bit for state to update
-      const userRole = result.user?.role
-      if (userRole === 'admin') {
-        // Small delay to ensure state is updated
-        setTimeout(() => {
-          navigate('/admin-panel')
-        }, 100)
+      if (result.success) {
+        // Check if user is admin - check both role and isAdmin flag
+        const userRole = result.user?.role
+        const isUserAdmin = result.user?.isAdmin || userRole === 'admin'
+        
+        if (isUserAdmin) {
+          // Wait for state to update, then navigate
+          setTimeout(() => {
+            navigate('/admin-panel', { replace: true })
+          }, 150)
+        } else {
+          setError('Access denied. Admin credentials required.')
+          setLoading(false)
+        }
       } else {
-        setError('Access denied. Admin credentials required.')
+        setError(result.message || 'Invalid credentials')
         setLoading(false)
       }
-    } else {
-      setError(result.message || 'Invalid credentials')
+    } catch (err) {
+      console.error('Login error:', err)
+      setError('Login failed. Please try again.')
       setLoading(false)
     }
   }
