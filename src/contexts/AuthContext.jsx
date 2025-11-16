@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true)
         localStorage.setItem('temple_token', data.token)
         localStorage.setItem('temple_user', JSON.stringify(data.user))
-        return { success: true }
+        return { success: true, user: data.user }
       } else {
         return { success: false, message: data.message }
       }

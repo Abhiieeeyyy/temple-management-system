@@ -18,6 +18,11 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   }
 
   if (!isAuthenticated) {
+    // For admin routes, redirect to admin login page
+    if (adminOnly) {
+      return <Navigate to="/admin" replace />
+    }
+    
     return (
       <div className="auth-required-container">
         <div className="auth-required-content">

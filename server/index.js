@@ -46,11 +46,24 @@ app.use(helmet())
 
 // CORS configuration
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://temple-frontend-ytue.onrender.com'
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true)
+    
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      process.env.FRONTEND_URL,
+      'https://temple-frontend-ytue.onrender.com',
+      'https://temple-frontend.onrender.com'
+    ].filter(Boolean) // Remove undefined values
+    
+    if (allowedOrigins.includes(origin) || origin.includes('.onrender.com')) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200
 }

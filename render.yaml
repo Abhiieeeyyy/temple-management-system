@@ -22,6 +22,9 @@ services:
         sync: false
       - key: ADMIN_CREATION_KEY
         sync: false
+      # Optional: Set this to your frontend URL for CORS (e.g., https://temple-frontend-XXXXX.onrender.com)
+      - key: FRONTEND_URL
+        sync: false
 
   # Frontend Service
   - type: web
@@ -29,14 +32,16 @@ services:
     env: static
     region: oregon
     plan: free
-    buildCommand: npm install && npm run build && cp public/_redirects dist/_redirects
+    buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
     envVars:
+      # IMPORTANT: Update this with your actual backend URL after deployment
+      # Format: https://temple-backend-XXXXX.onrender.com
       - key: VITE_API_URL
-        value: https://temple-backend-dm30.onrender.com
+        sync: false
       - key: VITE_RAZORPAY_KEY_ID
         sync: false
