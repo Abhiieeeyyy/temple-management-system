@@ -28,7 +28,8 @@ export const createRazorpayOrder = async (orderData) => {
       headers['Authorization'] = `Bearer ${token}`
     }
     
-    const response = await fetch('http://localhost:5011/api/payments/create-order', {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+    const response = await fetch(`${API_URL}/api/payments/create-order`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(orderData)
@@ -72,7 +73,8 @@ export const openRazorpayCheckout = (options) => {
 
 export const verifyPayment = async (paymentData) => {
   try {
-    const response = await fetch('http://localhost:5011/api/payments/verify', {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+    const response = await fetch(`${API_URL}/api/payments/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

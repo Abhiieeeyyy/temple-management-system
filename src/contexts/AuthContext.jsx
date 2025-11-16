@@ -35,10 +35,11 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const login = async (email, password) => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     console.log('Login function called with:', email)
     try {
-      console.log('Making request to:', 'http://localhost:5011/api/auth/login')
-      const response = await fetch('http://localhost:5011/api/auth/login', {
+      console.log('Making request to:', `${API_URL}/api/auth/login`)
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,8 +67,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const signup = async (userData) => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
-      const response = await fetch('http://localhost:5011/api/auth/register', {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,8 +102,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const sendOTP = async (phone, purpose = 'login') => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
-      const response = await fetch('http://localhost:5011/api/otp/send', {
+      const response = await fetch(`${API_URL}/api/otp/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,8 +121,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const verifyOTP = async (phone, otp, purpose = 'login') => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
-      const response = await fetch('http://localhost:5011/api/otp/verify', {
+      const response = await fetch(`${API_URL}/api/otp/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -145,7 +149,8 @@ export const AuthProvider = ({ children }) => {
       }
 
       // If OTP is verified, find the user and log them in
-      const response = await fetch('http://localhost:5011/api/auth/login-phone', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+      const response = await fetch(`${API_URL}/api/auth/login-phone`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,8 +176,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const resetPassword = async (phone, otp, newPassword) => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
-      const response = await fetch('http://localhost:5011/api/auth/reset-password', {
+      const response = await fetch(`${API_URL}/api/auth/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

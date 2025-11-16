@@ -105,7 +105,8 @@ const DonationForm = () => {
           status: 'completed'
         }
 
-        const saveResponse = await fetch('http://localhost:5011/api/donations', {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+        const saveResponse = await fetch(`${API_URL}/api/donations`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
