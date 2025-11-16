@@ -4,6 +4,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
 }
 
 /* Top Row - Header */
@@ -11,8 +12,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   border-bottom: 1px solid #e2e8f0;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* Left - Temple Brand */
@@ -26,9 +30,16 @@
 /* Bottom Row - Navigation */
 .navbar-navigation {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   border-top: 2px solid rgba(181, 20, 20, 0.1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.navbar-navigation-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .temple-logo {
@@ -75,9 +86,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3.5rem;
-  max-width: 1400px;
+  gap: 4rem;
+  max-width: 1600px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .nav-link {
@@ -120,75 +132,4 @@
   min-width: 50px;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .navbar {
-    padding: 1rem 1.5rem;
-  }
-
-  .navbar-links {
-    gap: 1.5rem;
-  }
-
-  .temple-text {
-    font-size: 1.3rem;
-    letter-spacing: 0.5px;
-  }
-
-  .nav-link {
-    font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .navbar-header {
-    padding: 0.75rem 1rem;
-  }
-
-  .navbar-navigation {
-    padding: 0.5rem 1rem;
-  }
-
-  .navbar-brand {
-    justify-content: flex-start;
-  }
-
-  .navbar-links {
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .temple-text {
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-  }
-
-  .nav-link {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar {
-    padding: 0.75rem;
-  }
-
-  .temple-logo {
-    width: 40px;
-    height: 40px;
-  }
-
-  .temple-text {
-    font-size: 1rem;
-    letter-spacing: 0.3px;
-  }
-
-  .navbar-links {
-    gap: 0.75rem;
-  }
-
-  .nav-link {
-    font-size: 0.85rem;
-    padding: 0.25rem 0;
-  }
-}
+/* Keep desktop layout on all screen sizes */

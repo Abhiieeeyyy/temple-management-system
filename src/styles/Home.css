@@ -3,6 +3,7 @@
   background: linear-gradient(135deg, #f5f1eb 0%, #e8ddd4 100%);
   padding: 0;
   position: relative;
+  width: 100%;
 }
 
 /* Hero Layout */
@@ -11,9 +12,10 @@
   grid-template-columns: 1fr 2fr;
   gap: 2rem;
   padding: 4rem 2rem 2rem;
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   align-items: center;
+  width: 100%;
 }
 
 /* Left Hero Section */
@@ -137,10 +139,11 @@
 .info-cards-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 1400px;
+  gap: 3rem;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 2rem 4rem;
+  padding: 0 3rem 4rem;
+  width: 100%;
 }
 
 .info-card {
@@ -279,10 +282,12 @@
 .quick-access {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  padding: 3rem 2rem;
-  margin: 2rem;
+  padding: 4rem 3rem;
+  margin: 2rem auto;
+  max-width: 1600px;
   border-radius: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 4rem);
 }
 
 .quick-access-title {
@@ -311,9 +316,10 @@
 .access-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 2rem;
-  max-width: 1200px;
+  gap: 2.5rem;
+  max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .access-grid .access-card:nth-child(1),
@@ -409,164 +415,4 @@
   opacity: 0.8;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .hero-layout {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    text-align: center;
-    padding: 3rem 2rem 2rem;
-  }
-
-  .hero-left {
-    justify-content: center;
-    padding: 0;
-  }
-
-  .hero-text {
-    text-align: center;
-  }
-
-  .temple-card {
-    transform: none;
-    max-width: 400px;
-  }
-
-  .info-cards-section {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    padding: 0 2rem 3rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-layout {
-    padding: 2rem 1rem 1rem;
-    gap: 2rem;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .temple-card {
-    max-width: 350px;
-  }
-
-  .temple-image {
-    height: 280px;
-  }
-
-  .info-cards-section {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    padding: 0 1rem 2rem;
-  }
-
-  .info-card {
-    height: 240px;
-    padding: 1.5rem;
-  }
-
-  .info-icon {
-    font-size: 2.5rem;
-  }
-
-  .access-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-
-  .access-grid .access-card:nth-child(1),
-  .access-grid .access-card:nth-child(2),
-  .access-grid .access-card:nth-child(3),
-  .access-grid .access-card:nth-child(4),
-  .access-grid .access-card:nth-child(5) {
-    grid-column: span 1;
-  }
-
-  .access-grid .access-card:nth-child(5) {
-    grid-column: span 2;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  .quick-access {
-    margin: 1rem;
-    padding: 2rem 1rem;
-  }
-
-  .access-card {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-layout {
-    padding: 1.5rem 1rem 1rem;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-    line-height: 1.2;
-  }
-
-  .hero-description {
-    font-size: 0.9rem;
-  }
-
-  .temple-card {
-    max-width: 300px;
-  }
-
-  .temple-image {
-    height: 240px;
-  }
-
-  .info-cards-section {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    padding: 0 0.5rem 1.5rem;
-  }
-
-  .info-card {
-    height: 200px;
-    padding: 1rem;
-  }
-
-  .info-icon {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .info-text {
-    font-size: 0.75rem;
-  }
-
-  .access-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .access-grid .access-card:nth-child(1),
-  .access-grid .access-card:nth-child(2),
-  .access-grid .access-card:nth-child(3),
-  .access-grid .access-card:nth-child(4),
-  .access-grid .access-card:nth-child(5) {
-    grid-column: span 1;
-    max-width: none;
-  }
-
-  .access-card {
-    padding: 1.2rem;
-  }
-
-  .access-card h3 {
-    font-size: 1.1rem;
-  }
-
-  .access-icon {
-    font-size: 0.9rem;
-    padding: 0.6rem 1rem;
-  }
-}
+/* Keep desktop layout on all screen sizes */

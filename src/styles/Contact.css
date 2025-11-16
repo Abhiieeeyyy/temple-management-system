@@ -1,9 +1,10 @@
 .contact-page {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 3rem 3rem;
   background: #f8f9fa;
   min-height: 100vh;
+  width: 100%;
 }
 
 .contact-page h1 {
@@ -29,8 +30,9 @@
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .contact-info {
@@ -373,141 +375,4 @@
   color: #333;
 }
 
-@media (max-width: 768px) {
-  .contact-page {
-    padding: 2rem 1rem;
-  }
-
-  .contact-page h1 {
-    font-size: 2.2rem;
-  }
-
-  .contact-container {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .contact-info {
-    padding: 2rem 1.5rem;
-    border-bottom: 1px solid #eee;
-  }
-
-  .contact-info h2 {
-    font-size: 1.6rem;
-  }
-
-  .contact-form-container {
-    padding: 2rem 1.5rem;
-  }
-
-  .auth-buttons {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .login-button,
-  .signup-button {
-    width: 100%;
-  }
-
-  .auth-required-buttons {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .auth-required-buttons .login-btn,
-  .auth-required-buttons .signup-btn {
-    width: 100%;
-  }
-
-  .social-media-links {
-    gap: 0.6rem;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: flex-start;
-  }
-
-  .social-media-links img {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .contact-page {
-    padding: 1.5rem 0.75rem;
-  }
-
-  .contact-page h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .contact-intro {
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
-    padding: 0 0.5rem;
-  }
-
-  .contact-container {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    border-radius: 8px;
-  }
-
-  .contact-info {
-    padding: 1.5rem 1rem;
-  }
-
-  .contact-info h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .address-block p {
-    font-size: 0.95rem;
-  }
-
-  .social-media-links {
-    gap: 0.5rem;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-  }
-
-  .social-media-links img {
-    width: 35px;
-    height: 35px;
-    flex-shrink: 0;
-  }
-
-  .contact-details p {
-    font-size: 0.95rem;
-  }
-
-  .contact-form-container {
-    padding: 1.5rem 1rem;
-  }
-
-  .form-group input,
-  .form-group textarea {
-    padding: 0.85rem;
-    font-size: 0.95rem;
-  }
-
-  .submit-button {
-    padding: 0.9rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .auth-required {
-    padding: 1.5rem 1rem;
-  }
-
-  .auth-required-content h2 {
-    font-size: 1.4rem;
-  }
-
-  .auth-required-content p {
-    font-size: 1rem;
-  }
-} 
+/* Keep desktop layout on all screen sizes */ 
