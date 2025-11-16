@@ -371,4 +371,23 @@
   margin-top: 1rem;
 }
 
-/* Keep desktop layout on all screen sizes */ 
+@media (max-width: 768px) {
+  .gallery-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .category-filter {
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .category-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+} 

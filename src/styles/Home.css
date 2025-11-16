@@ -415,4 +415,62 @@
   opacity: 0.8;
 }
 
-/* Keep desktop layout on all screen sizes */
+@media (max-width: 768px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+
+  .hero-left {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .temple-card {
+    max-width: 100%;
+  }
+
+  .info-cards-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 0 1rem 2rem;
+  }
+
+  .info-card {
+    padding: 1.5rem 1rem;
+    height: auto;
+    min-height: 200px;
+  }
+
+  .quick-access {
+    padding: 2rem 1rem;
+    margin: 1rem;
+  }
+
+  .access-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .access-grid .access-card:nth-child(1),
+  .access-grid .access-card:nth-child(2),
+  .access-grid .access-card:nth-child(3),
+  .access-grid .access-card:nth-child(4),
+  .access-grid .access-card:nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .access-card {
+    padding: 1.5rem 1rem;
+    min-height: 180px;
+  }
+}

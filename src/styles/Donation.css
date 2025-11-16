@@ -215,4 +215,30 @@
   color: white;
 }
 
-/* Keep desktop layout on all screen sizes */
+@media (max-width: 768px) {
+  .donation-container {
+    padding: 2rem 1rem;
+  }
+
+  .donation-hero {
+    padding: 2rem 1rem;
+  }
+
+  .donation-hero h1 {
+    font-size: 2rem;
+  }
+
+  .message-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .quotes-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}

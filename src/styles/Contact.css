@@ -375,4 +375,25 @@
   color: #333;
 }
 
-/* Keep desktop layout on all screen sizes */ 
+@media (max-width: 768px) {
+  .contact-page {
+    padding: 2rem 1rem;
+  }
+
+  .contact-page h1 {
+    font-size: 2rem;
+  }
+
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .contact-info {
+    padding: 2rem 1.5rem;
+  }
+
+  .contact-form-container {
+    padding: 2rem 1.5rem;
+  }
+} 

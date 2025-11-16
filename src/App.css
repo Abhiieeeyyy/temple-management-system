@@ -60,4 +60,8 @@ body {
   color: #333;
 }
 
-/* Keep desktop layout on all screen sizes */ 
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0 0.5rem;
+  }
+} 
