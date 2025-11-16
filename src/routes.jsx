@@ -20,14 +20,14 @@ const AppRoutes = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
       
-      { /*<Route path="/pooja-details" element={<AvailableSoon pageName="Pooja Booking" />} />*/ }
+      { <Route path="/pooja-details" element={<AvailableSoon pageName="Pooja Booking" />} />}
       <Route path="/pooja-details" element={<PoojaDetails />} />
       
       <Route path="/gallery" element={<Gallery />} />
       <Route path="/contact" element={<Contact />} />
       
      
-      {/*<Route path="/donation" element={<AvailableSoon pageName="Donation" />} /> */}
+      {<Route path="/donation" element={<AvailableSoon pageName="Donation" />} /> }
       <Route path="/donation" element={<Donation />} />
       
       {/* Admin login route */}
