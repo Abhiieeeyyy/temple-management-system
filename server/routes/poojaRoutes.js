@@ -1,6 +1,7 @@
 import express from 'express'
 import Pooja from '../models/Pooja.js'
 import Booking from '../models/Booking.js'
+import { authenticateToken, requireAdmin } from '../middleware/auth.js'
 
 const router = express.Router()
 
@@ -126,8 +127,8 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// Create a new pooja
-router.post('/', async (req, res) => {
+// Create a new pooja - Admin only
+router.post('/', authenticateToken, requireAdmin, async (req, res) => {
   const pooja = new Pooja({
     name: req.body.name,
     type: req.body.type,
@@ -156,8 +157,8 @@ router.post('/', async (req, res) => {
   }
 })
 
-// Update a pooja
-router.patch('/:id', async (req, res) => {
+// Update a pooja - Admin only
+router.patch('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const pooja = await Pooja.findById(req.params.id)
     if (!pooja) {
@@ -184,8 +185,8 @@ router.patch('/:id', async (req, res) => {
   }
 })
 
-// Delete a pooja
-router.delete('/:id', async (req, res) => {
+// Delete a pooja - Admin only
+router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const pooja = await Pooja.findById(req.params.id)
     if (!pooja) {

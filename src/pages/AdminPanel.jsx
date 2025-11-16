@@ -64,24 +64,32 @@ const AdminPanel = () => {
         setLoading(true)
         setError('')
 
-        // Fetch donations
-        const donationsResponse = await api.get('/api/donations')
+        // Fetch donations from secure admin endpoint
+        const donationsResponse = await api.get('/api/admin/donations')
         setDonations(donationsResponse.data.donations || [])
 
-        // Fetch bookings
-        const bookingsResponse = await api.get('/api/bookings/all')
+        // Fetch bookings from secure admin endpoint
+        const bookingsResponse = await api.get('/api/admin/bookings')
         setBookings(bookingsResponse.data.bookings || [])
         
-        // Fetch poojas
-        const poojasResponse = await api.get('/api/poojas')
-        setPoojas(poojasResponse.data || [])
+        // Fetch poojas from secure admin endpoint
+        const poojasResponse = await api.get('/api/admin/poojas')
+        setPoojas(poojasResponse.data.poojas || [])
 
-        // Fetch messages
-        const messagesResponse = await api.get('/api/messages')
-        setMessages(messagesResponse.data.data || [])
+        // Fetch messages from secure admin endpoint
+        const messagesResponse = await api.get('/api/admin/messages')
+        setMessages(messagesResponse.data.messages || [])
       } catch (err) {
         console.error('Error fetching data:', err)
-        setError('Failed to load data. Please try again.')
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          setError('Authentication required. Please log in again.')
+          // Redirect to admin login
+          setTimeout(() => {
+            window.location.href = '/admin'
+          }, 2000)
+        } else {
+          setError('Failed to load data. Please try again.')
+        }
       } finally {
         setLoading(false)
       }
@@ -102,11 +110,11 @@ const AdminPanel = () => {
       }
       
       if (editingPooja) {
-        await api.patch(`/api/poojas/${editingPooja._id}`, poojaData)
+        await api.patch(`/api/admin/poojas/${editingPooja._id}`, poojaData)
         setSuccess('Pooja updated successfully!')
         setEditingPooja(null)
       } else {
-        await api.post('/api/poojas', poojaData)
+        await api.post('/api/admin/poojas', poojaData)
         setSuccess('Pooja added successfully!')
       }
       
@@ -117,11 +125,18 @@ const AdminPanel = () => {
         price: ''
       })
       
-      // Refresh poojas
-      const poojasResponse = await api.get('/api/poojas')
-      setPoojas(poojasResponse.data || [])
+      // Refresh poojas from secure admin endpoint
+      const poojasResponse = await api.get('/api/admin/poojas')
+      setPoojas(poojasResponse.data.poojas || [])
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save pooja')
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication required. Please log in again.')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 2000)
+      } else {
+        setError(err.response?.data?.message || 'Failed to save pooja')
+      }
     }
   }
 
@@ -141,25 +156,39 @@ const AdminPanel = () => {
     }
     
     try {
-      await api.delete(`/api/poojas/${poojaId}`)
+      await api.delete(`/api/admin/poojas/${poojaId}`)
       setSuccess('Pooja deleted successfully!')
-      // Refresh poojas
-      const poojasResponse = await api.get('/api/poojas')
-      setPoojas(poojasResponse.data || [])
+      // Refresh poojas from secure admin endpoint
+      const poojasResponse = await api.get('/api/admin/poojas')
+      setPoojas(poojasResponse.data.poojas || [])
     } catch (err) {
-      setError('Failed to delete pooja')
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication required. Please log in again.')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 2000)
+      } else {
+        setError(err.response?.data?.message || 'Failed to delete pooja')
+      }
     }
   }
 
   const handleUpdateMessageStatus = async (messageId, newStatus) => {
     try {
-      await api.put(`/api/messages/${messageId}`, { status: newStatus })
+      await api.put(`/api/admin/messages/${messageId}`, { status: newStatus })
       setSuccess('Message status updated successfully!')
-      // Refresh messages
-      const messagesResponse = await api.get('/api/messages')
-      setMessages(messagesResponse.data.data || [])
+      // Refresh messages from secure admin endpoint
+      const messagesResponse = await api.get('/api/admin/messages')
+      setMessages(messagesResponse.data.messages || [])
     } catch (err) {
-      setError('Failed to update message status')
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication required. Please log in again.')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 2000)
+      } else {
+        setError('Failed to update message status')
+      }
     }
   }
 

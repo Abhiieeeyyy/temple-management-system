@@ -1,13 +1,16 @@
 import express from 'express'
 import Donation from '../models/Donation.js'
+import { authenticateToken, requireAdmin } from '../middleware/auth.js'
 
 const router = express.Router()
 
-// Get all donations
-router.get('/', async (req, res) => {
+// Get all donations - Admin only (public donations endpoint removed, use /api/admin/donations)
+// This route is kept for backward compatibility but requires admin authentication
+router.get('/', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const donations = await Donation.find()
       .sort({ createdAt: -1 })
+      .populate('userId', 'firstName lastName email')
     res.json({ success: true, donations })
   } catch (error) {
     console.error('Error fetching donations:', error)

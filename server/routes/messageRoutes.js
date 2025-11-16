@@ -1,6 +1,7 @@
 import express from 'express'
 import { Message } from '../models/Message.js'
 import { validateMessage } from '../middleware/validation.js'
+import { authenticateToken, requireAdmin } from '../middleware/auth.js'
 
 const router = express.Router()
 
@@ -61,11 +62,13 @@ router.post('/', async (req, res) => {
   }
 })
 
-// Get all messages (admin only)
-router.get('/', async (req, res) => {
+// Get all messages (admin only) - Now requires authentication
+router.get('/', authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log('Fetching all messages from database')
-    const messages = await Message.find().sort({ createdAt: -1 })
+    const messages = await Message.find()
+      .sort({ createdAt: -1 })
+      .populate('userId', 'firstName lastName email')
     console.log(`Successfully retrieved ${messages.length} messages`)
     res.json({ 
       success: true, 
@@ -80,8 +83,8 @@ router.get('/', async (req, res) => {
   }
 })
 
-// Update message status (admin only)
-router.put('/:id', async (req, res) => {
+// Update message status (admin only) - Now requires authentication
+router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const { status } = req.body
     console.log(`Updating message ${req.params.id} status to ${status}`)

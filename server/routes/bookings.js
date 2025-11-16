@@ -1,5 +1,6 @@
 import express from 'express';
 import Booking from '../models/Booking.js';
+import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -25,11 +26,13 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get all bookings (for admin)
-router.get('/all', async (req, res) => {
+// Get all bookings (for admin) - Now requires authentication
+router.get('/all', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const bookings = await Booking.find()
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .populate('userId', 'firstName lastName email')
+      .populate('poojaId', 'name malayalamName price');
     res.json({
       success: true,
       bookings

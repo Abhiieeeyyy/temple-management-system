@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import '../styles/AdminLogin.css'
 
 const AdminLogin = () => {
   const navigate = useNavigate()
-  const { login, isAuthenticated, isAdmin } = useAuth()
+  const { login, isAuthenticated, isAdmin, loading: authLoading } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -14,8 +14,25 @@ const AdminLogin = () => {
   const [error, setError] = useState('')
 
   // Redirect if already logged in as admin
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && isAdmin) {
+      navigate('/admin-panel', { replace: true })
+    }
+  }, [isAuthenticated, isAdmin, authLoading, navigate])
+
+  // Show loading while checking auth status
+  if (authLoading) {
+    return (
+      <div className="admin-login-page">
+        <div className="admin-login-container">
+          <div className="loading-spinner"></div>
+        </div>
+      </div>
+    )
+  }
+
+  // Don't show login form if already authenticated as admin
   if (isAuthenticated && isAdmin) {
-    navigate('/admin-panel')
     return null
   }
 
