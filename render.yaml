@@ -33,6 +33,6 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://temple-backend.onrender.com
+        value: https://temple-backend-dm30.onrender.com
       - key: VITE_RAZORPAY_KEY_ID
         sync: false
