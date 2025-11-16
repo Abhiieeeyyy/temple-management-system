@@ -13,7 +13,14 @@ const Navbar = () => {
       {/* Top Row - Temple Brand and Admin */}
       <div className="navbar-header">
         <div className="navbar-brand">
-          <img src="/images/temple9.jpg" alt="Temple Logo" className="temple-logo" />
+          <img 
+            src="/images/temple9.jpg" 
+            alt="Temple Logo" 
+            className="temple-logo"
+            onError={(e) => {
+              e.target.src = '/images/temple-bg.jpg'
+            }}
+          />
           <Link to={ROUTES.HOME} className="temple-name">
             <span className="temple-text">Sri Kainari Ayyappan Kavu</span>
           </Link>

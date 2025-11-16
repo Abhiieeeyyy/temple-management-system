@@ -647,7 +647,13 @@ const PoojaDetails = () => {
             {poojas.map(pooja => (
               <div key={pooja._id} className="main-pooja-card">
                 <div className="main-pooja-image">
-                  <img src={pooja.imageUrl} alt={pooja.name} />
+                  <img 
+                    src={pooja.imageUrl || '/images/pooja.jpg'} 
+                    alt={pooja.name}
+                    onError={(e) => {
+                      e.target.src = '/images/pooja.jpg'
+                    }}
+                  />
                 </div>
                 <div className="main-pooja-details">
                   <div className="main-pooja-header">

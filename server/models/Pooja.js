@@ -29,7 +29,7 @@ const poojaSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
     required: false,
-    default: '/images/default-pooja.jpg'
+    default: '/images/pooja.jpg'
   },
   category: {
     type: String,

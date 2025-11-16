@@ -64,7 +64,14 @@ const AdminLogin = () => {
       <div className="admin-login-container">
         <div className="admin-login-card">
           <div className="admin-login-header">
-            <img src="/images/temple9.jpg" alt="Temple Logo" className="admin-logo" />
+            <img 
+              src="/images/temple9.jpg" 
+              alt="Temple Logo" 
+              className="admin-logo"
+              onError={(e) => {
+                e.target.src = '/images/temple-bg.jpg'
+              }}
+            />
             <h1>Admin Login</h1>
             <p>Sri Kainari Ayyappan Kavu</p>
           </div>
