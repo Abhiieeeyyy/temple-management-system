@@ -26,7 +26,7 @@
     "start": "vite",
     "server": "node server/index.js",
     "dev": "concurrently \"npm run server\" \"npm start\"",
-    "build": "vite build",
+    "build": "vite build && node -e \"require('fs').copyFileSync('public/_redirects', 'dist/_redirects')\"",
     "preview": "vite preview",
     "test": "vitest",
     "create-admin": "node server/scripts/createAdminUser.js",
