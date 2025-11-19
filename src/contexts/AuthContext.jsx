@@ -42,9 +42,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
-    console.log('Login function called with:', email)
+    console.log('🔐 Login attempt:', { email, API_URL })
     try {
-      console.log('Making request to:', `${API_URL}/api/auth/login`)
+      console.log('📡 Making request to:', `${API_URL}/api/auth/login`)
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -53,9 +53,21 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       })
 
-      console.log('Response status:', response.status)
+      console.log('📥 Response status:', response.status)
+      
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('❌ Response error:', errorText)
+        throw new Error(`HTTP ${response.status}: ${errorText}`)
+      }
+      
       const data = await response.json()
-      console.log('Response data:', data)
+      console.log('✅ Response data:', { 
+        success: data.success, 
+        hasUser: !!data.user, 
+        userRole: data.user?.role,
+        isAdmin: data.user?.isAdmin 
+      })
 
       if (data.success) {
         // Ensure user object has role field
@@ -63,17 +75,26 @@ export const AuthProvider = ({ children }) => {
           ...data.user,
           role: data.user.role || (data.user.isAdmin ? 'admin' : 'user')
         }
+        console.log('👤 Setting user:', { 
+          email: userData.email, 
+          role: userData.role, 
+          isAdmin: userData.role === 'admin' 
+        })
         setUser(userData)
         setIsAuthenticated(true)
         localStorage.setItem('temple_token', data.token)
         localStorage.setItem('temple_user', JSON.stringify(userData))
         return { success: true, user: userData }
       } else {
+        console.warn('⚠️ Login failed:', data.message)
         return { success: false, message: data.message }
       }
     } catch (error) {
-      console.error('Login error:', error)
-      return { success: false, message: 'Login failed. Please try again.' }
+      console.error('❌ Login error:', error)
+      return { 
+        success: false, 
+        message: error.message || 'Login failed. Please check your connection and try again.' 
+      }
     }
   }
 

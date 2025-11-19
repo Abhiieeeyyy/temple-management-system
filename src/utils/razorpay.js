@@ -91,9 +91,9 @@ export const verifyPayment = async (paymentData) => {
   }
 }
 
-// Test mode configuration
+// Razorpay configuration - uses environment variable
 export const RAZORPAY_CONFIG = {
-  key: 'rzp_test_RfxxUHvWj3pwrI', // Test key from .env
+  key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_RfxxUHvWj3pwrI', // From .env file
   currency: 'INR',
   name: 'Sri Kainari Ayyappan Kavu',
   description: 'Temple Donation/Booking Payment',

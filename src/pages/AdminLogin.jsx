@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import ConnectionTest from '../components/ConnectionTest'
 import '../styles/AdminLogin.css'
 
 const AdminLogin = () => {
@@ -140,6 +141,9 @@ const AdminLogin = () => {
           </div>
         </div>
       </div>
+      
+      {/* Connection Test - Only show in development or when needed */}
+      {import.meta.env.DEV && <ConnectionTest />}
     </div>
   )
 }

@@ -1200,18 +1200,21 @@
 @media (max-width: 768px) {
   .main-pooja-list {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: stretch;
+    max-width: 90%;
+    margin: 0 auto;
   }
   
   .main-pooja-card {
     display: flex;
     flex-direction: column;
     height: 100%;
+    max-width: 100%;
   }
   
   .main-pooja-details {
-    padding: 0.75rem;
+    padding: 0.65rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -1219,18 +1222,24 @@
   }
   
   .main-pooja-header h3 {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.3;
   }
   
   .main-pooja-duration {
     margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .main-pooja-price {
+    font-size: 0.9rem;
   }
   
   .main-book-button {
     margin-top: auto;
     width: 100%;
-    padding: 0.65rem;
-    font-size: 0.85rem;
+    padding: 0.6rem;
+    font-size: 0.8rem;
   }
   
   .other-pooja-list {
@@ -1936,7 +1945,7 @@ ication info banner */
 /* Responsive Design for Other Poojas */
 @media (max-width: 768px) {
   .other-pooja-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
@@ -1955,20 +1964,132 @@ ication info banner */
   .sticky-controls {
     top: 60px;
   }
+  
+  .other-pooja-card {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
+  .main-pooja-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    max-width: 95%;
+  }
+  
+  .main-pooja-card {
+    max-width: 100%;
+  }
+  
+  .main-pooja-image {
+    height: 80px;
+  }
+  
+  .main-pooja-details {
+    padding: 0.4rem;
+  }
+  
+  .main-pooja-header {
+    margin-bottom: 0.4rem;
+  }
+  
+  .main-pooja-header h3 {
+    font-size: 0.8rem;
+    line-height: 1.15;
+    margin: 0 0 0.3rem 0;
+  }
+  
+  .main-pooja-price {
+    font-size: 0.8rem;
+  }
+  
+  .main-pooja-duration {
+    font-size: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .main-book-button {
+    padding: 0.4rem;
+    font-size: 0.7rem;
+  }
+  
+  .other-pooja-grid {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
   .pooja-card-header {
-    flex-direction: column-reverse;
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 0.2rem;
+    align-items: stretch;
+    padding: 0.4rem;
+  }
+
+  .pooja-checkbox-label {
+    width: 100%;
+  }
+
+  .pooja-title {
+    font-size: 0.85rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    line-height: 1.1;
   }
 
   .pooja-price-badge {
-    align-self: flex-start;
+    align-self: flex-end;
+    margin-top: 0.1rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .pooja-card-content {
+    padding: 0.4rem;
+  }
+  
+  .pooja-description {
+    font-size: 0.75rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+  }
+  
+  .pooja-benefits {
+    margin-bottom: 0.3rem;
+  }
+  
+  .pooja-benefits h4 {
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .benefits-list li {
+    font-size: 0.7rem;
+    padding: 0.1rem 0;
+    padding-left: 0.8rem;
+  }
+  
+  .benefits-list li::before {
+    left: 0.15rem;
+    font-size: 0.7rem;
   }
 
   .book-individual-btn {
     width: 100%;
+    padding: 0.4rem;
+    font-size: 0.7rem;
+  }
+  
+  .other-pooja-card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .pooja-card-actions {
+    margin-top: 0.3rem;
+    padding-top: 0.3rem;
   }
 }
 

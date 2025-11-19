@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import DonationForm from '../components/DonationForm'
 import '../styles/Donation.css'
 import '../styles/PageAnimations.css'
@@ -45,25 +45,6 @@ const Donation = () => {
               Every contribution, no matter the size, makes a meaningful difference in keeping our 
               traditions alive for future generations.
             </p>
-          </div>
-
-          <div className="quotes-section">
-            <div className="quote-card">
-              <div className="quote-icon">"</div>
-              <p className="quote-text">
-                The fragrance of flowers spreads only in the direction of the wind. 
-                But the goodness of a person spreads in all directions.
-              </p>
-              <p className="quote-author">— Ancient Wisdom</p>
-            </div>
-
-            <div className="quote-card">
-              <div className="quote-icon">"</div>
-              <p className="quote-text">
-                They who give have all things; they who withhold have nothing.
-              </p>
-              <p className="quote-author">— Hindu Proverb</p>
-            </div>
           </div>
 
           <div className="impact-section">

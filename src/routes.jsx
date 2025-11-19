@@ -20,16 +20,18 @@ const AppRoutes = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
       
-      {/* Uncomment below line to show "Available Soon" instead of PoojaDetails */}
-      {/* <Route path="/pooja-details" element={<AvailableSoon pageName="Pooja Booking" />} /> */}
-      <Route path="/pooja-details" element={<PoojaDetails />} />
+      {/* ========== POOJA BOOKING PAGE ========== */}
+      {/* Uncomment line below to enable Pooja Booking, comment to show Available Soon */}
+      {/*<Route path="/pooja-details" element={<PoojaDetails />} />*/}
+      {<Route path="/pooja-details" element={<AvailableSoon pageName="Pooja Booking" />} /> }
       
       <Route path="/gallery" element={<Gallery />} />
       <Route path="/contact" element={<Contact />} />
       
-      {/* Uncomment below line to show "Available Soon" instead of Donation */}
-      {/* <Route path="/donation" element={<AvailableSoon pageName="Donation" />} /> */}
-      <Route path="/donation" element={<Donation />} />
+      {/* ========== DONATION PAGE ========== */}
+      {/* Uncomment line below to enable Donation, comment to show Available Soon */}
+      {/*<Route path="/donation" element={<Donation />} />*/}
+      {<Route path="/donation" element={<AvailableSoon pageName="Donation" />} /> }
       
       {/* Admin login route */}
       <Route path="/admin" element={<AdminLogin />} />
@@ -50,4 +52,4 @@ const AppRoutes = () => {
   )
 }
 
-export default AppRoutes 
+export default AppRoutes
