@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { API_URL } from '../config'
 
 const AuthContext = createContext()
 
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('temple_token')
     const userData = localStorage.getItem('temple_user')
-    
+
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData)
@@ -41,7 +42,8 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const login = async (email, password) => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+    // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+
     console.log('🔐 Login attempt:', { email, API_URL })
     try {
       console.log('📡 Making request to:', `${API_URL}/api/auth/login`)
@@ -54,19 +56,19 @@ export const AuthProvider = ({ children }) => {
       })
 
       console.log('📥 Response status:', response.status)
-      
+
       if (!response.ok) {
         const errorText = await response.text()
         console.error('❌ Response error:', errorText)
         throw new Error(`HTTP ${response.status}: ${errorText}`)
       }
-      
+
       const data = await response.json()
-      console.log('✅ Response data:', { 
-        success: data.success, 
-        hasUser: !!data.user, 
+      console.log('✅ Response data:', {
+        success: data.success,
+        hasUser: !!data.user,
         userRole: data.user?.role,
-        isAdmin: data.user?.isAdmin 
+        isAdmin: data.user?.isAdmin
       })
 
       if (data.success) {
@@ -75,10 +77,10 @@ export const AuthProvider = ({ children }) => {
           ...data.user,
           role: data.user.role || (data.user.isAdmin ? 'admin' : 'user')
         }
-        console.log('👤 Setting user:', { 
-          email: userData.email, 
-          role: userData.role, 
-          isAdmin: userData.role === 'admin' 
+        console.log('👤 Setting user:', {
+          email: userData.email,
+          role: userData.role,
+          isAdmin: userData.role === 'admin'
         })
         setUser(userData)
         setIsAuthenticated(true)
@@ -91,15 +93,15 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('❌ Login error:', error)
-      return { 
-        success: false, 
-        message: error.message || 'Login failed. Please check your connection and try again.' 
+      return {
+        success: false,
+        message: error.message || 'Login failed. Please check your connection and try again.'
       }
     }
   }
 
   const signup = async (userData) => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+    // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
       const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
@@ -134,7 +136,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const sendOTP = async (phone, purpose = 'login') => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+    // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
       const response = await fetch(`${API_URL}/api/otp/send`, {
         method: 'POST',
@@ -153,7 +155,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const verifyOTP = async (phone, otp, purpose = 'login') => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+    // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
       const response = await fetch(`${API_URL}/api/otp/verify`, {
         method: 'POST',
@@ -175,13 +177,13 @@ export const AuthProvider = ({ children }) => {
     try {
       // First verify the OTP
       const otpResult = await verifyOTP(phone, otp, 'login')
-      
+
       if (!otpResult.success) {
         return otpResult
       }
 
       // If OTP is verified, find the user and log them in
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+      // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
       const response = await fetch(`${API_URL}/api/auth/login-phone`, {
         method: 'POST',
         headers: {
@@ -208,7 +210,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const resetPassword = async (phone, otp, newPassword) => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+    // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
       const response = await fetch(`${API_URL}/api/auth/reset-password`, {
         method: 'POST',

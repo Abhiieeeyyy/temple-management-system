@@ -1,10 +1,20 @@
 import { useState } from 'react'
 
+import { useState, useEffect } from 'react'
+import { API_URL } from '../config'
+
 const ConnectionTest = () => {
   const [results, setResults] = useState({})
   const [testing, setTesting] = useState(false)
+  const [isVisible, setIsVisible] = useState(import.meta.env.DEV)
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+  useEffect(() => {
+    // Check for debug param
+    const searchParams = new URLSearchParams(window.location.search)
+    if (searchParams.get('debug') === 'true') {
+      setIsVisible(true)
+    }
+  }, [])
 
   const runTests = async () => {
     setTesting(true)
@@ -76,6 +86,8 @@ const ConnectionTest = () => {
     setTesting(false)
   }
 
+  if (!isVisible) return null
+
   return (
     <div style={{
       position: 'fixed',
@@ -89,7 +101,7 @@ const ConnectionTest = () => {
       zIndex: 9999
     }}>
       <h3 style={{ margin: '0 0 15px 0', color: '#b51414' }}>Connection Test</h3>
-      
+
       <button
         onClick={runTests}
         disabled={testing}
@@ -128,10 +140,10 @@ const ConnectionTest = () => {
         </div>
       )}
 
-      <div style={{ 
-        marginTop: '15px', 
-        padding: '10px', 
-        background: '#f5f5f5', 
+      <div style={{
+        marginTop: '15px',
+        padding: '10px',
+        background: '#f5f5f5',
         borderRadius: '4px',
         fontSize: '0.85em'
       }}>

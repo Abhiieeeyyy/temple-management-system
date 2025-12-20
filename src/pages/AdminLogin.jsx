@@ -56,7 +56,7 @@ const AdminLogin = () => {
         // Check if user is admin - check both role and isAdmin flag
         const userRole = result.user?.role
         const isUserAdmin = result.user?.isAdmin || userRole === 'admin'
-        
+
         if (isUserAdmin) {
           // Wait for state to update, then navigate
           setTimeout(() => {
@@ -82,9 +82,9 @@ const AdminLogin = () => {
       <div className="admin-login-container">
         <div className="admin-login-card">
           <div className="admin-login-header">
-            <img 
-              src="/images/temple9.jpg" 
-              alt="Temple Logo" 
+            <img
+              src="/images/temple9.jpg"
+              alt="Temple Logo"
               className="admin-logo"
               onError={(e) => {
                 e.target.src = '/images/temple-bg.jpg'
@@ -141,9 +141,10 @@ const AdminLogin = () => {
           </div>
         </div>
       </div>
-      
-      {/* Connection Test - Only show in development or when needed */}
-      {import.meta.env.DEV && <ConnectionTest />}
+
+      {/* Connection Test - Shows in dev or if ?debug=true */}
+      <ConnectionTest />
+
     </div>
   )
 }
