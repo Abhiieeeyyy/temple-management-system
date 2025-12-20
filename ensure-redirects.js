@@ -22,3 +22,17 @@ if (existsSync(publicRedirects)) {
   console.warn('⚠️  _redirects file not found in public folder')
 }
 
+// Create 404.html from index.html for SPA fallback (GitHub Pages, etc.)
+const distIndex = join(__dirname, 'dist', 'index.html')
+const dist404 = join(__dirname, 'dist', '404.html')
+
+if (existsSync(distIndex)) {
+  try {
+    copyFileSync(distIndex, dist404)
+    console.log('✅ 404.html created from index.html')
+  } catch (error) {
+    console.error('❌ Error creating 404.html:', error.message)
+  }
+}
+
+
