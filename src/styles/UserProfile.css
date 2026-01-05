@@ -37,6 +37,18 @@
   font-size: 14px;
 }
 
+@media (max-width: 768px) {
+  .profile-name {
+    display: none;
+    /* Hide name on mobile to save space */
+  }
+
+  .profile-button {
+    padding: 4px;
+    /* Reduce padding on mobile */
+  }
+}
+
 .profile-dropdown {
   position: absolute;
   top: 100%;

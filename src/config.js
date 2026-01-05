@@ -18,3 +18,9 @@ export const API_URL = getApiUrl();
 
 export const isDevelopment = import.meta.env.DEV;
 export const isProduction = import.meta.env.PROD;
+
+// Feature Flags - Easy Toggle
+export const ENABLE_FEATURES = {
+  BOOKING: true,
+  DONATION: true,
+};

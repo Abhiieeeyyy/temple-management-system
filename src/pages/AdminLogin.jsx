@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import ConnectionTest from '../components/ConnectionTest'
+
 import '../styles/AdminLogin.css'
 
 const AdminLogin = () => {
@@ -142,8 +142,7 @@ const AdminLogin = () => {
         </div>
       </div>
 
-      {/* Connection Test - Shows in dev or if ?debug=true */}
-      <ConnectionTest />
+
 
     </div>
   )

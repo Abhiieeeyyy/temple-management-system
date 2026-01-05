@@ -138,8 +138,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
@@ -157,9 +162,50 @@
     font-size: 0.875rem;
   }
 
+
+
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 columns */
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    /* Reset scrolling styles */
+    flex-wrap: wrap;
+    overflow-x: visible;
+    justify-content: stretch;
+    padding: 0;
+  }
+
+  /* Reset scrollbar styles */
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
   .tab-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 50px;
+    /* Touch friendly height */
+    white-space: normal;
+    /* Allow text wrap */
+    line-height: 1.2;
+    border-radius: 8px;
+  }
+
+  .admin-panel h1 {
+    font-size: 1.5rem;
+    /* Reduce header size */
+  }
+
+  .welcome-message {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -297,6 +343,7 @@
   font-weight: 500;
 }
 
+
 .pooja-price {
   color: #4caf50;
   font-weight: 600;
@@ -352,15 +399,15 @@
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .poojas-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }
-  
+
   .pooja-card-actions {
     flex-direction: column;
   }
@@ -371,7 +418,7 @@
   background: white;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
 }
 
@@ -446,7 +493,7 @@
   background: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-left: 4px solid #b51414;
 }
 
@@ -494,7 +541,7 @@
   background: white;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .upload-section h3 {
@@ -636,7 +683,7 @@
   background: white;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }
 
@@ -729,23 +776,23 @@ video.gallery-preview::-webkit-media-controls-enclosure {
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .form-group {
     margin-bottom: 1rem;
   }
-  
+
   .notification-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .file-upload {
     padding: 1rem;
   }
-} 
+}
 
-* Messages Section Styles */
+/* Messages Section Styles */
 .messages-section {
   margin-top: 2rem;
 }
@@ -922,6 +969,21 @@ video.gallery-preview::-webkit-media-controls-enclosure {
   .message-header {
     flex-direction: column;
     gap: 1rem;
+    align-items: flex-start;
+    /* Ensure left alignment */
+  }
+
+  .message-sender {
+    text-align: left;
+    /* Force left align */
+    width: 100%;
+  }
+
+  /* Fix for older iOS/Browsers where flex items might center */
+  .message-sender h4,
+  .message-sender p {
+    text-align: left;
+    width: 100%;
   }
 
   .message-meta {
@@ -929,6 +991,8 @@ video.gallery-preview::-webkit-media-controls-enclosure {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    /* Ensure full width for spacing */
   }
 
   .message-actions {

@@ -196,7 +196,7 @@
   .navbar {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    /* overflow-x: hidden; Removed to allow dropdown to overflow vertically */
   }
 
   .navbar-header {
@@ -255,11 +255,34 @@
   }
 
   .temple-text {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
+    /* Reduced from 1.1rem to prevent wrapping */
+    white-space: normal;
+    /* Allow wrapping if absolutely necessary but size reduction should help */
+    text-align: left;
+    line-height: 1.2;
   }
 
   .temple-logo {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    /* Slightly smaller logo */
+    height: 35px;
+  }
+
+  /* Force profile button background to be transparent on mobile */
+  .navbar-auth .profile-button {
+    background: transparent !important;
+    padding: 0 !important;
+    /* Reset padding to fit icon */
+    box-shadow: none !important;
+    /* Remove any button shadows */
+  }
+
+  /* Ensure the SVG/Icon inside is visible */
+  .navbar-auth .profile-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    margin: 0;
   }
 }

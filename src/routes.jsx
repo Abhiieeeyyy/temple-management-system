@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { ENABLE_FEATURES } from './config'
 import Home from './pages/Home'
 import Donation from './pages/Donation'
 import PoojaDetails from './pages/PoojaDetails'
@@ -19,31 +20,33 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
-      
+
       {/* ========== POOJA BOOKING PAGE ========== */}
-      {/* Uncomment line below to enable Pooja Booking, comment to show Available Soon */}
-      {/*<Route path="/pooja-details" element={<PoojaDetails />} />*/}
-      {<Route path="/pooja-details" element={<AvailableSoon pageName="Pooja Booking" />} /> }
-      
+      <Route
+        path="/pooja-details"
+        element={ENABLE_FEATURES.BOOKING ? <PoojaDetails /> : <AvailableSoon pageName="Pooja Booking" />}
+      />
+
       <Route path="/gallery" element={<Gallery />} />
       <Route path="/contact" element={<Contact />} />
-      
+
       {/* ========== DONATION PAGE ========== */}
-      {/* Uncomment line below to enable Donation, comment to show Available Soon */}
-      {/*<Route path="/donation" element={<Donation />} />*/}
-      {<Route path="/donation" element={<AvailableSoon pageName="Donation" />} /> }
-      
+      <Route
+        path="/donation"
+        element={ENABLE_FEATURES.DONATION ? <Donation /> : <AvailableSoon pageName="Donation" />}
+      />
+
       {/* Admin login route */}
       <Route path="/admin" element={<AdminLogin />} />
-      
+
       {/* Protected admin panel route */}
-      <Route 
-        path="/admin-panel" 
+      <Route
+        path="/admin-panel"
         element={
           <ProtectedRoute adminOnly={true}>
             <AdminPanel />
           </ProtectedRoute>
-        } 
+        }
       />
 
       {/* Catch all route */}
