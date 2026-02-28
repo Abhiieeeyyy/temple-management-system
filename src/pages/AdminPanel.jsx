@@ -149,11 +149,7 @@ const AdminPanel = () => {
     formData.append('image', galleryForm.image)
 
     try {
-      await api.post('/api/gallery', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      await api.post('/api/gallery', formData)
       setSuccess('Image uploaded successfully!')
 
       setGalleryForm({
