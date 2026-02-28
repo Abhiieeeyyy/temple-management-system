@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { API_URL } from '../config'
 import '../styles/Gallery.css'
 import '../styles/PageAnimations.css'
 
@@ -7,102 +8,151 @@ const Gallery = () => {
   const [selectedYouTube, setSelectedYouTube] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState('All')
 
-  // Static gallery images
-  const galleryImages = [
-    {
-      id: 1,
-      src: '/images/temple1.jpg',
-      alt: 'Honored',
-      category: 'Events'
-    },
-    {
-      id: 3,
-      src: '/images/temple3.jpg',
-      alt: 'Temple Architecture Detail',
-      category: 'Surroundings'
-    },
-    {
-      id: 4,
-      src: '/images/temple4.jpg',
-      alt: 'Festival Celebration',
-      category: 'Events'
-    },
-    {
-      id: 5,
-      src: '/images/temple5.jpg',
-      alt: 'Evening Aarti',
-      category: 'Rituals'
-    },
-    {
-      id: 7,
-      src: '/images/temple7.jpg',
-      alt: 'Beautiful Deity Statue',
-      category: 'Deities'
-    },
-    {
-      id: 8,
-      src: '/images/temple8.jpg',
-      alt: 'Sacred Deity Shrine',
-      category: 'Deities'
-    },
-     {
-      id: 9,
-      src: '/images/t1.jpg',
-      alt: 'Gift',
-      category: 'Events'
-    },
-     {
-      id: 10,
-      src: '/images/t2.jpg',
-      alt: 'Temple Architecture Detail',
-      category: 'Surroundings'
-    },
-     {
-      id: 11,
-      src: '/images/t3.jpg',
-      alt: 'Ada pongala',
-      category: 'Events'
-    },
-     {
-      id: 12,
-      src: '/images/t4.jpg',
-      alt: 'Aarattu Festival Procession',
-      category: 'Events'
-    },
-     {
-      id: 13,
-      src: '/images/t5.jpg',
-      alt: 'Festival Celebration ',
-      category: 'Events'
-    },
-     {
-      id: 14,
-      src: '/images/t6.jpg',
-      alt: 'Devotees Gathering',
-      category: 'Events'
-    },
-     {
-      id: 15,
-      src: '/images/t7.jpg',
-      alt: 'Temple Elephant',
-      category: 'Events'
-    },
-     {
-      id: 16,
-      src: '/images/t8.jpg',
-      alt: 'Arattu ',
-      category: 'Rituals'
-    },
-     {
-      id: 17,
-      src: '/images/t9.jpg',
-      alt: 'Festival Celebration Crowd',
-      category: 'Events'
-    },
-    
+  const [galleryImages, setGalleryImages] = useState([])
+  const [loading, setLoading] = useState(true)
 
-    
-  ]
+  // Fetch gallery content
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/gallery`)
+        const data = await response.json()
+
+        if (data.success) {
+          // Transform API data to match component structure
+          const formattedImages = data.photos
+            .filter(item => item.mediaType === 'image')
+            .map(item => ({
+              id: item._id,
+              src: item.mediaUrl && item.mediaUrl.startsWith('http') ? item.mediaUrl : `${API_URL}${item.mediaUrl}`, // The backend returns the full path starting with /uploads
+              alt: item.title,
+              category: item.category,
+              size: item.size || 'normal'
+            }))
+
+          // If no images in DB, fallback to static images (optional, but good for demo)
+          if (formattedImages.length === 0) {
+            setGalleryImages([
+              {
+                id: 1,
+                src: '/images/temple1.jpg',
+                alt: 'Honored',
+                category: 'Events',
+                size: 'wide'
+              },
+              {
+                id: 3,
+                src: '/images/temple3.jpg',
+                alt: 'Temple Architecture Detail',
+                category: 'Surroundings',
+                size: 'tall'
+              },
+              {
+                id: 4,
+                src: '/images/temple4.jpg',
+                alt: 'Festival Celebration',
+                category: 'Events',
+                size: 'normal'
+              },
+              {
+                id: 5,
+                src: '/images/temple5.jpg',
+                alt: 'Evening Aarti',
+                category: 'Rituals',
+                size: 'normal'
+              },
+              {
+                id: 7,
+                src: '/images/temple7.jpg',
+                alt: 'Beautiful Deity Statue',
+                category: 'Deities',
+                size: 'tall'
+              },
+              {
+                id: 8,
+                src: '/images/temple8.jpg',
+                alt: 'Sacred Deity Shrine',
+                category: 'Deities',
+                size: 'normal'
+              },
+              {
+                id: 9,
+                src: '/images/t1.jpg',
+                alt: 'Gift',
+                category: 'Events',
+                size: 'wide'
+              },
+              {
+                id: 10,
+                src: '/images/t2.jpg',
+                alt: 'Temple Architecture Detail',
+                category: 'Surroundings',
+                size: 'large'
+              },
+              {
+                id: 11,
+                src: '/images/t3.jpg',
+                alt: 'Ada pongala',
+                category: 'Events',
+                size: 'normal'
+              },
+              {
+                id: 12,
+                src: '/images/t4.jpg',
+                alt: 'Aarattu Festival Procession',
+                category: 'Events',
+                size: 'normal'
+              },
+              {
+                id: 13,
+                src: '/images/t5.jpg',
+                alt: 'Festival Celebration ',
+                category: 'Events',
+                size: 'tall'
+              },
+              {
+                id: 14,
+                src: '/images/t6.jpg',
+                alt: 'Devotees Gathering',
+                category: 'Events',
+                size: 'wide'
+              },
+              {
+                id: 15,
+                src: '/images/t7.jpg',
+                alt: 'Temple Elephant',
+                category: 'Events',
+                size: 'normal'
+              },
+              {
+                id: 16,
+                src: '/images/t8.jpg',
+                alt: 'Arattu ',
+                category: 'Rituals',
+                size: 'normal'
+              },
+              {
+                id: 17,
+                src: '/images/t9.jpg',
+                alt: 'Festival Celebration Crowd',
+                category: 'Events',
+                size: 'large'
+              },
+            ])
+          } else {
+            setGalleryImages(formattedImages)
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching gallery:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchGallery()
+  }, [])
+
 
   // YouTube video content
   const youtubeVideos = [
@@ -113,7 +163,8 @@ const Gallery = () => {
       alt: 'Temple Festival Highlights',
       category: 'Video',
       mediaType: 'youtube',
-      description: 'Watch our temple festival celebrations'
+      description: 'Watch our temple festival celebrations',
+      size: 'large'
     }
   ]
 
@@ -122,8 +173,8 @@ const Gallery = () => {
   const filteredContent = selectedCategory === 'All'
     ? [...galleryImages, ...youtubeVideos]
     : selectedCategory === 'Video'
-    ? youtubeVideos
-    : galleryImages.filter(img => img.category === selectedCategory)
+      ? youtubeVideos
+      : galleryImages.filter(img => img.category === selectedCategory)
 
   return (
     <div className="gallery-page">
@@ -148,7 +199,7 @@ const Gallery = () => {
         {filteredContent.map(item => (
           <div
             key={item.id}
-            className="gallery-item"
+            className={`gallery-item ${item.size || 'normal'}`}
             onClick={() => {
               if (item.mediaType === 'youtube') {
                 setSelectedYouTube(item)
@@ -159,27 +210,27 @@ const Gallery = () => {
           >
             {item.mediaType === 'youtube' ? (
               <div className="youtube-thumbnail">
-                <img 
-                  src={item.thumbnail} 
+                <img
+                  src={item.thumbnail}
                   alt={item.alt}
                   onError={(e) => {
                     e.target.src = `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`
                   }}
                 />
-                <div className="play-button">▶</div>
+                <div className="play-button">►</div>
                 <div className="video-overlay">
                   <span className="video-label">YOUTUBE</span>
                 </div>
               </div>
             ) : (
-              <img 
-                src={item.src} 
-                alt={item.alt} 
+              <img
+                src={item.src}
+                alt={item.alt}
                 onError={(e) => {
                   console.error('Image load error:', e)
                   e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik02MCA3MEw4MCA5MEwxNDAgMzBMMTQwIDEyMEg2MFY3MFoiIGZpbGw9IiNEMUQ1REIiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGZpbGw9IiM5Q0EzQUYiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMiAxNWwtNS01aDMuNTlMMTIgMTZsNC40MS00SDIwbC01IDV6Ii8+Cjwvc3ZnPgo8dGV4dCB4PSIxMDAiIHk9Ijc1IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzlDQTNBRiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgTm90IEZvdW5kPC90ZXh0Pgo8L3N2Zz4K'
                   e.target.alt = 'Image not found'
-                }} 
+                }}
               />
             )}
             <div className="image-overlay">
@@ -240,4 +291,4 @@ const Gallery = () => {
   )
 }
 
-export default Gallery 
+export default Gallery

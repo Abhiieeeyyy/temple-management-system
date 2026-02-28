@@ -15,6 +15,11 @@ const gallerySchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  size: {
+    type: String,
+    enum: ['normal', 'wide', 'tall', 'large'],
+    default: 'normal'
+  },
   mediaUrl: {
     type: String,
     required: true

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../utils/axiosConfig'
+import { API_URL } from '../config'
 import '../styles/AdminPanel.css'
 
 const AdminPanel = () => {
   const { user } = useAuth()
   const [donations, setDonations] = useState([])
   const [bookings, setBookings] = useState([])
-  const [poojas, setPoojas] = useState([])
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -50,13 +50,18 @@ const AdminPanel = () => {
     return birthStars[birthStarId] || birthStarId || 'N/A'
   }
 
-  // Pooja form state
-  const [poojaForm, setPoojaForm] = useState({
-    name: '',
-    malayalamName: '',
-    price: ''
+  // Pooja admin removed to be strictly developer configured via src/data/poojas.js
+
+  // Gallery state
+  const [galleryItems, setGalleryItems] = useState([])
+  const [galleryForm, setGalleryForm] = useState({
+    title: '',
+    category: 'Events',
+    size: 'normal',
+    image: null
   })
-  const [editingPooja, setEditingPooja] = useState(null)
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,14 +76,16 @@ const AdminPanel = () => {
         // Fetch bookings from secure admin endpoint
         const bookingsResponse = await api.get('/api/admin/bookings')
         setBookings(bookingsResponse.data.bookings || [])
-        
-        // Fetch poojas from secure admin endpoint
-        const poojasResponse = await api.get('/api/admin/poojas')
-        setPoojas(poojasResponse.data.poojas || [])
 
         // Fetch messages from secure admin endpoint
         const messagesResponse = await api.get('/api/admin/messages')
         setMessages(messagesResponse.data.messages || [])
+
+        // Fetch gallery items
+        const galleryResponse = await api.get('/api/gallery')
+        setGalleryItems(galleryResponse.data.photos || [])
+
+
       } catch (err) {
         console.error('Error fetching data:', err)
         if (err.response?.status === 401 || err.response?.status === 403) {
@@ -98,80 +105,7 @@ const AdminPanel = () => {
     fetchData()
   }, [])
 
-  const handlePoojaSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    setSuccess('')
-    
-    try {
-      const poojaData = {
-        ...poojaForm,
-        price: parseFloat(poojaForm.price)
-      }
-      
-      if (editingPooja) {
-        await api.patch(`/api/admin/poojas/${editingPooja._id}`, poojaData)
-        setSuccess('Pooja updated successfully!')
-        setEditingPooja(null)
-      } else {
-        await api.post('/api/admin/poojas', poojaData)
-        setSuccess('Pooja added successfully!')
-      }
-      
-      // Reset form
-      setPoojaForm({
-        name: '',
-        malayalamName: '',
-        price: ''
-      })
-      
-      // Refresh poojas from secure admin endpoint
-      const poojasResponse = await api.get('/api/admin/poojas')
-      setPoojas(poojasResponse.data.poojas || [])
-    } catch (err) {
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        setError('Authentication required. Please log in again.')
-        setTimeout(() => {
-          window.location.href = '/admin'
-        }, 2000)
-      } else {
-        setError(err.response?.data?.message || 'Failed to save pooja')
-      }
-    }
-  }
 
-  const handleEditPooja = (pooja) => {
-    setPoojaForm({
-      name: pooja.name,
-      malayalamName: pooja.malayalamName || '',
-      price: pooja.price.toString()
-    })
-    setEditingPooja(pooja)
-    setActiveTab('poojas')
-  }
-
-  const handleDeletePooja = async (poojaId) => {
-    if (!window.confirm('Are you sure you want to delete this pooja?')) {
-      return
-    }
-    
-    try {
-      await api.delete(`/api/admin/poojas/${poojaId}`)
-      setSuccess('Pooja deleted successfully!')
-      // Refresh poojas from secure admin endpoint
-      const poojasResponse = await api.get('/api/admin/poojas')
-      setPoojas(poojasResponse.data.poojas || [])
-    } catch (err) {
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        setError('Authentication required. Please log in again.')
-        setTimeout(() => {
-          window.location.href = '/admin'
-        }, 2000)
-      } else {
-        setError(err.response?.data?.message || 'Failed to delete pooja')
-      }
-    }
-  }
 
   const handleUpdateMessageStatus = async (messageId, newStatus) => {
     try {
@@ -188,6 +122,81 @@ const AdminPanel = () => {
         }, 2000)
       } else {
         setError('Failed to update message status')
+      }
+    }
+  }
+
+  const handleGalleryFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setGalleryForm({ ...galleryForm, image: e.target.files[0] })
+    }
+  }
+
+  const handleGallerySubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+
+    if (!galleryForm.image) {
+      setError('Please select an image to upload')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('title', galleryForm.title)
+    formData.append('category', galleryForm.category)
+    formData.append('size', galleryForm.size)
+    formData.append('image', galleryForm.image)
+
+    try {
+      await api.post('/api/gallery', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      setSuccess('Image uploaded successfully!')
+
+      setGalleryForm({
+        title: '',
+        category: 'Events',
+        size: 'normal',
+        image: null
+      })
+      document.getElementById('galleryImage').value = ''
+
+      const galleryResponse = await api.get('/api/gallery')
+      setGalleryItems(galleryResponse.data.photos || [])
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication required. Please log in again.')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 2000)
+      } else {
+        setError(err.response?.data?.message || 'Failed to upload image')
+      }
+    }
+  }
+
+  const handleDeleteGalleryItem = async (itemId) => {
+    if (!window.confirm('Are you sure you want to delete this image?')) {
+      return
+    }
+
+    try {
+      await api.delete(`/api/gallery/${itemId}`)
+      setSuccess('Image deleted successfully!')
+
+      const galleryResponse = await api.get('/api/gallery')
+      setGalleryItems(galleryResponse.data.photos || [])
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication required. Please log in again.')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 2000)
+      } else {
+        setError(err.response?.data?.message || 'Failed to delete image')
       }
     }
   }
@@ -222,17 +231,18 @@ const AdminPanel = () => {
         >
           Pooja Bookings
         </button>
-        <button
-          className={`tab-button ${activeTab === 'poojas' ? 'active' : ''}`}
-          onClick={() => setActiveTab('poojas')}
-        >
-          Manage Poojas
-        </button>
+
         <button
           className={`tab-button ${activeTab === 'messages' ? 'active' : ''}`}
           onClick={() => setActiveTab('messages')}
         >
           User Messages
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'gallery' ? 'active' : ''}`}
+          onClick={() => setActiveTab('gallery')}
+        >
+          Manage Gallery
         </button>
       </div>
 
@@ -278,7 +288,7 @@ const AdminPanel = () => {
             )}
           </div>
         )}
-        
+
         {activeTab === 'bookings' && (
           <div className="bookings-section">
             <h2>Pooja Booking Details</h2>
@@ -328,117 +338,10 @@ const AdminPanel = () => {
             )}
           </div>
         )}
-        
-        
-        {activeTab === 'poojas' && (
-          <div className="poojas-section">
-            <h2>Manage Poojas</h2>
-            
-            <div className="pooja-form-section">
-              <h3>{editingPooja ? 'Edit Pooja' : 'Add New Pooja'}</h3>
-              <form onSubmit={handlePoojaSubmit} className="pooja-form">
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="poojaName">Pooja Name (English) *</label>
-                    <input
-                      type="text"
-                      id="poojaName"
-                      value={poojaForm.name}
-                      onChange={(e) => setPoojaForm({...poojaForm, name: e.target.value})}
-                      required
-                      placeholder="Enter pooja name in English"
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="malayalamName">Pooja Name (Malayalam)</label>
-                    <input
-                      type="text"
-                      id="malayalamName"
-                      value={poojaForm.malayalamName}
-                      onChange={(e) => setPoojaForm({...poojaForm, malayalamName: e.target.value})}
-                      placeholder="Enter pooja name in Malayalam"
-                    />
-                  </div>
-                </div>
-                
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="poojaPrice">Price (₹) *</label>
-                    <input
-                      type="number"
-                      id="poojaPrice"
-                      value={poojaForm.price}
-                      onChange={(e) => setPoojaForm({...poojaForm, price: e.target.value})}
-                      required
-                      min="1"
-                      placeholder="Enter price"
-                    />
-                  </div>
-                </div>
-                
-                <div className="form-actions">
-                  <button type="submit" className="submit-btn">
-                    {editingPooja ? 'Update Pooja' : 'Add Pooja'}
-                  </button>
-                  {editingPooja && (
-                    <button 
-                      type="button" 
-                      className="cancel-btn"
-                      onClick={() => {
-                        setEditingPooja(null)
-                        setPoojaForm({
-                          name: '',
-                          price: ''
-                        })
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  )}
-                </div>
-              </form>
-            </div>
-            
-            <div className="existing-poojas-section">
-              <h3>Available Poojas</h3>
-              {poojas.length === 0 ? (
-                <p className="no-data">No poojas found.</p>
-              ) : (
-                <div className="poojas-grid">
-                  {poojas.map((pooja) => (
-                    <div key={pooja._id} className="pooja-card">
-                      <div className="pooja-card-header">
-                        <div className="pooja-names">
-                          <h4>{pooja.name}</h4>
-                          {pooja.malayalamName && <p className="malayalam-text">{pooja.malayalamName}</p>}
-                        </div>
-                        <span className="pooja-price">₹{pooja.price}</span>
-                      </div>
-                      <div className="pooja-card-content">
-                        <div className="pooja-card-actions">
-                          <button 
-                            onClick={() => handleEditPooja(pooja)}
-                            className="edit-btn"
-                          >
-                            Edit
-                          </button>
-                          <button 
-                            onClick={() => handleDeletePooja(pooja._id)}
-                            className="delete-btn"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-        
+
+
+
+
         {activeTab === 'messages' && (
           <div className="messages-section">
             <h2>User Messages</h2>
@@ -469,15 +372,15 @@ const AdminPanel = () => {
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="message-content">
                       <h5 className="message-subject">{message.subject}</h5>
                       <p className="message-text">{message.message}</p>
                     </div>
-                    
+
                     <div className="message-actions">
                       {message.status === 'new' && (
-                        <button 
+                        <button
                           onClick={() => handleUpdateMessageStatus(message._id, 'read')}
                           className="status-btn read-btn"
                         >
@@ -485,7 +388,7 @@ const AdminPanel = () => {
                         </button>
                       )}
                       {message.status === 'read' && (
-                        <button 
+                        <button
                           onClick={() => handleUpdateMessageStatus(message._id, 'replied')}
                           className="status-btn replied-btn"
                         >
@@ -493,14 +396,14 @@ const AdminPanel = () => {
                         </button>
                       )}
                       {message.status === 'replied' && (
-                        <button 
+                        <button
                           onClick={() => handleUpdateMessageStatus(message._id, 'read')}
                           className="status-btn read-btn"
                         >
                           Mark as Read
                         </button>
                       )}
-                      <a 
+                      <a
                         href={`mailto:${message.email}?subject=Re: ${message.subject}&body=Dear ${message.name},%0D%0A%0D%0AThank you for contacting Sri Kainari Ayyappa Temple.%0D%0A%0D%0A`}
                         className="reply-btn"
                         target="_blank"
@@ -515,9 +418,123 @@ const AdminPanel = () => {
             )}
           </div>
         )}
+
+        {activeTab === 'gallery' && (
+          <div className="gallery-section">
+            <h2>Manage Gallery</h2>
+
+            <div className="pooja-form-section">
+              <h3>Upload New Image</h3>
+              <form onSubmit={handleGallerySubmit} className="pooja-form">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="galleryTitle">Title *</label>
+                    <input
+                      type="text"
+                      id="galleryTitle"
+                      value={galleryForm.title}
+                      onChange={(e) => setGalleryForm({ ...galleryForm, title: e.target.value })}
+                      required
+                      placeholder="Image title"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="galleryCategory">Category *</label>
+                    <select
+                      id="galleryCategory"
+                      value={galleryForm.category}
+                      onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value })}
+                      className="category-select"
+                    >
+                      <option value="Events">Events</option>
+                      <option value="Rituals">Rituals</option>
+                      <option value="Deities">Deities</option>
+                      <option value="Surroundings">Surroundings</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="gallerySize">Size (Bento Grid) *</label>
+                    <select
+                      id="gallerySize"
+                      value={galleryForm.size}
+                      onChange={(e) => setGalleryForm({ ...galleryForm, size: e.target.value })}
+                      className="category-select"
+                    >
+                      <option value="normal">Normal (1x1)</option>
+                      <option value="wide">Wide (2x1)</option>
+                      <option value="tall">Tall (1x2)</option>
+                      <option value="large">Large (2x2)</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="galleryImage">Image File *</label>
+                    <input
+                      type="file"
+                      id="galleryImage"
+                      onChange={handleGalleryFileChange}
+                      accept="image/*"
+                      required
+                      className="file-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-actions">
+                  <button type="submit" className="submit-btn">
+                    Upload Image
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div className="existing-poojas-section">
+              <h3>Gallery Images</h3>
+              {galleryItems.length === 0 ? (
+                <p className="no-data">No images uploaded yet.</p>
+              ) : (
+                <div className="poojas-grid">
+                  {galleryItems.map((item) => (
+                    <div key={item._id} className="pooja-card">
+                      <div className="pooja-card-header">
+                        <div className="pooja-names">
+                          <h4>{item.title}</h4>
+                          <p className="malayalam-text">{item.category} • {item.size}</p>
+                        </div>
+                      </div>
+                      <div className="pooja-card-content">
+                        {item.mediaType === 'image' && (
+                          <div className="preview-image" style={{ height: '150px', overflow: 'hidden', marginBottom: '10px', borderRadius: '4px' }}>
+                            <img
+                              src={item.mediaUrl && item.mediaUrl.startsWith('http') ? item.mediaUrl : `${API_URL}${item.mediaUrl}`}
+                              alt={item.title}
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                          </div>
+                        )}
+                        <div className="pooja-card-actions">
+                          <button
+                            onClick={() => handleDeleteGalleryItem(item._id)}
+                            className="delete-btn"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-export default AdminPanel 
+export default AdminPanel

@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../utils/axiosConfig'
 import AuthModal from '../components/AuthModal'
-import { 
-  initializeRazorpay, 
-  createRazorpayOrder, 
-  openRazorpayCheckout, 
-  verifyPayment, 
-  RAZORPAY_CONFIG 
+import {
+  initializeRazorpay,
+  createRazorpayOrder,
+  openRazorpayCheckout,
+  verifyPayment,
+  RAZORPAY_CONFIG
 } from '../utils/razorpay'
+import { mainPoojas as staticMainPoojas, additionalPoojas } from '../data/poojas'
 import '../styles/PoojaDetails.css'
 import '../styles/PageAnimations.css'
 
@@ -19,13 +20,14 @@ const PoojaDetails = () => {
   const [showBookingForm, setShowBookingForm] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [adminPoojas, setAdminPoojas] = useState([])
+  const [mainPoojas, setMainPoojas] = useState([])
   const [filteredPoojas, setFilteredPoojas] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [showOtherPoojas, setShowOtherPoojas] = useState(false)
   const [people, setPeople] = useState([])
   const [selectedPeople, setSelectedPeople] = useState([])
   const [bookingFor, setBookingFor] = useState('myself') // 'myself' or 'others'
-  
+
   // Cart system for additional poojas
   const [cart, setCart] = useState([])
   const [showAddToCartForm, setShowAddToCartForm] = useState(false)
@@ -36,7 +38,7 @@ const PoojaDetails = () => {
     date: '',
     deity: 'ayyappa'
   })
-  
+
   const [formData, setFormData] = useState({
     name: '',
     birthStar: '',
@@ -81,39 +83,13 @@ const PoojaDetails = () => {
     { value: 'revati', label: 'രേവതി' }
   ]
 
-  // Fetch admin-added poojas
+  const [loadingPoojas, setLoadingPoojas] = useState(false)
+
+  // Load developer hardcoded poojas instead of fetching from the admin database
   useEffect(() => {
-    const fetchAdminPoojas = async () => {
-      try {
-        const response = await api.get('/api/poojas')
-        console.log('Poojas API response:', response)
-        
-        // Handle both array and object responses
-        const poojasData = Array.isArray(response.data) ? response.data : (response.data?.poojas || response.data?.data || [])
-        
-        if (!Array.isArray(poojasData)) {
-          console.error('Invalid poojas data format:', poojasData)
-          setAdminPoojas([])
-          setFilteredPoojas([])
-          return
-        }
-        
-        // Filter out the main poojas (ones that should remain at the top)
-        const adminAddedPoojas = poojasData.filter(pooja => 
-          pooja && pooja.name && !['Ganapathi Homam', 'Daily Pooja', 'Naga Pooja', 'Chuttu Vilakku', 'ഗണപതി ഹോമം', 'ദൈനിക പൂജ', 'നാഗ പൂജ', 'ചുറ്റുവിളക്ക്'].includes(pooja.name)
-        )
-        
-        console.log('Filtered admin poojas:', adminAddedPoojas)
-        setAdminPoojas(adminAddedPoojas)
-        setFilteredPoojas(adminAddedPoojas)
-      } catch (error) {
-        console.error('Error fetching admin poojas:', error)
-        setAdminPoojas([])
-        setFilteredPoojas([])
-      }
-    }
-    
-    fetchAdminPoojas()
+    setMainPoojas(staticMainPoojas)
+    setAdminPoojas(additionalPoojas)
+    setFilteredPoojas(additionalPoojas)
   }, [])
 
   // Filter poojas based on search query
@@ -179,7 +155,7 @@ const PoojaDetails = () => {
 
   const handleAddToCart = (e) => {
     e.preventDefault()
-    
+
     // Validation
     if (!cartFormData.name.trim()) {
       setError('Name is required')
@@ -211,7 +187,7 @@ const PoojaDetails = () => {
 
     setCart(prev => [...prev, cartItem])
     setSuccess(`Added to cart: ${selectedMultiplePoojas.length} pooja(s) for ${cartFormData.name}`)
-    
+
     // Reset form and selections
     setShowAddToCartForm(false)
     setSelectedMultiplePoojas([])
@@ -221,7 +197,7 @@ const PoojaDetails = () => {
       date: '',
       deity: 'ayyappa'
     })
-    
+
     setTimeout(() => setSuccess(''), 3000)
   }
 
@@ -262,7 +238,7 @@ const PoojaDetails = () => {
       }
 
       const order = await createRazorpayOrder(orderData)
-      
+
       if (!order.success) {
         throw new Error(order.message || 'Failed to create payment order')
       }
@@ -282,10 +258,10 @@ const PoojaDetails = () => {
 
       // Open Razorpay checkout
       const paymentResponse = await openRazorpayCheckout(options)
-      
+
       // Payment successful, create bookings
       await createCartBookings(paymentResponse)
-      
+
     } catch (err) {
       console.error('Payment error:', err)
       if (err.message === 'Payment cancelled by user') {
@@ -300,7 +276,7 @@ const PoojaDetails = () => {
   const createCartBookings = async (paymentResponse) => {
     try {
       const bookingPromises = []
-      
+
       for (const cartItem of cart) {
         for (const pooja of cartItem.poojas) {
           const bookingData = {
@@ -322,17 +298,17 @@ const PoojaDetails = () => {
           bookingPromises.push(api.post('/api/bookings', bookingData))
         }
       }
-      
+
       await Promise.all(bookingPromises)
-      
+
       const totalBookings = cart.reduce((sum, item) => sum + item.poojas.length, 0)
       const totalAmount = cart.reduce((sum, item) => sum + item.totalPrice, 0)
-      
+
       setSuccess(`🎉 Payment Successful! ${totalBookings} booking(s) created. Total: ₹${totalAmount}. Payment ID: ${paymentResponse.razorpay_payment_id}`)
       setCart([])
       setShowCart(false)
       setLoading(false)
-      
+
     } catch (err) {
       console.error('Error creating bookings:', err)
       setError('Payment successful but booking failed. Please contact support with Payment ID: ' + paymentResponse.razorpay_payment_id)
@@ -356,11 +332,11 @@ const PoojaDetails = () => {
 
   const validateForm = () => {
     const errors = {}
-    
+
     if (!formData.name.trim()) {
       errors.name = 'Name is required'
     }
-    
+
     if (!formData.birthStar) {
       errors.birthStar = 'Please select your birth star'
     }
@@ -370,7 +346,7 @@ const PoojaDetails = () => {
     } else if (!/^[0-9]{10}$/.test(formData.mobileNumber)) {
       errors.mobileNumber = 'Please enter a valid 10-digit phone number'
     }
-    
+
     if (!formData.address.trim()) {
       errors.address = 'Address is required'
     }
@@ -387,19 +363,19 @@ const PoojaDetails = () => {
     e.preventDefault()
     setError('')
     setSuccess('')
-    
+
     // Validate people selection if booking for others
     if (bookingFor === 'others' && selectedPeople.length === 0) {
       setError('Please select at least one person to book for')
       return
     }
-    
+
     if (bookingFor === 'myself' && !validateForm()) {
       return
     }
 
     setLoading(true)
-    
+
     // If online payment selected, process with Razorpay
     if (formData.paymentMethod === 'online') {
       try {
@@ -429,7 +405,7 @@ const PoojaDetails = () => {
         }
 
         const order = await createRazorpayOrder(orderData)
-        
+
         if (!order.success) {
           throw new Error(order.message || 'Failed to create payment order')
         }
@@ -449,10 +425,10 @@ const PoojaDetails = () => {
 
         // Open Razorpay checkout
         const paymentResponse = await openRazorpayCheckout(options)
-        
+
         // Payment successful, now create bookings
         await createBookingsAfterPayment(paymentResponse, poojas, peopleCount)
-        
+
       } catch (err) {
         console.error('Payment error:', err)
         if (err.message === 'Payment cancelled by user') {
@@ -472,7 +448,7 @@ const PoojaDetails = () => {
       if (bookingFor === 'others' && selectedPeople.length > 0) {
         const peopleToBook = people.filter(p => selectedPeople.includes(p._id))
         const bookingPromises = []
-        
+
         for (const person of peopleToBook) {
           for (const pooja of poojas) {
             const bookingData = {
@@ -495,7 +471,7 @@ const PoojaDetails = () => {
             bookingPromises.push(api.post('/api/bookings', bookingData))
           }
         }
-        
+
         await Promise.all(bookingPromises)
         const totalBookings = peopleToBook.length * poojas.length
         const totalPrice = poojas.reduce((sum, pooja) => sum + pooja.price, 0) * peopleToBook.length
@@ -515,7 +491,7 @@ const PoojaDetails = () => {
           }
           return api.post('/api/bookings', bookingData)
         })
-        
+
         await Promise.all(bookingPromises)
         const totalPrice = selectedMultiplePoojas.reduce((sum, pooja) => sum + pooja.price, 0)
         setSuccess(`🎉 Payment Successful! Your ${selectedMultiplePoojas.length} pooja(s) have been booked. Total: ₹${totalPrice}. A confirmation message has been sent to your mobile. Payment ID: ${paymentResponse.razorpay_payment_id}`)
@@ -531,11 +507,11 @@ const PoojaDetails = () => {
           paymentId: paymentResponse.razorpay_payment_id,
           orderId: paymentResponse.razorpay_order_id
         }
-        
+
         await api.post('/api/bookings', bookingData)
         setSuccess(`🎉 Payment Successful! Your ${selectedPooja.name} has been booked for ${new Date(formData.date).toLocaleDateString()}. A confirmation message has been sent to your mobile. Payment ID: ${paymentResponse.razorpay_payment_id}`)
       }
-      
+
       // Reset form
       setShowBookingForm(false)
       setSelectedPooja(null)
@@ -560,73 +536,7 @@ const PoojaDetails = () => {
     }
   }
 
-  // Predefined pooja models
-  const poojas = [
-    {
-      _id: '672a1b2c3d4e5f6789abcdef',
-      name: 'Ganapathi Hoomam (ഗണപതി ഹോമം)',
-      englishName: 'Ganapathi Hoomam',
-      price: 50,
-      duration: '6:00am',
-      description: 'A powerful homam dedicated to Lord Ganesha for removing obstacles and bringing success.',
-      imageUrl: '/images/ganapathi.png',
-      benefits: [
-        'Removes obstacles and challenges',
-        'Brings success in new ventures',
-        'Enhances wisdom and knowledge',
-        'Promotes spiritual growth'
-      ],
-      isAvailable: true
-    },
-    {
-      _id: '672a1b2c3d4e5f6789abcd00',
-      name: 'Daily Pooja (ദൈനിക പൂജ)',
-      englishName: 'Daily Pooja',
-      price: 150,
-      duration: '8:00 am',
-      description: 'A comprehensive pooja to appease all nine planets and balance their influences in your life.',
-      imageUrl: '/images/daily-pooja.jpg',
-      benefits: [
-        'Balances planetary influences',
-        'Reduces negative planetary effects',
-        'Brings harmony in life',
-        'Enhances overall well-being'
-      ],
-      isAvailable: true
-    },
-    {
-      _id: '672a1b2c3d4e5f6789abcd11',
-      name: 'Naga Pooja (നാഗ പൂജ)',
-      englishName: 'Naga Pooja',
-      price: 50,
-      duration: '9:00am',
-      description: 'A special pooja dedicated to Goddess Lakshmi and Lord Kubera for wealth and prosperity.',
-      imageUrl: '/images/nagapooja.jpg',
-      benefits: [
-        'Attracts wealth and prosperity',
-        'Removes financial obstacles',
-        'Enhances business success',
-        'Brings material and spiritual abundance'
-      ],
-      isAvailable: true
-    },
-    {
-      _id: '672a1b2c3d4e5f6789abcd12',
-      name: 'Chuttu Vilakku (ചുറ്റുവിളക്ക്)',
-      englishName: 'Chuttu Vilakku',
-      price: 3000,
-      duration: '6:00pm',
-      description: 'A beautiful evening lamp lighting ceremony that brings divine light and blessings to your home and family.',
-      imageUrl: '/images/pooja.jpg',
-      benefits: [
-        'Brings divine light and blessings',
-        'Removes darkness and obstacles',
-        'Enhances spiritual energy',
-        'Promotes peace and prosperity'
-      ],
-      isAvailable: true
-    }
-  ]
+
 
   return (
     <div className="pooja-container">
@@ -640,149 +550,145 @@ const PoojaDetails = () => {
         {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
 
-        {/* Main Poojas in a single row */}
-        <div className="main-poojas-section">
-          <h2>Main Poojas</h2>
-          <div className="main-pooja-list">
-            {poojas.map(pooja => (
-              <div key={pooja._id} className="main-pooja-card">
-                <div className="main-pooja-image">
-                  <img 
-                    src={pooja.imageUrl || '/images/pooja.jpg'} 
-                    alt={pooja.name}
-                    onError={(e) => {
-                      e.target.src = '/images/pooja.jpg'
-                    }}
-                  />
-                </div>
-                <div className="main-pooja-details">
-                  <div className="main-pooja-header">
-                    <h3>{pooja.name}</h3>
-                    <span className="main-pooja-price">₹{pooja.price}</span>
-                  </div>
-                  <p className="main-pooja-duration">{pooja.duration}</p>
-                  <button
-                    className="main-book-button"
-                    onClick={() => handleBookingClick(pooja)}
-                  >
-                    📅 Book Pooja
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Successfully Loaded Main Poojas */}
+        {mainPoojas.length > 0 && (
+          <div className="main-poojas-individual">
+            <div className="section-header">
+              <h2>Main Poojas</h2>
+            </div>
 
+            <div className="main-pooja-bg-grid">
+              {mainPoojas.map(pooja => (
+                <div
+                  key={pooja._id}
+                  className="main-pooja-bg-card"
+                  style={{ backgroundImage: `url(${pooja.imageUrl})` }}
+                >
+                  <div className="main-pooja-bg-overlay">
+                    <div className="pooja-bg-header">
+                      <h3>{pooja.name}</h3>
+                      {pooja.malayalamName && <p className="malayalam-name">{pooja.malayalamName}</p>}
+                    </div>
+                    <div className="pooja-bg-footer">
+                      <span className="price-tag">₹{pooja.price}</span>
+                      <button
+                        className="book-btn-overlay"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBookingClick(pooja);
+                        }}
+                      >
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         {/* Other Poojas Section - Always Visible */}
-        {adminPoojas.length > 0 && (
+        {(loadingPoojas || adminPoojas.length > 0) && (
           <div className="other-poojas-section">
             <div className="section-header">
               <h2>Additional Poojas</h2>
               <p className="section-subtitle">Select multiple poojas for combined booking or book individually</p>
             </div>
 
-            {/* Search Box */}
-            <div className="pooja-search-container">
-              <input
-                type="text"
-                className="pooja-search-input"
-                placeholder="Search poojas by name..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <button 
-                  className="clear-search-btn"
-                  onClick={() => setSearchQuery('')}
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            {/* Multiple Selection Controls - Sticky */}
-            <div className="multiple-selection-controls sticky-controls">
-              <div className="selection-summary">
-                <span className="selected-count">Selected: {selectedMultiplePoojas.length} pooja(s)</span>
-                {selectedMultiplePoojas.length > 0 && (
-                  <span className="total-price">
-                    Total: ₹{selectedMultiplePoojas.reduce((sum, pooja) => sum + pooja.price, 0)}
-                  </span>
-                )}
-              </div>
-              <div className="cart-actions">
-                <button
-                  className="view-cart-button"
-                  onClick={() => setShowCart(true)}
-                >
-                  🛒 Cart ({cart.length})
-                </button>
-                {selectedMultiplePoojas.length > 0 && (
-                  <button
-                    className="add-to-cart-button"
-                    onClick={handleMultipleBookingClick}
-                  >
-                    Add to Cart ({selectedMultiplePoojas.length})
-                  </button>
-                )}
-              </div>
-            </div>
-            
-            {/* Grid Layout for Other Poojas */}
-            {filteredPoojas.length === 0 ? (
-              <div className="no-results">
-                <p>No poojas found matching "{searchQuery}"</p>
+            {loadingPoojas ? (
+              <div className="pooja-loading">
+                <div className="loading-spinner"></div>
+                <p>Loading additional poojas...</p>
               </div>
             ) : (
-              <div className="other-pooja-grid">
-                {filteredPoojas.map(pooja => {
-                const isSelected = selectedMultiplePoojas.find(p => p._id === pooja._id)
-                return (
-                  <div 
-                    key={pooja._id} 
-                    className={`other-pooja-card ${isSelected ? 'selected' : ''}`}
-                    onClick={() => handleMultiplePoojaToggle(pooja)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <div className="pooja-card-header">
-                      <label className="pooja-checkbox-label" onClick={(e) => e.stopPropagation()}>
-                        <input
-                          type="checkbox"
-                          checked={!!isSelected}
-                          onChange={() => handleMultiplePoojaToggle(pooja)}
-                          className="pooja-checkbox"
-                        />
-                        <span className="checkbox-custom"></span>
-                        <h3 className="pooja-title">
-                          {pooja.name} {pooja.malayalamName && `(${pooja.malayalamName})`}
-                        </h3>
-                      </label>
-                      <span className="pooja-price-badge">₹{pooja.price}</span>
-                    </div>
-                    
-                    <div className="pooja-card-content">
-                      <p className="pooja-description">{pooja.description}</p>
+              <>
 
-                      {pooja.benefits && pooja.benefits.length > 0 && (
-                        <div className="pooja-benefits">
-                          <h4>Benefits:</h4>
-                          <ul className="benefits-list">
-                            {pooja.benefits.slice(0, 3).map((benefit, index) => (
-                              <li key={index}>{benefit}</li>
-                            ))}
-                            {pooja.benefits.length > 3 && (
-                              <li className="more-benefits">+{pooja.benefits.length - 3} more benefits</li>
-                            )}
-                          </ul>
-                        </div>
-                      )}
+                {/* Search Box */}
+                <div className="pooja-search-container">
+                  <input
+                    type="text"
+                    className="pooja-search-input"
+                    placeholder="Search poojas by name..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery && (
+                    <button
+                      className="clear-search-btn"
+                      onClick={() => setSearchQuery('')}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
 
-
-                    </div>
+                {/* Multiple Selection Controls - Sticky */}
+                <div className="multiple-selection-controls sticky-controls">
+                  <div className="selection-summary">
+                    <span className="selected-count">Selected: {selectedMultiplePoojas.length} pooja(s)</span>
+                    {selectedMultiplePoojas.length > 0 && (
+                      <span className="total-price">
+                        Total: ₹{selectedMultiplePoojas.reduce((sum, pooja) => sum + pooja.price, 0)}
+                      </span>
+                    )}
                   </div>
-                )
-              })}
-              </div>
+                  <div className="cart-actions">
+                    <button
+                      className="view-cart-button"
+                      onClick={() => setShowCart(true)}
+                    >
+                      🛒 Cart ({cart.length})
+                    </button>
+                    {selectedMultiplePoojas.length > 0 && (
+                      <button
+                        className="add-to-cart-button"
+                        onClick={handleMultipleBookingClick}
+                      >
+                        Add to Cart ({selectedMultiplePoojas.length})
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Grid Layout for Other Poojas */}
+                {filteredPoojas.length === 0 ? (
+                  <div className="no-results">
+                    <p>No poojas found matching "{searchQuery}"</p>
+                  </div>
+                ) : (
+                  <div className="other-pooja-grid">
+                    {filteredPoojas.map(pooja => {
+                      const isSelected = selectedMultiplePoojas.find(p => p._id === pooja._id)
+                      return (
+                        <div
+                          key={pooja._id}
+                          className={`other-pooja-card ${isSelected ? 'selected' : ''}`}
+                          onClick={() => handleMultiplePoojaToggle(pooja)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <div className="pooja-card-header">
+                            <label className="pooja-checkbox-label" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                type="checkbox"
+                                checked={!!isSelected}
+                                onChange={() => handleMultiplePoojaToggle(pooja)}
+                                className="pooja-checkbox"
+                              />
+                              <span className="checkbox-custom"></span>
+                              <h3 className="pooja-title">
+                                {pooja.name} {pooja.malayalamName && `(${pooja.malayalamName})`}
+                              </h3>
+                            </label>
+                            <span className="pooja-price-badge">₹{pooja.price}</span>
+                          </div>
+
+
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
@@ -794,14 +700,14 @@ const PoojaDetails = () => {
                 <h2>
                   {selectedPooja ? `Book ${selectedPooja.name}` : `Book ${selectedMultiplePoojas.length} Selected Poojas`}
                 </h2>
-                <button 
+                <button
                   className="close-button"
                   onClick={() => setShowBookingForm(false)}
                 >
                   ×
                 </button>
               </div>
-              
+
               <form onSubmit={handleSubmit} className="booking-form">
                 {/* Book For Selection */}
                 {people.length > 0 && (
@@ -889,46 +795,46 @@ const PoojaDetails = () => {
                         )}
                       </div>
 
-                  <div className="form-group">
-                    <label htmlFor="mobileNumber">Phone Number *</label>
-                    <input
-                      type="tel"
-                      id="mobileNumber"
-                      name="mobileNumber"
-                      value={formData.mobileNumber}
-                      onChange={handleChange}
-                      required
-                      placeholder="Enter your phone number"
-                      pattern="[0-9]{10}"
-                      className={validationErrors.mobileNumber ? 'error' : ''}
-                    />
-                    {validationErrors.mobileNumber && (
-                      <span className="field-error">{validationErrors.mobileNumber}</span>
-                    )}
-                  </div>
-                </div>
+                      <div className="form-group">
+                        <label htmlFor="mobileNumber">Phone Number *</label>
+                        <input
+                          type="tel"
+                          id="mobileNumber"
+                          name="mobileNumber"
+                          value={formData.mobileNumber}
+                          onChange={handleChange}
+                          required
+                          placeholder="Enter your phone number"
+                          pattern="[0-9]{10}"
+                          className={validationErrors.mobileNumber ? 'error' : ''}
+                        />
+                        {validationErrors.mobileNumber && (
+                          <span className="field-error">{validationErrors.mobileNumber}</span>
+                        )}
+                      </div>
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="birthStar">Birth Star *</label>
-                  <select
-                    id="birthStar"
-                    name="birthStar"
-                    value={formData.birthStar}
-                    onChange={handleChange}
-                    required
-                    className={validationErrors.birthStar ? 'error' : ''}
-                  >
-                    <option value="">Select your birth star</option>
-                    {birthStars.map(star => (
-                      <option key={star.value} value={star.value}>
-                        {star.label}
-                      </option>
-                    ))}
-                  </select>
-                  {validationErrors.birthStar && (
-                    <span className="field-error">{validationErrors.birthStar}</span>
-                  )}
-                </div>
+                    <div className="form-group">
+                      <label htmlFor="birthStar">Birth Star *</label>
+                      <select
+                        id="birthStar"
+                        name="birthStar"
+                        value={formData.birthStar}
+                        onChange={handleChange}
+                        required
+                        className={validationErrors.birthStar ? 'error' : ''}
+                      >
+                        <option value="">Select your birth star</option>
+                        {birthStars.map(star => (
+                          <option key={star.value} value={star.value}>
+                            {star.label}
+                          </option>
+                        ))}
+                      </select>
+                      {validationErrors.birthStar && (
+                        <span className="field-error">{validationErrors.birthStar}</span>
+                      )}
+                    </div>
 
                     <div className="form-group">
                       <label htmlFor="address">Address *</label>
@@ -1004,14 +910,14 @@ const PoojaDetails = () => {
             <div className="cart-form-modal">
               <div className="modal-header">
                 <h2>Add to Cart</h2>
-                <button 
+                <button
                   className="close-button"
                   onClick={() => setShowAddToCartForm(false)}
                 >
                   ×
                 </button>
               </div>
-              
+
               <div className="selected-poojas-summary">
                 <h3>Selected Poojas:</h3>
                 <ul>
@@ -1033,7 +939,7 @@ const PoojaDetails = () => {
                     type="text"
                     id="cartName"
                     value={cartFormData.name}
-                    onChange={(e) => setCartFormData({...cartFormData, name: e.target.value})}
+                    onChange={(e) => setCartFormData({ ...cartFormData, name: e.target.value })}
                     placeholder="Enter your Name"
                     required
                   />
@@ -1044,7 +950,7 @@ const PoojaDetails = () => {
                   <select
                     id="cartBirthStar"
                     value={cartFormData.birthStar}
-                    onChange={(e) => setCartFormData({...cartFormData, birthStar: e.target.value})}
+                    onChange={(e) => setCartFormData({ ...cartFormData, birthStar: e.target.value })}
                     required
                   >
                     <option value="">Select Birth Star</option>
@@ -1062,7 +968,7 @@ const PoojaDetails = () => {
                     type="date"
                     id="cartDate"
                     value={cartFormData.date}
-                    onChange={(e) => setCartFormData({...cartFormData, date: e.target.value})}
+                    onChange={(e) => setCartFormData({ ...cartFormData, date: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
                     required
                   />
@@ -1073,7 +979,7 @@ const PoojaDetails = () => {
                   <select
                     id="cartDeity"
                     value={cartFormData.deity}
-                    onChange={(e) => setCartFormData({...cartFormData, deity: e.target.value})}
+                    onChange={(e) => setCartFormData({ ...cartFormData, deity: e.target.value })}
                     required
                   >
                     <option value="ayyappa">Ayyappa (അയ്യപ്പൻ)</option>
@@ -1111,7 +1017,7 @@ const PoojaDetails = () => {
             <div className="cart-modal">
               <div className="modal-header">
                 <h2>Your Cart ({cart.length} {cart.length === 1 ? 'item' : 'items'})</h2>
-                <button 
+                <button
                   className="close-button"
                   onClick={() => setShowCart(false)}
                 >
@@ -1122,7 +1028,7 @@ const PoojaDetails = () => {
               {cart.length === 0 ? (
                 <div className="empty-cart">
                   <p>Your cart is empty</p>
-                  <button 
+                  <button
                     className="continue-shopping-btn"
                     onClick={() => setShowCart(false)}
                   >
@@ -1179,13 +1085,13 @@ const PoojaDetails = () => {
         )}
 
         {/* Authentication Modal */}
-        <AuthModal 
+        <AuthModal
           isOpen={showAuthModal}
           onClose={() => setShowAuthModal(false)}
           initialTab="login"
         />
       </div>
-    </div>
+    </div >
   )
 }
 

@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ 
+const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     console.log('File upload attempt:', {
@@ -27,11 +27,11 @@ const upload = multer({
       mimetype: file.mimetype,
       size: file.size
     })
-    
+
     const allowedTypes = /jpeg|jpg|png|gif|webp|mp4|mov|avi|wmv|webm|mkv/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/');
-    
+
     if (extname && mimetype) {
       console.log('File accepted:', file.originalname)
       return cb(null, true);
@@ -47,21 +47,23 @@ const upload = multer({
 // Upload a new media item (no authentication required)
 router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { title, description, category } = req.body;
+    const { title, description, category, size } = req.body;
     const mediaUrl = `/uploads/gallery/${req.file.filename}`;
     const mediaType = req.file.mimetype.startsWith('image') ? 'image' : 'video';
-    
+
     console.log('Media upload:', {
       filename: req.file.filename,
       mimetype: req.file.mimetype,
       mediaType: mediaType,
-      title: title
+      title: title,
+      size: size || 'normal'
     })
 
     const galleryItem = new Gallery({
       title,
       description,
       category: category || 'general',
+      size: size || 'normal',
       mediaUrl,
       mediaType,
       uploadedBy: null // No user authentication
@@ -80,23 +82,23 @@ router.post('/upload', upload.array('files'), async (req, res) => {
   try {
     const { title, category } = req.body;
     const uploadedItems = [];
-    
+
     console.log('Multiple file upload:', {
       fileCount: req.files.length,
       title: title,
       category: category
     })
-    
+
     for (const file of req.files) {
       const mediaUrl = `/uploads/gallery/${file.filename}`;
       const mediaType = file.mimetype.startsWith('image') ? 'image' : 'video';
-      
+
       console.log('Processing file:', {
         filename: file.filename,
         mimetype: file.mimetype,
         mediaType: mediaType
       })
-      
+
       const galleryItem = new Gallery({
         title: title || `Uploaded ${mediaType}`,
         description: `Uploaded on ${new Date().toLocaleDateString()}`,
@@ -105,11 +107,11 @@ router.post('/upload', upload.array('files'), async (req, res) => {
         mediaType,
         uploadedBy: null
       });
-      
+
       await galleryItem.save();
       uploadedItems.push(galleryItem);
     }
-    
+
     console.log('Upload complete:', uploadedItems.length, 'items saved')
     res.status(201).json({ success: true, items: uploadedItems, message: `${uploadedItems.length} files uploaded successfully` });
   } catch (error) {
