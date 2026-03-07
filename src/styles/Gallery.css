@@ -15,41 +15,93 @@
   margin-right: auto;
 }
 
-/* --- Category Filter --- */
-.category-filter {
+/* --- Category Cards & View --- */
+.category-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
+  color: white;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  transition: all 0.3s ease;
 }
 
-.category-button {
-  padding: 0.6rem 1.5rem;
-  border: 1px solid #e5e7eb;
+.gallery-item.category-card:hover .category-card-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.category-card-overlay h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 0.5px;
+  transform: translateY(10px);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item.category-card:hover .category-card-overlay h2 {
+  transform: translateY(0);
+}
+
+.category-card-overlay p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin: 0;
+  font-weight: 500;
+  transform: translateY(10px);
+  transition: transform 0.3s ease 0.1s;
+}
+
+.gallery-item.category-card:hover .category-card-overlay p {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* --- Category Header --- */
+.category-view-container {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.active-category-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
   background-color: white;
   color: #555;
+  border: 1px solid #ddd;
   border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1rem;
   font-weight: 500;
-  font-size: 0.95rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.category-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-color: #d1d5db;
-  color: #333;
-}
-
-.category-button.active {
-  background-color: var(--accent-color);
-  color: white;
-  border-color: var(--accent-color);
-  box-shadow: 0 4px 15px rgba(181, 20, 20, 0.3);
-  transform: translateY(-2px);
+.back-button:hover {
+  background-color: #f9fafb;
+  color: #111;
+  border-color: #bbb;
+  transform: translateX(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Bento Grid Layout --- */
@@ -329,12 +381,21 @@
      Keeping them tall (span 2 rows) works in a 2-col grid. 
   */
 
-  .category-filter {
-    gap: 0.5rem;
+  .category-card-overlay {
+    padding: 1.5rem 1rem;
   }
 
-  .category-button {
-    padding: 0.4rem 1rem;
-    font-size: 0.85rem;
+  .category-card-overlay h2 {
+    font-size: 1.5rem;
+  }
+
+  .category-header {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .active-category-title {
+    font-size: 1.8rem;
   }
 }

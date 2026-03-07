@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../utils/axiosConfig'
 import { API_URL } from '../config'
@@ -12,7 +13,8 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const [activeTab, setActiveTab] = useState('donations')
+  const location = useLocation()
+  const [activeTab, setActiveTab] = useState(location.state?.activeTab || 'donations')
 
   // Birth star mapping
   const birthStars = {
@@ -61,10 +63,27 @@ const AdminPanel = () => {
     image: null
   })
 
+  // Settings State
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  })
+  const [passwordLoading, setPasswordLoading] = useState(false)
 
+
+
+  // Sync activeTab with routing state if navigated from UserProfile dropdown
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab)
+      // clear the state so it doesn't get stuck if they refresh
+      window.history.replaceState({}, document.title)
+    }
+  }, [location.state])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAdminData = async () => {
       try {
         setLoading(true)
         setError('')
@@ -101,8 +120,7 @@ const AdminPanel = () => {
         setLoading(false)
       }
     }
-
-    fetchData()
+    fetchAdminData()
   }, [])
 
 
@@ -201,6 +219,49 @@ const AdminPanel = () => {
     }
   }
 
+  const handlePasswordChange = async (e) => {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setError('New passwords do not match')
+      return
+    }
+
+    if (passwordForm.newPassword.length < 6) {
+      setError('New password must be at least 6 characters long')
+      return
+    }
+
+    try {
+      setPasswordLoading(true)
+      // Send the request using the existing instance that attaches the token
+      await api.put('/api/auth/update-profile', {
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword
+      })
+
+      setSuccess('Password updated successfully!')
+      setPasswordForm({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      })
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication required. Please log in again.')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 2000)
+      } else {
+        setError(err.response?.data?.message || 'Failed to update password')
+      }
+    } finally {
+      setPasswordLoading(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -244,6 +305,7 @@ const AdminPanel = () => {
         >
           Manage Gallery
         </button>
+
       </div>
 
       <div className="content-section">
@@ -439,20 +501,30 @@ const AdminPanel = () => {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="galleryCategory">Category *</label>
-                    <select
-                      id="galleryCategory"
-                      value={galleryForm.category}
-                      onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value })}
-                      className="category-select"
-                    >
-                      <option value="Events">Events</option>
-                      <option value="Rituals">Rituals</option>
-                      <option value="Deities">Deities</option>
-                      <option value="Surroundings">Surroundings</option>
-                    </select>
-                  </div>
+                  {(() => {
+                    const existingCategories = [...new Set(galleryItems.map(item => item.category))]
+                    const defaultCategories = ['Events', 'Rituals', 'Deities', 'Surroundings']
+                    const allCategories = [...new Set([...defaultCategories, ...existingCategories])]
+                    return (
+                      <div className="form-group">
+                        <label htmlFor="galleryCategory">Category *</label>
+                        <input
+                          list="galleryCategoryList"
+                          id="galleryCategory"
+                          value={galleryForm.category}
+                          onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value })}
+                          className="category-select"
+                          required
+                          placeholder="Select or type a category..."
+                        />
+                        <datalist id="galleryCategoryList">
+                          {allCategories.map((cat, index) => (
+                            <option key={index} value={cat} />
+                          ))}
+                        </datalist>
+                      </div>
+                    )
+                  })()}
                 </div>
 
                 <div className="form-row">
@@ -529,6 +601,61 @@ const AdminPanel = () => {
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'settings' && (
+          <div className="settings-section">
+            <h2>Admin Settings</h2>
+
+            <div className="pooja-form-section" style={{ maxWidth: '600px', margin: '0 auto' }}>
+              <h3>Change Password</h3>
+              <form onSubmit={handlePasswordChange} className="pooja-form">
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label htmlFor="currentPassword">Current Password *</label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    value={passwordForm.currentPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                    required
+                    placeholder="Enter current password"
+                  />
+                </div>
+
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label htmlFor="newPassword">New Password *</label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    value={passwordForm.newPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                    required
+                    placeholder="Enter new password (min. 6 characters)"
+                    minLength={6}
+                  />
+                </div>
+
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label htmlFor="confirmPassword">Confirm New Password *</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    value={passwordForm.confirmPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                    required
+                    placeholder="Confirm new password"
+                    minLength={6}
+                  />
+                </div>
+
+                <div className="form-actions">
+                  <button type="submit" className="submit-btn" disabled={passwordLoading}>
+                    {passwordLoading ? 'Updating...' : 'Update Password'}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

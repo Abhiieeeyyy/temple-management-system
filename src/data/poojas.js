@@ -9,7 +9,7 @@ export const mainPoojas = [
         price: 300,
         duration: "45 minutes",
         description: "Performed to invoke the blessings of Lord Ganesha to remove obstacles from one's life. Ideal to be performed before starting any new venture.",
-        imageUrl: "/images/ganapathi-homam.jpg",
+        imageUrl: "/images/ganapathi.png",
         benefits: [
             "Removes obstacles",
             "Brings prosperity",

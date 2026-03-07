@@ -15,13 +15,18 @@ const UserProfile = () => {
   }
 
   const handleAdminPanel = () => {
-    navigate(ROUTES.ADMIN_PANEL)
+    navigate(ROUTES.ADMIN_PANEL, { state: { activeTab: 'donations' } })
+    setShowDropdown(false)
+  }
+
+  const handleSettings = () => {
+    navigate(ROUTES.ADMIN_PANEL, { state: { activeTab: 'settings' } })
     setShowDropdown(false)
   }
 
   return (
     <div className="user-profile">
-      <button 
+      <button
         className="profile-button"
         onClick={() => setShowDropdown(!showDropdown)}
       >
@@ -41,6 +46,9 @@ const UserProfile = () => {
           <div className="dropdown-divider"></div>
           <button className="dropdown-menu-item" onClick={handleAdminPanel}>
             Admin Panel
+          </button>
+          <button className="dropdown-menu-item" onClick={handleSettings}>
+            Settings
           </button>
           <button className="logout-button" onClick={handleLogout}>
             Logout
