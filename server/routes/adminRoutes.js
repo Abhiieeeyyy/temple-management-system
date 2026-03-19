@@ -172,6 +172,14 @@ router.patch('/donations/:id', async (req, res) => {
 // GET /api/admin/bookings - Get all bookings (admin only)
 router.get('/bookings', async (req, res) => {
   try {
+    // Automatically completion past dates
+    const startOfToday = new Date()
+    startOfToday.setHours(0, 0, 0, 0)
+    await Booking.updateMany(
+      { date: { $lt: startOfToday }, status: { $nin: ['completed', 'cancelled'] } },
+      { $set: { status: 'completed' } }
+    )
+
     const bookings = await Booking.find()
       .sort({ createdAt: -1 })
       .populate('userId', 'firstName lastName email')

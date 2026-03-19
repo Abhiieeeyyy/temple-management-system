@@ -4,6 +4,8 @@ import { useAuth } from '../contexts/AuthContext'
 import api from '../utils/axiosConfig'
 import { API_URL } from '../config'
 import '../styles/AdminPanel.css'
+import { jsPDF } from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 const AdminPanel = () => {
   const { user } = useAuth()
@@ -15,6 +17,66 @@ const AdminPanel = () => {
   const [success, setSuccess] = useState('')
   const location = useLocation()
   const [activeTab, setActiveTab] = useState(location.state?.activeTab || 'donations')
+  const [expandedMessageId, setExpandedMessageId] = useState(null)
+
+  const toggleMessage = (id) => {
+    setExpandedMessageId(expandedMessageId === id ? null : id)
+  }
+
+  const downloadDonationsPDF = () => {
+    const doc = new jsPDF()
+    doc.text("Donation List", 14, 15)
+    const tableColumn = ["Date", "Donor Name", "Phone", "Amount", "Purpose", "Payment ID", "Status"]
+    const tableRows = []
+
+    donations.forEach(donation => {
+      const donationData = [
+        new Date(donation.createdAt).toLocaleDateString(),
+        donation.name,
+        donation.phoneNumber,
+        `Rs ${donation.amount}`,
+        donation.purpose,
+        donation.paymentId,
+        donation.status
+      ]
+      tableRows.push(donationData)
+    })
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20
+    })
+    doc.save("donations_list.pdf")
+  }
+
+  const downloadBookingsPDF = () => {
+    const doc = new jsPDF()
+    doc.text("Pooja Booking List", 14, 15)
+    const tableColumn = ["Date", "Name", "Birth Star", "Phone", "Pooja", "Booking Date", "Amount", "Status"]
+    const tableRows = []
+
+    bookings.forEach(booking => {
+      const bookingData = [
+        new Date(booking.createdAt).toLocaleDateString(),
+        booking.name || 'Guest',
+        getBirthStarName(booking.birthStar),
+        booking.mobileNumber || 'N/A',
+        booking.poojaName,
+        new Date(booking.date).toLocaleDateString(),
+        `Rs ${booking.price}`,
+        booking.status || 'completed'
+      ]
+      tableRows.push(bookingData)
+    })
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20
+    })
+    doc.save("pooja_bookings_list.pdf")
+  }
 
   // Birth star mapping
   const birthStars = {
@@ -311,7 +373,18 @@ const AdminPanel = () => {
       <div className="content-section">
         {activeTab === 'donations' && (
           <div className="donations-section">
-            <h2>Donation Details</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <h2 style={{ margin: 0 }}>Donation Details</h2>
+              {donations.length > 0 && (
+                <button 
+                  onClick={downloadDonationsPDF} 
+                  className="submit-btn" 
+                  style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', width: 'auto', marginTop: 0 }}
+                >
+                  Download PDF
+                </button>
+              )}
+            </div>
             {donations.length === 0 ? (
               <p className="no-data">No donations found.</p>
             ) : (
@@ -353,7 +426,18 @@ const AdminPanel = () => {
 
         {activeTab === 'bookings' && (
           <div className="bookings-section">
-            <h2>Pooja Booking Details</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <h2 style={{ margin: 0 }}>Pooja Booking Details</h2>
+              {bookings.length > 0 && (
+                <button 
+                  onClick={downloadBookingsPDF} 
+                  className="submit-btn" 
+                  style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', width: 'auto', marginTop: 0 }}
+                >
+                  Download PDF
+                </button>
+              )}
+            </div>
             {bookings.length === 0 ? (
               <p className="no-data">No bookings found.</p>
             ) : (
@@ -413,67 +497,97 @@ const AdminPanel = () => {
               <div className="messages-container">
                 {messages.map((message) => (
                   <div key={message._id} className={`message-card ${message.status}`}>
-                    <div className="message-header">
-                      <div className="message-sender">
-                        <h4>{message.name}</h4>
-                        <p className="message-email">{message.email}</p>
-                        {message.phone && <p className="message-phone">{message.phone}</p>}
-                      </div>
-                      <div className="message-meta">
-                        <span className="message-date">
-                          {new Date(message.createdAt).toLocaleDateString('en-IN', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </span>
-                        <span className={`message-status ${message.status}`}>
-                          {message.status.charAt(0).toUpperCase() + message.status.slice(1)}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="message-content">
-                      <h5 className="message-subject">{message.subject}</h5>
-                      <p className="message-text">{message.message}</p>
-                    </div>
-
-                    <div className="message-actions">
-                      {message.status === 'new' && (
-                        <button
-                          onClick={() => handleUpdateMessageStatus(message._id, 'read')}
-                          className="status-btn read-btn"
-                        >
-                          Mark as Read
-                        </button>
-                      )}
-                      {message.status === 'read' && (
-                        <button
-                          onClick={() => handleUpdateMessageStatus(message._id, 'replied')}
-                          className="status-btn replied-btn"
-                        >
-                          Mark as Replied
-                        </button>
-                      )}
-                      {message.status === 'replied' && (
-                        <button
-                          onClick={() => handleUpdateMessageStatus(message._id, 'read')}
-                          className="status-btn read-btn"
-                        >
-                          Mark as Read
-                        </button>
-                      )}
-                      <a
-                        href={`mailto:${message.email}?subject=Re: ${message.subject}&body=Dear ${message.name},%0D%0A%0D%0AThank you for contacting Sri Kainari Ayyappa Temple.%0D%0A%0D%0A`}
-                        className="reply-btn"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    {expandedMessageId !== message._id ? (
+                      <div 
+                        className="message-collapsed" 
+                        onClick={() => toggleMessage(message._id)}
+                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', cursor: 'pointer', gap: '1rem' }}
                       >
-                        Reply via Email
-                      </a>
-                    </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1, minWidth: '0' }}>
+                          <p className="message-email" style={{ margin: 0, fontWeight: '600', wordBreak: 'break-all' }}>{message.email}</p>
+                          <p className="message-subject" style={{ margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: '#555', fontSize: '0.9rem' }}>
+                            {message.subject}
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0, marginTop: '2px' }}>
+                          <span className={`message-status ${message.status}`}>
+                            {message.status.charAt(0).toUpperCase() + message.status.slice(1)}
+                          </span>
+                          <span style={{ fontSize: '1.2rem', color: '#888' }}>▼</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="message-expanded">
+                        <div 
+                           className="message-header" 
+                           onClick={() => toggleMessage(message._id)} 
+                           style={{ cursor: 'pointer' }}
+                        >
+                          <div className="message-sender">
+                            <h4>{message.name}</h4>
+                            <p className="message-email">{message.email}</p>
+                            {message.phone && <p className="message-phone">{message.phone}</p>}
+                          </div>
+                          <div className="message-meta">
+                            <span className="message-date">
+                              {new Date(message.createdAt).toLocaleDateString('en-IN', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
+                              <span className={`message-status ${message.status}`}>
+                                {message.status.charAt(0).toUpperCase() + message.status.slice(1)}
+                              </span>
+                              <span style={{ fontSize: '1.2rem', color: '#888' }}>▲</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="message-content" style={{ textAlign: 'left' }}>
+                          <h5 className="message-subject">{message.subject}</h5>
+                          <p className="message-text">{message.message}</p>
+                        </div>
+
+                        <div className="message-actions">
+                          {message.status === 'new' && (
+                            <button
+                              onClick={() => handleUpdateMessageStatus(message._id, 'read')}
+                              className="status-btn read-btn"
+                            >
+                              Mark as Read
+                            </button>
+                          )}
+                          {message.status === 'read' && (
+                            <button
+                              onClick={() => handleUpdateMessageStatus(message._id, 'replied')}
+                              className="status-btn replied-btn"
+                            >
+                              Mark as Replied
+                            </button>
+                          )}
+                          {message.status === 'replied' && (
+                            <button
+                              onClick={() => handleUpdateMessageStatus(message._id, 'read')}
+                              className="status-btn read-btn"
+                            >
+                              Mark as Read
+                            </button>
+                          )}
+                          <a
+                            href={`mailto:${message.email}?subject=Re: ${message.subject}&body=Dear ${message.name},%0D%0A%0D%0AThank you for contacting Sri Kainari Ayyappa Temple.%0D%0A%0D%0A`}
+                            className="reply-btn"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Reply via Email
+                          </a>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

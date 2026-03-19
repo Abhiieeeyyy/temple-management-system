@@ -196,6 +196,7 @@
     /* Allow text wrap */
     line-height: 1.2;
     border-radius: 8px;
+    height: 100%; /* Ensure uniform height in grid */
   }
 
   .admin-panel h1 {
@@ -897,6 +898,7 @@ video.gallery-preview::-webkit-media-controls-enclosure {
 
 .message-content {
   margin-bottom: 1.5rem;
+  text-align: left; /* Ensure subject and text inside are left-aligned */
 }
 
 .message-subject {

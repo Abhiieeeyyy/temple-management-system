@@ -29,6 +29,13 @@ router.post('/', async (req, res) => {
 // Get all bookings (for admin) - Now requires authentication
 router.get('/all', authenticateToken, requireAdmin, async (req, res) => {
   try {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    await Booking.updateMany(
+      { date: { $lt: startOfToday }, status: { $nin: ['completed', 'cancelled'] } },
+      { $set: { status: 'completed' } }
+    );
+
     const bookings = await Booking.find()
       .sort({ createdAt: -1 })
       .populate('userId', 'firstName lastName email')
@@ -56,6 +63,13 @@ router.get('/user', async (req, res) => {
       });
     }
     
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    await Booking.updateMany(
+      { userId, date: { $lt: startOfToday }, status: { $nin: ['completed', 'cancelled'] } },
+      { $set: { status: 'completed' } }
+    );
+
     const bookings = await Booking.find({ userId })
       .sort({ createdAt: -1 });
     res.json({
