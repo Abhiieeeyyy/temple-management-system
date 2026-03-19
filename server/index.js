@@ -130,7 +130,7 @@ const ensureAdminUser = async () => {
   try {
     const User = (await import('./models/User.js')).default
     const ADMIN_EMAIL = 'srikainariayyappatemple@gmail.com'
-    const ADMIN_PASSWORD = 'Skat@666'
+    const DEFAULT_ADMIN_PASSWORD = 'Skat@valamkulam53'
     
     // Find admin user
     let admin = await User.findOne({ email: ADMIN_EMAIL })
@@ -142,13 +142,13 @@ const ensureAdminUser = async () => {
         lastName: 'Admin',
         email: ADMIN_EMAIL,
         phone: '9999999999',
-        password: ADMIN_PASSWORD,
+        password: DEFAULT_ADMIN_PASSWORD,
         role: 'admin',
         isActive: true
       })
       console.log('✅ Admin user created successfully')
       console.log(`📧 Email: ${ADMIN_EMAIL}`)
-      console.log(`🔑 Password: ${ADMIN_PASSWORD}`)
+      console.log(`🔑 Password: ${DEFAULT_ADMIN_PASSWORD}`)
     } else {
       let needsUpdate = false
       
@@ -156,14 +156,6 @@ const ensureAdminUser = async () => {
       if (admin.role !== 'admin') {
         console.log('🔧 Updating admin role...')
         admin.role = 'admin'
-        needsUpdate = true
-      }
-      
-      // Verify password is correct
-      const isPasswordCorrect = await admin.comparePassword(ADMIN_PASSWORD)
-      if (!isPasswordCorrect) {
-        console.log('🔧 Updating admin password...')
-        admin.password = ADMIN_PASSWORD
         needsUpdate = true
       }
       
@@ -175,7 +167,6 @@ const ensureAdminUser = async () => {
       }
       
       console.log(`📧 Email: ${ADMIN_EMAIL}`)
-      console.log(`🔑 Password: ${ADMIN_PASSWORD}`)
       console.log(`👤 Role: ${admin.role}`)
     }
   } catch (error) {
