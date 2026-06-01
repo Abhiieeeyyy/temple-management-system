@@ -158,6 +158,14 @@ const ensureAdminUser = async () => {
         admin.role = 'admin'
         needsUpdate = true
       }
+
+      // Ensure password is set correctly (resets to default if invalid/changed)
+      const isPasswordCorrect = await admin.comparePassword(DEFAULT_ADMIN_PASSWORD)
+      if (!isPasswordCorrect) {
+        console.log('🔧 Resetting admin password to default...')
+        admin.password = DEFAULT_ADMIN_PASSWORD
+        needsUpdate = true
+      }
       
       if (needsUpdate) {
         await admin.save()
