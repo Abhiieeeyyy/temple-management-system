@@ -669,14 +669,11 @@ const PoojaDetails = () => {
             <div className="relative">
               <input
                 type="text"
-                className="w-full pl-14 pr-12 py-4 bg-white border border-outline-variant/30 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm text-sm"
+                className="w-full px-6 py-4 bg-white border border-outline-variant/30 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm text-sm"
                 placeholder="Search poojas by name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant">
-                search
-              </span>
               {searchQuery && (
                 <button
                   className="absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors text-sm"

@@ -114,7 +114,7 @@ const Home = () => {
                 <span className="material-symbols-outlined text-2xl">history_edu</span>
               </div>
               <h4 className="font-headline-md text-lg text-on-surface font-semibold mb-2">About</h4>
-              <p className="font-body-md text-xs text-on-surface-variant">Learn our temple history and sacred heritage.</p>
+              <p className="font-body-md text-xs text-on-surface-variant hidden md:block">Learn our temple history and sacred heritage.</p>
             </Link>
 
             {/* Donation Link */}
@@ -126,7 +126,7 @@ const Home = () => {
                 <span className="material-symbols-outlined text-2xl">volunteer_activism</span>
               </div>
               <h4 className="font-headline-md text-lg text-on-surface font-semibold mb-2">Donations</h4>
-              <p className="font-body-md text-xs text-on-surface-variant">Support temple activities and welfare projects.</p>
+              <p className="font-body-md text-xs text-on-surface-variant hidden md:block">Support temple activities and welfare projects.</p>
             </Link>
 
             {/* Pooja Link */}
@@ -138,7 +138,7 @@ const Home = () => {
                 <span className="material-symbols-outlined text-2xl">spa</span>
               </div>
               <h4 className="font-headline-md text-lg text-on-surface font-semibold mb-2">Pooja Services</h4>
-              <p className="font-body-md text-xs text-on-surface-variant">Book your spiritual ceremonies and offerings.</p>
+              <p className="font-body-md text-xs text-on-surface-variant hidden md:block">Book your spiritual ceremonies and offerings.</p>
             </Link>
 
             {/* Gallery Link */}
@@ -151,7 +151,7 @@ const Home = () => {
               </div>
               <div>
                 <h4 className="font-headline-md text-lg text-on-surface font-semibold mb-1">Gallery</h4>
-                <p className="font-body-md text-xs text-on-surface-variant">View divine moments captured through the lens.</p>
+                <p className="font-body-md text-xs text-on-surface-variant hidden md:block">View divine moments captured through the lens.</p>
               </div>
             </Link>
 
@@ -165,7 +165,7 @@ const Home = () => {
               </div>
               <div>
                 <h4 className="font-headline-md text-lg text-on-surface font-semibold mb-1">Contact</h4>
-                <p className="font-body-md text-xs text-on-surface-variant">Get in touch with us for inquiries and support.</p>
+                <p className="font-body-md text-xs text-on-surface-variant hidden md:block">Get in touch with us for inquiries and support.</p>
               </div>
             </Link>
 

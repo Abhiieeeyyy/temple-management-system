@@ -89,7 +89,7 @@ const Contact = () => {
           {/* Social and Action Icons */}
           <div className="space-y-3">
             <p className="text-xs font-semibold text-on-surface uppercase tracking-wider">Connect Channels</p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-row items-center gap-3 flex-nowrap">
               <a
                 href="https://maps.app.goo.gl/BYtDTDDLNSoANf4b7"
                 target="_blank"
