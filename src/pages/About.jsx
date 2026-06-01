@@ -1,30 +1,35 @@
 import React, { useState } from 'react'
-import '../styles/About.css'
-import '../styles/PageAnimations.css'
 
 const About = () => {
-  const [language, setLanguage] = useState('english')
+  const [language, setLanguage] = useState('en')
 
-  const content = {
-    english: {
-      title: "Legacy of Sri Kainari Ayyappan Kavu",
-      subtitle: "A Sacred Journey Through Time and Divine Grace",
+  const textContent = {
+    en: {
+      heroTitle: "Legacy of Sri Kainari Ayyappan Kavu",
+      heroSubtitle: "A SACRED JOURNEY THROUGH TIME AND DIVINE GRACE",
+      navOrigins: "Historical Origins",
+      navDiscovery: "The Divine Discovery",
+      navHeritage: "Architecture & Rituals",
+      navHistory: "Detailed History",
+      originsTitle: "Historical Origins",
+      origins1: "Centuries ago, the renowned Kadampot Kovilakam existed in the Valluvanad region at Valaamkulam Desam. The Kovilakam had a traditional four-block structure (Nalukettu), central courtyard, granary, well, and extensive agricultural land.",
+      origins2: "The men of the Kovilakam were known by the title Unni Vellodi and the women as Kovilamma. Kalam Pattu was performed on the southern floor for Thirumandhamkunnilamma, the family deity of the Kovilakam.",
+      discoveryTitle: "The Divine Discovery",
+      discoverySubtitle: "A PROPHETIC BEGINNING",
+      discovery1: "Legend speaks of a divine manifestation during a routine harvest. An elderly worker's sickle struck a stone that began to bleed, leading the Kovilakam elders to consult the royal astrologers.",
+      discovery2: "The Devaprashnam revealed the presence of Lord Ayyappa, marking the exact spot where the current sanctum sanctorum stands.",
+      heritageTitle: "Architecture & Sanctity",
+      heritageText: "The temple follows the traditional Kerala architectural style, with a circular sanctum (Sreekovil) built in stone. The intricate wood carvings on the ceilings depict various episodes from the Puranas, created by craftsmen whose lineage has served the Kovilakam for generations.",
+      ctaTitle: "Experience the Spiritual Essence",
+      ctaText: "Join us for the daily rituals and feel the divine presence of Lord Ayyappa in our sacred grove.",
       sections: [
-        {
-          title: "Historical Origins",
-          content: "Centuries ago, the renowned Kadampot Kovilakam existed in the Valluvanad region at Valaamkulam Desam. The Kovilakam had a traditional four-block structure (naalukettu), central courtyard, granary, well, and extensive agricultural land. The men of the Kovilakam were known by the title Unni Vellodi and the women as Kovilamma. Kalam Pattu was performed on the southern floor for Thirumandhamkunnilamma, the family deity of the Kovilakam."
-        },
-        {
-          title: "The Divine Discovery",
-          content: "Long ago, one day, when a tribal woman was sharpening her sickle on a stone to cut grass on top of Kainari hill, blood came from the rock and she fainted in fear. Later, she informed the elder Vellodi about what happened. Within days, the administrators of the Kovilakam conducted astrological consultations and divine inquiries. Due to the fragrance of numerous Kainari palm flowers blooming on both sides of the Muthanga stream flowing towards Thuthappuzha at the foot of Kainari hill, it was determined through divine consultation that Lord Ayyappa was present there with his wife Prabha and son Satyakan."
-        },
         {
           title: "Establishment of the Temple",
           content: "As a solution to the divine consultation, it was decided to install Lord Ayyappa with his family in the Kavu concept. Lord Ayyappa was installed with his family in the northwest part of the Kovilakam, and with the addition of a serpent shrine, it came to be known as Kainari Kavu. During this period, it is said that Kavu songs and Thalappoli were performed."
         },
         {
           title: "Times of Transition",
-          content: "After many years, the Kovilakam was divided into three branches and they moved away. Subsequently, worship activities ceased, no renovation work was carried out, and gradually the Kavu deteriorated. It is said that the local people used to offer Pongkala with offerings like ada and payasam, which are Lord Bhootanath's favorite prasadam, on the thirty-first Saturday of Vrischika month, and the belief was that on the Lord would come for Deshapradakshina to meet the local people."
+          content: "After many years, the Kovilakam was divided into three branches and they moved away. Subsequently, worship activities ceased, no renovation work was carried out, and gradually the Kavu deteriorated. It is said that the local people used to offer Pongkala with offerings like ada and payasam, which are Lord Bhootanath's favorite prasadam, on the thirty-first Saturday of Vrischika month, and the belief was that the Lord would come for Deshapradakshina to meet the local people."
         },
         {
           title: "Revival and Renovation",
@@ -35,27 +40,34 @@ const About = () => {
           content: "In 2019, a committee of devotees was formed for the renovation work of Kainari Ayyappan Kavu. With the help and cooperation of devotees, the temples were renovated with copper roofing while maintaining the spiritual energy of the Kavu. In 2022, under the chief priesthood of Sri Nelliyode Mana Vishnu Namboothiri, the renovation Dravya Kalasham was performed, daily rituals were organized, and it was decided to celebrate festivals for spiritual enhancement. Subsequently, a trust was formed under the name 'Sri Kainari Ayyappan Kavu Trust Valaamkulam' for the daily worship, festivals, and continued renovation activities of Kainari Ayyappan Kavu."
         },
         {
-          title: "The Sacred Tradition ",
-          content: "Swamiye Sharanam Ayyappa... As the benevolent deity of Kaliyuga, Lord Dharmasastha resides here with Prabha Devi and Satyakan. This is the holy land where the embodiment of truth, Sri Dharmasastha, reigns supreme. From the radiance of Dharma, truth emerges - this concept fills the temple sanctuary with eternal divine consciousness. Yes, this is the land of Ayyan Ayyappa Swamy, who dwells in the sanctum sanctorum, showering blessings upon those who seek refuge. The Valaamkulam Sri Kainari Ayyappan Kavu, where historical beliefs are worshipped with reverence. This is a holy land where the Lord resides as a benevolent devotee with the divine consciousness symbolizing completeness and prosperity. This is also the land of prosperity where Sastha is enshrined as a householder with his wife Prabha Devi and son Satyakan. In the glory of Dharma, accepting truth as his son, this divine land where Sastha performs his householder duties is a sacred field of rituals and practices. Rarely among rarities, as an extremely special offering, devotees offer Ada Pongala to Ayyappa Swamy here during the festival celebrations. Yes, unlike the Pongala ceremonies held in Sastha temples where worship and rituals have been conducted with divine consciousness since ancient times, the ritual performed here for the Lord is Ada Pongala. When devotees who come with true vows devotionally offer Ada Pongala to Sastha, it becomes extremely special - this is the belief. 'Ada', made by wrapping pure rice flour, jaggery, ghee, and coconut in banana leaves and steaming them, is one of the most beloved offerings to divine beings. For the prosperity of the family, for the welfare of children, for all kinds of progress - participating in Ada Pongala with vows and rituals, offered with understanding, is a blessing earned through good deeds of many lifetimes for any devotee. As the lord of this land, showering blessings upon devotees with his power, the Valaamkulam Sri Kainari Ayyappan Kavu where Lord and Goddess reign - the Aarattu Mahotsavam is a day of celebration. The rare occasion when the Lord leaves the temple to inquire about the welfare of his devotees who fold their hands in prayer and to bless them directly is the Nagara Pradakshinam associated with the festival. The procession of the Lord mounted on an elephant for Nagara Pradakshinam - as it passes through the streets of the land, all evil forces in that land will be driven away and prosperity will fill - this is the belief. Just as subjects receive their king during his royal visit, devotees receiving the Lord with offerings and traditional welcome is the festive sight of this land. The Aarattu at Sri Kainari Ayyappan Kavu is world-famous as the holy bath of the Goddess associated with the festival celebrations. When the Goddess bathes and emerges in the holy waters where divine rivers are invoked and worshipped, the devotees standing in worship are filled with rare divine consciousness. Along with this, the Aarattu here is also celebrated as a ceremony of purifying the entire land by sprinkling holy water. Yes, as the prince of Pandalam and as the supreme deity of the temple, the Grama Pradakshinam and the Goddess's Aarattu are holy ceremonies when the Lord comes forth to see and bless his devotees in person. Come and join, devoted hearts, to witness and worship at least once. May Sri Dharmasastha, who reigns as the family lord and master of all prosperity at Valaamkulam Sri Kainari Ayyappan Kavu with Prabha and Satyaka, shower grace upon you. May the prayers of devoted hearts blossom with the Lord's blessings. Come to this holy land filled with the divine stream of the Dharmasastha concept as family lord. Let us return adorned with prosperity and progress as the Lord's blessings. Prostrations at the holy feet of Sri Dharmasastha who resides with his family at Valaamkulam Sri Kainari Ayyappan Kavu. Crores and crores of prostrations."
+          title: "The Sacred Tradition",
+          content: "Swamiye Sharanam Ayyappa... As the benevolent deity of Kaliyuga, Lord Dharmasastha resides here with Prabha Devi and Satyakan. Devotees offer Ada Pongala to Ayyappa Swamy here during the festival celebrations. Unlike the Pongala ceremonies held in other temples, the ritual performed here for the Lord is Ada Pongala. When devotees who come with true vows devotionally offer Ada Pongala to Sastha, it becomes extremely special. The Aarattu Mahotsavam is a day of celebration when the Lord leaves the temple to inquire about the welfare of his devotees and to bless them directly during the Nagara Pradakshinam."
         },
         {
           title: "The Grand Festival",
-          content: "Swamiye Sharanam Ayyappa. The land is ready, hearts are filled with the blessing of joy. Yes, the Aarattu Mahotsavam, awaited by time, has arrived as a grand festival for the benevolent deity of Kaliyuga, who reigns with infinite divine consciousness along with Prabha and Satyaka at the Thrikkunnapuzha Sri Dharmasastha temple. As the Thrikkunnapuzha land is adorned with festive colors, the golden auspicious days of celebration are November 22, Saturday, and November 23, Sunday, 2025. On the second day of the festival, November 22, Saturday, the rare among rarities - Ada Pongala - will be offered at the Lord's holy presence. Yes, when Ada Pongala is prepared - wrapping five groups of substances representing the five elements in leaves and cooking them in fire to offer to the Lord - this supreme ritual welcomes all good-hearted devotees to participate. Blessing the Lord's holy presence, starting from 7 AM on Saturday, November 22, with the grandeur of Vela Varavu, the thunderous Palakkadan Mela under the leadership of the renowned Sri Kalloor Unnikrishnan Marar and team will perform the majestic Pandi Melam. At 4 PM, the Panchavadyam will be led by the young emperor of Panchavadya art, Sri Kodunthurappulli Manoj and team, who will join Valaamkulam Sri Kainari Ayyappan Kavu. The wonder never ends. In the land of the benevolent deity Sri Dharmasastha, where celebrations bloom, as the Aarattu Mahotsavam is prepared, the young prince will also appear to stand majestically for the Lord's Aarattu. The young emperor who firmly establishes the footsteps as tomorrow's king, toward a bright future's strong times. The one who adorns the beautiful lotus crown to lead the roars of the festival city where Pooram blooms. Come and join, dear ones. He will be the Aarattu pedestal for Sri Dharmasastha who resides as the good family lord at Valaamkulam Sri Kainari Ayyappan Kavu. The young royal lion of the festival city. The young royal gem. Nanthilath Gopalakrishnan. As this land stands ready with endless celebrations, the Aarattu Melam on Sunday morning, November 23, will be doubly exciting. From 6:30 PM, making the Lord's art stage thrilling, the Flowers TV Comedy Utsavam Unni Guinness-led Sahakarikuka Orchestra's devotional song festival will also be wonderful. Yes, in the glory of dedicated rituals, the festival celebration for the Lord, master of all prosperity, is now adorned and ready. Welcome to all devoted hearts to join the grand festival celebrated by this land with one heart at Valaamkulam Sri Kainari Ayyappan Kavu temple. A heartfelt welcome in the Lord's name."
+          content: "Swamiye Sharanam Ayyappa. The land is ready, hearts are filled with the blessing of joy. The Aarattu Mahotsavam is celebrated with grandeur. On the second day of the festival, the rare among rarities - Ada Pongala - is offered at the Lord's holy presence. The majestic Pandi Melam and Panchavadyam are performed under the leadership of renowned masters, welcoming all good-hearted devotees to participate."
         }
       ]
     },
-    malayalam: {
-      title: "ശ്രീ കൈനാറി അയ്യപ്പൻകാവിന്റെ പാരമ്പര്യം",
-      subtitle: "കാലാതിവർത്തിയായ ഒരു പവിത്ര യാത്ര",
+    ml: {
+      heroTitle: "ശ്രീ കൈനാറി അയ്യപ്പൻകാവിന്റെ പാരമ്പര്യം",
+      heroSubtitle: "കാലാതിവർത്തിയായ ഒരു പവിത്ര യാത്ര",
+      navOrigins: "ചരിത്രപരമായ ഉത്ഭവം",
+      navDiscovery: "ദൈവിക കണ്ടെത്തൽ",
+      navHeritage: "വാസ്തുവിദ്യയും ആചാരങ്ങളും",
+      navHistory: "വിശദമായ ചരിത്രം",
+      originsTitle: "ചരിത്രപരമായ ഉത്ഭവം",
+      origins1: "നൂറ്റാണ്ടുകൾക്ക് മുമ്പ്, വള്ളുവനാട് മേഖലയിലെ വാളാകുളം ദേശത്ത് പ്രശസ്തമായ കടമ്പോട്ട് കോവിലകം ഉണ്ടായിരുന്നു. നാലുകെട്ട്, നടുമുറ്റം, പത്തായപ്പുര, കിണർ, വിസ്തൃതമായ കൃഷിഭൂമി എന്നിവയുള്ളതായിരുന്നു ഈ കോവിലകം.",
+      origins2: "കോവിലകത്തെ പുരുഷന്മാർ ഉണ്ണി വെള്ളോടി എന്നും സ്ത്രീകൾ കോവിലമ്മ എന്നും അറിയപ്പെട്ടിരുന്നു. കോവിലകത്തെ കുടുംബപരദേവതയായ തിരുമാന്ധാംകുന്നിലമ്മയ്ക്കായി തെക്കേ തളത്തിൽ കളമെഴുത്തും പാട്ടും നടത്തിവന്നിരുന്നു.",
+      discoveryTitle: "ദൈവിക കണ്ടെത്തൽ",
+      discoverySubtitle: "പ്രവചനപരമായ തുടക്കം",
+      discovery1: "വിളവെടുപ്പിനിടെയുണ്ടായ ദൈവികമായ വെളിപ്പെടുത്തലിനെക്കുറിച്ച് ഐതിഹ്യം പറയുന്നു. ഒരു വൃദ്ധനായ തൊഴിലാളിയുടെ അരിവാൾ ഒരു കല്ലിൽ തട്ടി രക്തം വരാൻ തുടങ്ങുകയും അത് കോവിലകത്തെ കാരണവർ ജ്യോതിഷികളെ സമീപിക്കാൻ കാരണമാവുകയും ചെയ്തു.",
+      discovery2: "ദേവപ്രശ്നത്തിലൂടെ അയ്യപ്പസ്വാമിയുടെ ചൈതന്യം അവിടെ വെളിപ്പെട്ടു, ഇന്ന് കാണുന്ന ശ്രീകോവിൽ അതേ സ്ഥാനത്താണ് നിർമ്മിച്ചിരിക്കുന്നത്.",
+      heritageTitle: "വാസ്തുവിദ്യയും ആചാരങ്ങളും",
+      heritageText: "കേരളീയ വാസ്തുവിദ്യയുടെ പാരമ്പര്യം അനുസരിച്ചാണ് ക്ഷേത്രം നിർമ്മിച്ചിരിക്കുന്നത്. കല്ലിൽ നിർമ്മിച്ച വട്ടശ്രീകോവിലും മേൽക്കൂരയിലെ മനോഹരമായ ദാരുശില്പങ്ങളും പുരാണ കഥകളെ ആസ്പദമാക്കിയുള്ളതാണ്, കോവിലകത്തെ തലമുറകളായി സേവിച്ച ആശാരിമാരാണ് ഇത് നിർമ്മിച്ചത്.",
+      ctaTitle: "ആത്മീയ അനുഭൂതി നേടൂ",
+      ctaText: "ഞങ്ങളുടെ ദൈനംദിന ആചാരങ്ങളിൽ പങ്കുചേരൂ, പവിത്രമായ ഈ കാവിൽ അയ്യപ്പസ്വാമിയുടെ ദൈവിക ചൈതന്യം അനുഭവിക്കൂ.",
       sections: [
-        {
-          title: "ചരിത്രപരമായ ഉത്ഭവം",
-          content: "നൂറ്റാണ്ടുകൾക്ക് മുൻപ് വള്ളുവനാട്ടിൽ വളാംകുളം ദേശത്ത് പ്രസിദ്ധമായ കടമ്പോട്ട് കോവിലകം ഉണ്ടായിരുന്നു. നാലുകെട്ട് നടുമുറ്റം, പടിപ്പുര, മണികിണർ, വിശാലമായ കൃഷിസ്ഥലം എല്ലാം കോവിലകത്തിനുണ്ടായിരുന്നു. കോവിലകത്തെ പുരുഷന്മാർ ഉണ്ണിവെള്ളോടി എന്നും സ്ത്രീകൾ കോവിലമ്മ എന്നും ഉള്ള സ്ഥാനപേരിലാണ് അറിയപ്പെട്ടിരുന്നത്. കോവിലകത്തെ പരദേവതയായ തിരുമാന്ധാംകുന്നിലമ്മക്ക് തെക്കിനി തറയിൽവെച്ച് കളംപാട്ട് നടത്തിയിരുന്നു."
-        },
-        {
-          title: "ദൈവിക കണ്ടെത്തൽ",
-          content: "കാലങ്ങൾക്ക് മുൻപ് ഒരു ദിവസം കൈനാറി മലനിര മുകളിൽ ഒരു ഗോത്രസ്ത്രീ പുല്ല് വെട്ടുവാൻ വേണ്ടി അരിവാൾ കല്ലിൽ അണച്ചപ്പോൾ പാറകല്ലിൽ നിന്നും രക്തം വരികയും പേടിച്ചു ബോധക്ഷയം ഉണ്ടാവുകയും ചെയ്‌തു. പിന്നീട് അവർ നടന്ന കാര്യങ്ങൾ മൂത്ത വെള്ളോടിയെ അറിയിച്ചു. ദിവസങ്ങൾക്കുള്ളിൽ കോവിലകത്തെ കാരണവൻമാർ ജ്യോതിഷ പ്രശ്ന‌വിചാരക്രിയകൾ നടത്തി."
-        },
         {
           title: "കാവ് സ്ഥാപനം",
           content: "പ്രശ്ന‌പരിഹാരമായി കുടുംബസമേതനായ അയ്യപ്പനെ കാവ് സങ്കൽപത്തിൽ കുടിവെക്കണമെന്ന് കാണുകയും ചെയ്‌തു. കോവിലകത്തിന്റെ വടക്ക് പടിഞ്ഞാറ് ഭാഗത്ത് കുടുംബ സമേതനായ അയ്യപ്പനെ കുടിവെക്കുകയും നാഗകാവും ആയതോടെ കൈനാറി കാവായി അറിയപ്പെടാൻ തുടങ്ങി. ഈ കാലയളവിൽ കാവിൽ പാട്ട് താലപ്പൊലി നടന്നിരുന്നതായി പറയ പ്പെടുന്നു."
@@ -73,57 +85,246 @@ const About = () => {
           content: "2019 ൽ കൈനാറി അയ്യപ്പൻകാവ് പുനഃരുദ്ധാരണ പ്രവർത്തികൾക്കായി ഭക്തജനങ്ങളുടെ ഒരു കമ്മറ്റി രൂപീകരിച്ചു. ഭക്തജനങ്ങളുടെ സഹായ സഹകരണങ്ങളോടെ കാവ് ചൈതന്യം നിലനിർത്തികൊണ്ട് ശ്രീകോവിലുകൾ ചെമ്പോല പതിച്ചു നവീകരിച്ചു. തുടർന്ന് കൈനാറി അയ്യപ്പൻകാവിൻ്റെ നിത്യപൂജ, ഉത്സവം, തുടർ നവീകരണ പ്രവർത്തനങ്ങൾ എന്നിവക്കായി 'ശ്രീ കൈനാറി അയ്യപ്പൻകാവ് ട്രസ്റ്റ് വളാംകുളം' എന്ന പേരിൽ ട്രസ്റ്റ് രൂപീകരിച്ചു."
         },
         {
-          title: "പവിത്ര പാരമ്പര്യം ",
-          content: " കലിയുഗവരദനായി... പ്രഭാദേവിയോടും സത്യകനോടും ഒന്നിച്ച്.... സത്യസ്വരൂപനായ ശ്രീധർമ്മശാസ്താവ് വാണരുളുന്ന പുണ്യഭൂമി.... ധർമ്മത്തിന്റെ പ്രഭയിൽ നിന്നും സത്യം ഉത്ഭവിക്കുന്നു എന്ന് ഈ സങ്കൽപ്പത്താൽ സദാനിത്യം നിറചൈതന്യം തുളുമ്പുന്ന ക്ഷേത്ര സങ്കേതം.... അതെ...ഇത് അഭയം തേടുന്നവർക്ക് അനുഗ്രഹം ചൊരിഞ്ഞ് അകതാരിൽ അധിവസിക്കുന്ന അയ്യനയ്യപ്പസ്വാമിയുടെ മണ്ണ്.... ചരിത്ര വിശ്വാസങ്ങൾ നീരാഞ്ജനമുഴിഞ്ഞു വന്ദിക്കും വളാംകുളം ശ്രീ കൈനാറി അയ്യപ്പൻകാവ്. പൂർണ്ണതയുടെയും ഐശ്വര്യത്തിന്റെയും പ്രതീകമായ ദേവീചൈതന്യത്തോടെ ഭഗവാൻ ഭക്തവത്സലനായി കുടികൊള്ളുന്ന പുണ്യഭൂമിയാണ് ഇവിടം.... ഗൃഹസ്ഥാശ്രമിയായ ശാസ്താവിനെ പ്രഭാദേവി എന്ന പത്നിയോടും... സത്യകൻ എന്ന പുത്രനോടും കൂടി പ്രതിഷ്ഠിച്ചിരിക്കുന്ന ഐശ്വര്യ ഭൂമിയും ഇവിടം തന്നെ.... ധർമ്മത്തിന്റെ ശോഭയിൽ.... സത്യത്തെ പുത്രനായി സ്വീകരിച്ച്,... ഗൃഹസ്ഥാശ്രമ ധർമ്മം അനുഷ്ഠിക്കുന്ന ശാസ്താവിന്റെ ഭാവം നിറയുന്ന ഈ ചൈതന്യ ഭൂമി ആചാരങ്ങളുടെയും അനുഷ്ഠാനങ്ങളുടെയും ദിവ്യ കേദാരമാണ്.. അപൂർവങ്ങളിൽ അപൂർവമായി... അതിവശിഷ്ടമായ വഴിപാടായി ഭക്തർ ഇവിടെ അയ്യപ്പ സ്വാമിക്ക് സമർപ്പിക്കുന്നു ഉത്സവ മഹാമഹത്തോടനുബന്ധിച്ച് അട പൊങ്കാല.... അതെ.... പുരാതനകാലം മുതൽക്കേ ദേവിചൈതന്യത്തോടുകൂടി ആരാധനയും പൂജാദികർമ്മങ്ങളും നടക്കുന്ന ശാസ്താ ക്ഷേത്രങ്ങളിൽ നടന്നുവരുന്ന പൊങ്കാലകളിൽ നിന്നും വ്യത്യസ്തമായി.... ഇവിടെ ഭഗവാനായി നടക്കുന്ന കർമ്മം അട പൊങ്കാല.... സത്യമായ വൃതംനോറ്റ് വന്നെത്തുന്ന ഭക്തമാനസങ്ങൾ ഭക്ത്യാധരപൂർവ്വം ശാസ്താവിന് അട പൊങ്കാല സമർപ്പിക്കുമ്പോൾ... അത് അതി വിശിഷ്ടമാകുന്നു  എന്ന് വിശ്വാസം.... ശുദ്ധമായ അരിപ്പൊടിയും...ശർക്കര, നെയ്യ്, തേങ്ങ എന്നിവയും വാഴയിലയിൽ പൊതിഞ്ഞ് ആവിയിൽ വേവിച്ചെടുക്കുന്ന 'അട', ദേവചൈതന്യങ്ങൾക്ക് ഏറ്റവും പ്രിയങ്കരമായ നൈവേദ്യങ്ങളിൽ ഒന്നാണ്.... കുടുംബത്തിന്റെ ഐശ്വര്യത്തിനായി.... കുട്ടികളുടെ ക്ഷേമത്തിനായി... സർവ്വവിധ അഭിവൃദ്ധികൾക്കായി.... മനസ്സറിഞ്ഞ് സമർപ്പിക്കുന്ന നന്ദിസൂചകമായ നിവേദ്യമാകും  അട പൊങ്കാലയിൽ... വ്രതാനുഷ്ഠാനങ്ങളോടെ പങ്കുചേരുവാൻ കഴിയുന്നത് ഏതൊരു ഭക്തമനസ്സിനും ജന്മ ജന്മാന്തര സുകൃതം.... ഈ ദേശത്തിൻറെ അധിപനായി.... ഭക്തരിൽ തൻറെ ശക്തിയാൽ അനുഗ്രഹങ്ങൾ നിറയ്ക്കുന്ന ദേവസരൂപനായി ഭഗവാനും ഭഗവതിയും വാണരുളുന്ന വളാംകുളം ശ്രീ കൈനാറി അയ്യപ്പൻകാവ് ക്ഷേത്രത്തിൽ... ആഘോഷത്തിന്റെ സുദിനമാണ് ആറാട്ട് മഹോത്സവം.... തന്നെ കൈകൂപ്പുന്ന തന്റെ ഭക്തരുടെ ക്ഷേമം അന്വേഷിക്കാനും അവരെ നേരിട്ട് കണ്ട് അനുഗ്രഹിക്കാനുമായി ഭഗവാൻ ക്ഷേത്രത്തിന് പുറത്തേക്ക് എഴുന്നള്ളുന്ന അപൂർവ്വയാമമാണ് ഉത്സവ മഹാമഹ സംബന്ധമായ നഗരപ്രദക്ഷിണം.... നഗരപ്രദക്ഷിണത്തിനായി കൊമ്പനാനപ്പുറമേറി എഴുന്നള്ളി വരുന്ന ഭഗവാന്റെ എഴുന്നള്ളത്ത്.... ദേശവീഥികളിലൂടെ കടന്നുപോകുമ്പോൾ.... ആ ദേശത്തുള്ള എല്ലാ ദുശ്ശക്തികളും അകന്നുപോകുമെന്നും ഐശ്വര്യം നിറയുമെന്നും വിശ്വാസം.... ഒരു രാജാവ് തന്റെ രാജ്യസന്ദർശനം നടത്തുമ്പോൾ പ്രജകൾ എങ്ങനെയാണോ സ്വീകരിക്കുന്നത്, അതുപോലെ ഭക്തർ ഭഗവാനെ നിറപറയും താലപ്പൊലിയുമായി സ്വീകരിക്കുന്നതും ഈ മണ്ണിൻ്റെ ഉത്സവ കാഴ്ച.... ഇവിടുത്തെ ഉത്സവ മഹാ മഹത്തോടനുബന്ധിച്ച് ദേവിയുടെ പുണ്യസ്നാനമായി വിശ്വപ്രസിദ്ധമാണ് ശ്രീ കൈനാറി അയ്യപ്പൻകാവിലെ ആറാട്ട്.... ദേവ നദികളെ ആവാഹിച്ചു പൂജിക്കുന്ന പുണ്യതീർത്ഥത്തിൽ... ദേവി ആറാടി മുങ്ങിനിവരുമ്പോൾ.... തൊഴുതു നിൽക്കുന്ന ഭക്തരിൽ നിറയും അസുലഭമാകുന്ന ചൈതന്യം...അതോടൊപ്പം ആ ദേശത്തെ മുഴുവൻ പുണ്യതീർത്ഥം തളിച്ച് ശുദ്ധീകരിക്കുന്ന ചടങ്ങായും ഇവിടുത്തെ ആറാട്ടിനെ ആഘോഷിച്ചുവരുന്നു.... അതെ.... പന്തളത്തെ രാജകുമാരൻ എന്ന നിലയിലും.... ക്ഷേത്രത്തിലെ പരമോന്നത ദേവൻ എന്ന നിലയിലും, ഭഗവാൻ തന്റെ ഭക്തരെ നേരിൽക്കണ്ട് അനുഗ്രഹിക്കാൻ എഴുന്നള്ളുന്ന പുണ്യമായ ചടങ്ങാകും ഗ്രാമപ്രദക്ഷിണവും ദേവിയുടെ ആറാട്ടും.... ഒരിക്കലെങ്കിലും കണ്ട് കൈവണങ്ങുവാൻ വന്നുചേരുക ഭക്തത മനസ്സുകളെ.... സകുടുംബ നാഥനായി... സകല ഐശ്വര്യങ്ങൾക്കും അധിപതിയായി വാഴുന്ന വളാംകുളം ശ്രീ കൈനാറി അയ്യപ്പൻകാവിൽ പ്രഭാ സത്യക സമേതനായി വാണരുളുന്ന ശ്രീധർമ്മശാസ്താവ് നിങ്ങളിൽ കൃപ ചൊരിയട്ടെ.... ഭഗവാൻറെ അനുഗ്രഹത്താൽ ഭക്തമനസ്സുകളുടെ പ്രാർത്ഥനകൾ പൂവണിയട്ടെ.... കുടുംബനാഥനായ ധർമ്മശാസ്താ സങ്കല്പത്തിൻ്റെ ചൈതന്യധാര നിറയുന്ന ഈ പുണ്യഭൂമിയിൽ വന്നുചേരു.... ഐശ്വര്യവും അഭിവൃദ്ധിയും ഭഗവാൻറെ അനുഗ്രഹമായി ചൂടി മടങ്ങാം.... വളാംകുളം ശ്രീ കൈനാറി അയ്യപ്പൻകാവിൽ കുടുംബ സമേതനായി കുടികൊള്ളും ശ്രീധർമ്മശാസ്താവിന്റെ തൃപ്പാദപത്മങ്ങളിൽ പ്രണാമം.... കോടി കോടി പ്രണാമം...."
+          title: "പവിത്ര പാരമ്പര്യം",
+          content: "കലിയുഗവരദനായി... പ്രഭാദേവിയോടും സത്യകനോടും ഒന്നിച്ച്.... സത്യസ്വരൂപനായ ശ്രീധർമ്മശാസ്താവ് വാണരുളുന്ന പുണ്യഭൂമി. അപൂർവങ്ങളിൽ അപൂർവമായി... അതിവശിഷ്ടമായ വഴിപാടായി ഭക്തർ ഇവിടെ അയ്യപ്പ സ്വാമിക്ക് സമർപ്പിക്കുന്നു ഉത്സവ മഹാമഹത്തോടനുബന്ധിച്ച് അട പൊങ്കാല. ഭക്തർ ഭഗവാനെ നിറപറയും താലപ്പൊലിയുമായി സ്വീകരിക്കുന്നതും ആറാട്ട് എഴുന്നള്ളിപ്പും നഗരപ്രദക്ഷിണവും ഈ മണ്ണിൻ്റെ പ്രത്യേകതയാണ്."
         },
         {
-          title: "മഹോത്സവം ",
-          content: "മനസ്സുകളിൽ ആനന്ദത്തിന്റെ ധന്യത നിറഞ്ഞുകഴിഞ്ഞു.... അതെ... പ്രഭാസത്യക സമേതനായി അനന്തകോടി ചൈതന്യത്തോടെ തൃക്കുന്നപ്പുഴ ശ്രീധർമ്മശാസ്താ ക്ഷേത്രത്തിൽ വാണരുളുന്ന കലിയുഗവരദന് മഹോത്സവമായി.... കാലം കാത്തിരുന്ന ആറാട്ട് മഹോത്സവം വന്നെത്തിച്ചേരുകയായി.... തൃക്കുന്നപ്പുഴ ദേശത്തിന് ഒന്നാകെ ആഘോഷത്തിന്റെ വർണ്ണാഭ സമ്മാനിച്ചുകൊണ്ട്..... 2025 നവംബർ 22 ശനിയാഴ്ചയും നവംബർ 23 ഞായറാഴ്ചയും ആഘോഷത്തിന്റെ പൊന്നിൻ സുദിനങ്ങൾ ഒരുങ്ങുമ്പോൾ ഭഗവാൻറെ തിരുസന്നിധിയിൽ രണ്ടാം ഉത്സവ ദിവസമായ നവംബർ 22 ശനിയാഴ്ച നടക്കും അപൂർവങ്ങളിൽ അപൂർവമായ അട പൊങ്കാല.... അതെ പഞ്ചഭൂതാത്മകമായ അഞ്ചു കൂട്ടം ദ്രവ്യങ്ങൾ ഇലയിൽ പൊതിഞ്ഞ അഗ്നിയിൽ വേവിച്ച് ഭഗവാന് സമർപ്പിക്കുന്ന അതിവിശിഷ്ടമാകും അട പൊങ്കാല ഒരുങ്ങുമ്പോൾ... ഈ മഹത് കർമ്മത്തിൽ പങ്കുചേരുവാൻ എല്ലാ നല്ലവരായ ഭക്ത മനസ്സുകൾക്കും സ്വാഗതം...... ഭഗവാന്റെ തിരുസന്നിധിയെ ധന്യമാക്കിക്കൊണ്ട് നവംബർ 22 ശനിയാഴ്ച രാവിലെ വൈകിട്ട് 7 മണി മുതൽ ഒരുങ്ങുകയാണ് വേല വരവിന് പെരുമ തീർത്ത് കൊണ്ട്.... ചെണ്ടയിൽ ഇടിനാദം തീർത്ത പാലക്കാടൻ മേള പ്രമാണി.... സർവ്വശ്രീ കല്ലൂർ ഉണ്ണികൃഷ്ണൻ മാരാരുടെ പ്രമാണത്തിൽ... ഗംഭീര പാണ്ടിമേളം.... വൈകിട്ട് 4 മണിക്ക് നടക്കുന്ന പഞ്ചവാദ്യം നയിക്കുവാൻ വളാംകുളം ശ്രീ കൈനാറി അയ്യപ്പൻകാവിലേക്ക് വന്നുചേരും പഞ്ചവാദ്യകലയിലെ യുവഛത്രാധിപതി സർവ്വശ്രീ കൊടുന്തുരപ്പുള്ളി മനോജും സംഘവും.... തീരുന്നില്ല വിസ്മയം... ആഘോഷങ്ങൾ പൂത്തുലയുന്ന കലിയുഗവരദനായ ശ്രീധർമ്മശാസ്താവിന്റെ മണ്ണിൽ.... ആറാട്ട് മഹോത്സവം ഒരുങ്ങുമ്പോൾ.... ഭഗവാൻറെ ആറാട്ട് തിടമ്പേറ്റി നിൽക്കുവാൻ അവതരിക്കും ആ യുവരാജാവും.... ശോഭനമായ ഭാവിയുടെ കരുത്തുറ്റ കാലത്തേക്ക്... നാളെയുടെ രാജാവായി നടയ മരങ്ങൾ ഉറപ്പിക്കുന്ന യുവചക്രവർത്തി.... പൂരം വിരിയുന്ന പൂരനഗരിയുടെ ആരവങ്ങൾക്ക് നായകത്വം വഹിക്കുവാൻ അഴകിന്റെ ചെന്താമര ചന്തം ചൂടി അവതാരം കൊണ്ടവൻ.... വന്നുചേരും കൂട്ടരേ... സൽകുടുംബനാഥനായി വളാംകുളം ശ്രീ കൈനാറി അയ്യപ്പൻകാവിൽ കുടികൊള്ളുന്ന ശ്രീധർമ്മശാസ്താവിന് ആറാട്ട് പീഠമാകാൻ അവൻ.... പൂരനഗരിയുടെ യുവരാജ കേസരി.... യുവരാജരത്നം.... നന്തിലത്ത് ഗോപാലകൃഷ്ണൻ.... തീർത്താൽ തീരാത്ത ആഘോഷവുമായി ഈ നാട് ഒരുങ്ങി നിൽക്കുമ്പോൾ നവംബർ 23 ഞായറാഴ്ച രാവിലെ നടക്കുന്ന ആറാട്ട് മേളത്തിന് ആവേശം ഇരട്ടിയാകും.... വൈകിട്ട് 6 30 മുതൽ ഭഗവാന്റെ കലാവേദിയെ ആവേശഭരിതമാക്കി ഫ്ലവേഴ്സ് ടിവി കോമഡി ഉത്സവം ഉണ്ണി ഗിന്നസ് നയിക്കുന്ന സഹകരിക്കുക ഓർക്കസ്ട്രയുടെ ഭക്തിഗാനമേളയും വിസ്മയമാകും.. അതെ... സമർപ്പിതമാകുന്ന ആചാരങ്ങളുടെ പെരുമയിൽ സകല ഐശ്വര്യത്തിനും നാഥനായ ഭഗവാന് ഉത്സവ മഹാമഹം ഇതാ അണിഞ്ഞൊരുങ്ങിക്കഴിഞ്ഞു.... ഈ ദേശം ഒരേ മനസ്സോടെ കൊണ്ടാടുന്ന മഹോത്സവം കൂടുവാൻ... എല്ലാ എല്ലാ ഭക്ത മനസ്സുകൾക്കും  വളാംകുളം ശ്രീ കൈനാറി അയ്യപ്പൻകാവ് ക്ഷേത്രത്തിലേക്ക് സ്വാഗതം... ഭഗവത് നാമത്തിൽ ഹൃദ്യമായ സുസ്വാഗതം...."
+          title: "മഹോത്സവം",
+          content: "പ്രഭാസത്യക സമേതനായി അനന്തകോടി ചൈതന്യത്തോടെ വാണരുളുന്ന കലിയുഗവരദന് മഹോത്സവമായി ആറാട്ട് മഹോത്സവം വന്നെത്തിച്ചേരുകയായി. നവംബർ മാസത്തിൽ ആഘോഷത്തിന്റെ സുദിനങ്ങൾ ഒരുങ്ങുമ്പോൾ ഭഗവാൻറെ തിരുസന്നിധിയിൽ നടക്കും അട പൊങ്കാല. ഗംഭീര പാണ്ടിമേളവും പഞ്ചവാദ്യവും ഭക്തിഗാനമേളയും കൊണ്ട് ദേശം ഉണരും."
         }
       ]
     }
   }
 
+  const currentContent = textContent[language]
+
   return (
-    <div className="about-page">
-      <div className="about-hero">
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <h1 className="page-heading-animated">{content[language].title}</h1>
-          <p className="hero-subtitle page-subtitle-animated">{content[language].subtitle}</p>
+    <div className="bg-background text-on-background font-body-md antialiased min-h-screen">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] min-h-[400px] w-full overflow-hidden">
+        <img
+          alt="Legacy of Sri Kainari Ayyappan Kavu"
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/images/t2.jpg"
+        />
+        <div className="absolute inset-0 hero-overlay flex flex-col items-center justify-center text-center px-6">
+          <div className="max-w-3xl space-y-6">
+            <span className="text-secondary-fixed font-label-md tracking-widest uppercase text-xs md:text-sm font-bold">
+              Sacred Heritage
+            </span>
+            <h2 className="text-white font-display-lg text-3xl md:text-4xl lg:text-5xl leading-tight font-bold">
+              {currentContent.heroTitle}
+            </h2>
+            <p className="text-white/90 font-headline-md text-sm md:text-lg italic tracking-wider">
+              {currentContent.heroSubtitle}
+            </p>
+            <div className="pt-6">
+              <div className="inline-flex bg-surface-container-lowest/10 backdrop-blur-md p-1.5 rounded-full border border-white/20">
+                <button
+                  className={`px-6 py-2 rounded-full font-label-md text-xs md:text-sm transition-all duration-300 ${
+                    language === 'en'
+                      ? 'bg-primary text-white shadow-lg'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                  onClick={() => setLanguage('en')}
+                >
+                  English
+                </button>
+                <button
+                  className={`px-6 py-2 rounded-full font-label-md text-xs md:text-sm transition-all duration-300 ${
+                    language === 'ml'
+                      ? 'bg-primary text-white shadow-lg'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                  onClick={() => setLanguage('ml')}
+                >
+                  മലയാളം
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Content Navigator (Sticky Sub-nav) */}
+      <div className="sticky top-[72px] bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 z-40">
+        <div className="max-w-[1200px] mx-auto px-6 flex justify-center gap-6 md:gap-12 py-4 text-xs md:text-sm font-semibold">
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#origins">
+            {currentContent.navOrigins}
+          </a>
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#discovery">
+            {currentContent.navDiscovery}
+          </a>
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#heritage">
+            {currentContent.navHeritage}
+          </a>
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#detailed-history">
+            {currentContent.navHistory}
+          </a>
         </div>
       </div>
 
-      <div className="language-selector">
-        <button 
-          className={`lang-btn ${language === 'english' ? 'active' : ''}`}
-          onClick={() => setLanguage('english')}
-        >
-          English
-        </button>
-        <button 
-          className={`lang-btn ${language === 'malayalam' ? 'active' : ''}`}
-          onClick={() => setLanguage('malayalam')}
-        >
-          മലയാളം
-        </button>
-      </div>
-
-      <div className="about-container">
-        {content[language].sections.map((section, index) => (
-          <section key={index} className="content-section">
-            <div className="section-header">
-              <h2>{section.title}</h2>
-              <div className="section-line"></div>
+      {/* Historical Origins Section */}
+      <section className="py-20 px-6 max-w-[1200px] mx-auto scroll-mt-32" id="origins">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5 relative">
+            <div className="aspect-[4/5] rounded-lg overflow-hidden parchment-glow border-8 border-white">
+              <img
+                alt="Historical Nalukettu"
+                className="w-full h-full object-cover"
+                src="/images/temple5.jpg"
+              />
             </div>
-            <div className="section-content">
-              <div className="content-card">
-                <p>{section.content}</p>
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-secondary-container rounded-lg -z-10"></div>
+          </div>
+          <div className="lg:col-span-7 space-y-8">
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="h-[2px] w-12 bg-primary"></div>
+                <h3 className="font-headline-lg text-2xl md:text-3xl text-primary font-bold">
+                  {currentContent.originsTitle}
+                </h3>
+              </div>
+              <div className="bg-surface-container-lowest p-8 rounded-lg parchment-glow border border-outline-variant/10 space-y-6">
+                <p className="font-body-lg text-base md:text-lg text-on-surface-variant leading-relaxed">
+                  {currentContent.origins1}
+                </p>
+                <p className="font-body-lg text-base md:text-lg text-on-surface-variant leading-relaxed">
+                  {currentContent.origins2}
+                </p>
               </div>
             </div>
-          </section>
-        ))}
-      </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Divine Discovery Section */}
+      <section className="py-20 bg-surface-container/30 scroll-mt-32" id="discovery">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="text-center mb-16 space-y-4">
+            <h3 className="font-headline-lg text-2xl md:text-3xl text-primary font-bold">
+              {currentContent.discoveryTitle}
+            </h3>
+            <div className="w-24 h-1 bg-secondary-container mx-auto"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Bento Item 1 */}
+            <div className="md:col-span-2 bg-white p-8 md:p-10 rounded-lg parchment-glow border border-outline-variant/10 flex flex-col md:flex-row gap-8 items-center">
+              <div className="flex-1 space-y-4">
+                <div className="flex items-center gap-2 text-primary font-semibold text-sm">
+                  <span className="material-symbols-outlined">auto_stories</span>
+                  <span>{currentContent.discoverySubtitle}</span>
+                </div>
+                <h4 className="font-headline-md text-xl md:text-2xl font-bold text-on-surface">A Prophetic Beginning</h4>
+                <p className="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed">
+                  {currentContent.discovery1}
+                </p>
+              </div>
+              <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-surface-container flex-shrink-0">
+                <img
+                  className="w-full h-full object-cover"
+                  alt="Ritual Sila"
+                  src="/images/temple3.jpg"
+                />
+              </div>
+            </div>
+            
+            {/* Bento Item 2 */}
+            <div className="bg-primary text-on-primary p-8 md:p-10 rounded-lg shadow-xl flex flex-col justify-between">
+              <div className="space-y-4">
+                <span className="material-symbols-outlined text-secondary-fixed text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  stars
+                </span>
+                <h4 className="font-headline-md text-xl font-bold">Divine Presence</h4>
+                <p className="font-body-md text-sm md:text-base text-on-primary-container leading-relaxed">
+                  {currentContent.discovery2}
+                </p>
+              </div>
+              <div className="mt-8 border-t border-white/20 pt-6">
+                <a className="text-secondary-container font-label-md flex items-center gap-2 group text-sm font-semibold" href="#detailed-history">
+                  Read Full Legend
+                  <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Architecture & Sanctity Section */}
+      <section className="py-20 px-6 max-w-[1200px] mx-auto scroll-mt-32" id="heritage">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8 order-2 lg:order-1">
+            <div className="space-y-4">
+              <h3 className="font-headline-lg text-2xl md:text-3xl text-primary font-bold">
+                {currentContent.heritageTitle}
+              </h3>
+              <p className="font-body-lg text-base md:text-lg text-on-surface-variant leading-relaxed">
+                {currentContent.heritageText}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="bg-surface-container-low p-6 rounded-lg border-l-4 border-primary">
+                <span className="font-headline-md text-2xl font-bold text-primary block">1000+</span>
+                <span className="font-label-md text-xs md:text-sm text-on-surface-variant">Devotees Daily</span>
+              </div>
+              <div className="bg-surface-container-low p-6 rounded-lg border-l-4 border-secondary">
+                <span className="font-headline-md text-2xl font-bold text-secondary block">Tradition</span>
+                <span className="font-label-md text-xs md:text-sm text-on-surface-variant">Pristine Rituals</span>
+              </div>
+            </div>
+          </div>
+          <div className="relative order-1 lg:order-2">
+            <img
+              className="w-full h-[400px] object-cover rounded-lg parchment-glow"
+              alt="Temple Courtyard"
+              src="/images/temple-bg.jpg"
+            />
+            <div className="absolute inset-0 border-[24px] border-white/20 pointer-events-none rounded-lg"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Detailed Timeline History Sections */}
+      <section className="py-20 bg-surface-container-low px-6 scroll-mt-32" id="detailed-history">
+        <div className="max-w-[1000px] mx-auto space-y-12">
+          <div className="text-center mb-16">
+            <h2 className="font-display-lg text-2xl md:text-3xl text-primary font-bold">
+              {currentContent.navHistory}
+            </h2>
+            <div className="w-16 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
+          </div>
+          
+          <div className="space-y-8">
+            {currentContent.sections.map((section, idx) => (
+              <div 
+                key={idx}
+                className="bg-white p-6 md:p-8 rounded-xl border border-outline-variant/20 shadow-md card-hover-effect relative"
+              >
+                <h4 className="font-headline-md text-lg md:text-xl text-primary font-semibold mb-4 pt-2">
+                  {section.title}
+                </h4>
+                <p className="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed">
+                  {section.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call To Action Banner */}
+      <section className="mb-24 px-6">
+        <div className="max-w-[1200px] mx-auto bg-surface-container-highest rounded-xl p-8 md:p-12 text-center space-y-6">
+          <h3 className="font-headline-lg text-2xl md:text-3xl text-on-surface font-bold">
+            {currentContent.ctaTitle}
+          </h3>
+          <p className="font-body-lg text-sm md:text-base text-on-surface-variant max-w-2xl mx-auto">
+            {currentContent.ctaText}
+          </p>
+        </div>
+      </section>
     </div>
   )
 }

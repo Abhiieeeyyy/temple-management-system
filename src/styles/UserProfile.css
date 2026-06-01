@@ -15,14 +15,14 @@
 }
 
 .profile-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .profile-avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #810002 0%, #a61911 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,27 +32,27 @@
 }
 
 .profile-name {
-  color: white;
-  font-weight: 500;
+  color: #1c1c18;
+  font-weight: 600;
   font-size: 14px;
 }
 
 @media (max-width: 768px) {
   .profile-name {
-    display: none;
-    /* Hide name on mobile to save space */
+    display: inline-block;
+    color: #1c1c18;
   }
 
   .profile-button {
-    padding: 4px;
-    /* Reduce padding on mobile */
+    padding: 6px 8px;
   }
 }
 
 .profile-dropdown {
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 0;
+  right: auto;
   margin-top: 8px;
   background: white;
   border-radius: 8px;
@@ -62,9 +62,16 @@
   overflow: hidden;
 }
 
+@media (min-width: 769px) {
+  .profile-dropdown {
+    left: auto;
+    right: 0;
+  }
+}
+
 .dropdown-header {
   padding: 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #810002 0%, #a61911 100%);
   color: white;
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { 
   initializeRazorpay, 
@@ -7,13 +7,12 @@ import {
   verifyPayment, 
   RAZORPAY_CONFIG
 } from '../utils/razorpay'
-import '../styles/DonationForm.css'
 
-const DonationForm = () => {
+const DonationForm = ({ initialAmount = '' }) => {
   const { user } = useAuth()
   const [formData, setFormData] = useState({
     name: user?.firstName ? `${user.firstName} ${user.lastName}` : '',
-    amount: '',
+    amount: initialAmount,
     phoneNumber: user?.phone || '',
     purpose: 'general',
     message: ''
@@ -21,6 +20,13 @@ const DonationForm = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+
+  // Sync initialAmount if passed from parent
+  useEffect(() => {
+    if (initialAmount) {
+      setFormData(prev => ({ ...prev, amount: initialAmount }))
+    }
+  }, [initialAmount])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -147,18 +153,31 @@ const DonationForm = () => {
   }
 
   return (
-    <div className="donation-form-container">
-      <h2>Make a Donation</h2>
-      <p className="donation-intro">
-        Your generous contribution helps us maintain our temple and continue providing spiritual services to the community.
-      </p>
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="font-display-lg text-2xl font-bold text-primary">Make a Donation</h2>
+        <p className="text-sm text-on-surface-variant mt-2 leading-relaxed">
+          Your generous contribution helps us maintain our temple and continue providing spiritual services to the community.
+        </p>
+      </div>
 
-      {error && <div className="error-message">{error}</div>}
-      {success && <div className="success-message">{success}</div>}
+      {error && (
+        <div className="p-4 bg-error-container text-on-error-container rounded-lg text-sm border border-error/20">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="p-4 bg-surface-container text-primary font-medium rounded-lg text-sm border border-primary/20">
+          {success}
+        </div>
+      )}
 
-      <form onSubmit={handleSubmit} className="donation-form">
-        <div className="form-group">
-          <label htmlFor="name">Full Name *</label>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Name */}
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="name" className="text-sm font-semibold text-on-surface">
+            Full Name *
+          </label>
           <input
             type="text"
             id="name"
@@ -168,11 +187,15 @@ const DonationForm = () => {
             required
             disabled={loading}
             placeholder="Enter your full name"
+            className="w-full px-5 py-3 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-sm"
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="amount">Donation Amount (₹) *</label>
+        {/* Amount */}
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="amount" className="text-sm font-semibold text-on-surface">
+            Donation Amount (₹) *
+          </label>
           <input
             type="number"
             id="amount"
@@ -183,11 +206,15 @@ const DonationForm = () => {
             min="1"
             disabled={loading}
             placeholder="Enter amount"
+            className="w-full px-5 py-3 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-sm"
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="phoneNumber">Phone Number *</label>
+        {/* Phone Number */}
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="phoneNumber" className="text-sm font-semibold text-on-surface">
+            Phone Number *
+          </label>
           <input
             type="tel"
             id="phoneNumber"
@@ -196,32 +223,45 @@ const DonationForm = () => {
             onChange={handleChange}
             required
             disabled={loading}
-            placeholder="Enter your phone number"
+            placeholder="Enter your 10-digit phone number"
             pattern="[0-9]{10}"
             title="Please enter a valid 10-digit phone number"
+            className="w-full px-5 py-3 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-sm"
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="purpose">Purpose of Donation *</label>
-          <select
-            id="purpose"
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            required
-            disabled={loading}
-          >
-            <option value="general">General Donation</option>
-            <option value="construction">Construction</option>
-            <option value="maintenance">Maintenance</option>
-            <option value="festival">Festival</option>
-            <option value="other">Other</option>
-          </select>
+        {/* Purpose */}
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="purpose" className="text-sm font-semibold text-on-surface">
+            Purpose of Donation *
+          </label>
+          <div className="relative">
+            <select
+              id="purpose"
+              name="purpose"
+              value={formData.purpose}
+              onChange={handleChange}
+              required
+              disabled={loading}
+              className="w-full px-5 py-3 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-sm appearance-none"
+            >
+              <option value="general">General Donation</option>
+              <option value="construction">Construction</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="festival">Festival</option>
+              <option value="other">Other</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-on-surface-variant">
+              <span className="material-symbols-outlined text-sm">arrow_drop_down</span>
+            </div>
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="message">Message (Optional)</label>
+        {/* Message */}
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="message" className="text-sm font-semibold text-on-surface">
+            Message (Optional)
+          </label>
           <textarea
             id="message"
             name="message"
@@ -230,10 +270,11 @@ const DonationForm = () => {
             disabled={loading}
             placeholder="Add a message with your donation"
             rows="3"
+            className="w-full px-5 py-3 rounded-xl border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-sm resize-none"
           />
         </div>
 
-        <div className="donation-note">
+        <div className="p-4 bg-surface-container-low rounded-lg border border-outline-variant/20 text-xs text-on-surface-variant leading-relaxed">
           <p>
             <strong>Secure Payment:</strong> Your donation will be processed securely through Razorpay. 
             We accept all major cards, UPI, and net banking. You will receive an immediate confirmation upon successful payment.
@@ -242,7 +283,7 @@ const DonationForm = () => {
 
         <button 
           type="submit" 
-          className="donate-button"
+          className="w-full py-3.5 bg-primary text-white rounded-full font-bold hover:bg-tertiary transition-all duration-200 shadow-md text-sm uppercase tracking-wider"
           disabled={loading}
         >
           {loading ? 'Processing...' : 'Donate Now'}
@@ -252,4 +293,4 @@ const DonationForm = () => {
   )
 }
 
-export default DonationForm 
+export default DonationForm

@@ -131,12 +131,13 @@ router.get('/:id', async (req, res) => {
 router.post('/', authenticateToken, requireAdmin, async (req, res) => {
   const pooja = new Pooja({
     name: req.body.name,
+    malayalamName: req.body.malayalamName,
     type: req.body.type,
     duration: req.body.duration,
     price: req.body.price,
     description: req.body.description,
     schedule: req.body.schedule,
-    category: req.body.category,
+    category: req.body.category || 'Custom',
     imageUrl: req.body.imageUrl,
     requirements: req.body.requirements,
     benefits: req.body.benefits,

@@ -175,6 +175,75 @@ const ensureAdminUser = async () => {
   }
 }
 
+// Ensure default poojas exist in database
+const ensureDefaultPoojas = async () => {
+  try {
+    const Pooja = (await import('./models/Pooja.js')).default
+    
+    // Always clean up default additional poojas from previous seeding attempts if category is Custom
+    const deleteResult = await Pooja.deleteMany({
+      name: { $in: ['Archana', 'Vidyarambham', 'Choroonu', 'Muttarukkal'] },
+      category: 'Custom'
+    })
+    if (deleteResult.deletedCount > 0) {
+      console.log(`🧹 Cleaned up ${deleteResult.deletedCount} default additional poojas from database.`)
+    }
+
+    const count = await Pooja.countDocuments()
+    if (count === 0) {
+      console.log('🌸 Pooja collection is empty. Seeding default poojas...')
+      const defaultPoojas = [
+        {
+          name: 'Ganapathi Homam',
+          malayalamName: 'ഗണപതി ഹോമം',
+          price: 300,
+          duration: '45 minutes',
+          description: "Performed to invoke the blessings of Lord Ganesha to remove obstacles from one's life. Ideal to be performed before starting any new venture.",
+          imageUrl: '/images/ganapathi.png',
+          category: 'Special',
+          benefits: ['Removes obstacles', 'Brings prosperity', 'Ensures success in new ventures']
+        },
+        {
+          name: 'Daily Pooja',
+          malayalamName: 'ദൈനിക പൂജ',
+          price: 250,
+          duration: 'Daily',
+          description: 'Regular daily worship and offerings made to the deity.',
+          imageUrl: '/images/daily-pooja.jpg',
+          category: 'Daily',
+          benefits: ['Spiritual upliftment', 'Peace of mind', 'Devine protection']
+        },
+        {
+          name: 'Naga Pooja',
+          malayalamName: 'നാഗ പൂജ',
+          price: 500,
+          duration: '1 Hour',
+          description: 'Special pooja dedicated to the Nagas (Serpent Gods) for seeking their blessings and protection.',
+          imageUrl: '/images/nagapooja.jpg',
+          category: 'Special',
+          benefits: ['Protection from snake bites', 'Removes negative doshas', 'Blessings for progeny']
+        },
+        {
+          name: 'Chuttu Vilakku',
+          malayalamName: 'ചുറ്റുവിളക്ക്',
+          price: 1500,
+          duration: 'Evening',
+          description: 'Lighting the lamps all around the temple structure in the evening. A spectacular offering.',
+          imageUrl: '/images/vilakku.jpg',
+          category: 'Special',
+          benefits: ['Brings brightness in life', 'Disspels ignorance', 'Increases spiritual aura']
+        }
+      ]
+      await Pooja.insertMany(defaultPoojas)
+      console.log('✅ Default poojas seeded successfully')
+    } else {
+      console.log('✅ Pooja collection verified (already contains data)')
+    }
+  } catch (error) {
+    console.error('❌ Error seeding default poojas:', error.message)
+  }
+}
+
 // Initialize poojas
 const initializePoojas = async () => {
   try {
@@ -200,6 +269,9 @@ mongoose.connect(process.env.MONGODB_URI, {
     
     // Ensure admin user exists
     await ensureAdminUser()
+
+    // Ensure default poojas exist
+    await ensureDefaultPoojas()
     
     // Load payment routes dynamically after env vars are confirmed loaded
     try {
