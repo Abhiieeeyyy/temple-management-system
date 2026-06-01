@@ -205,14 +205,14 @@ const Gallery = () => {
   const getSizeClass = (size) => {
     switch (size) {
       case 'wide':
-        return 'md:col-span-2 md:row-span-1 h-[250px]'
+        return 'md:col-span-2 md:row-span-1 h-[250px] md:h-[250px]'
       case 'tall':
-        return 'md:col-span-1 md:row-span-2 h-[524px]'
+        return 'md:col-span-1 md:row-span-2 h-[250px] md:h-[524px]'
       case 'large':
-        return 'md:col-span-2 md:row-span-2 h-[524px]'
+        return 'md:col-span-2 md:row-span-2 h-[250px] md:h-[524px]'
       case 'normal':
       default:
-        return 'md:col-span-1 md:row-span-1 h-[250px]'
+        return 'md:col-span-1 md:row-span-1 h-[250px] md:h-[250px]'
     }
   }
 

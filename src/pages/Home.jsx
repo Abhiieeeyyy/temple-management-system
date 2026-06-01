@@ -103,12 +103,12 @@ const Home = () => {
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-4 rounded-full"></div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-6">
             
             {/* About Link */}
             <Link 
               to={ROUTES.ABOUT} 
-              className="md:col-span-2 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col items-center justify-center text-center"
+              className="col-span-1 md:col-span-2 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col items-center justify-center text-center"
             >
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-200">
                 <span className="material-symbols-outlined text-2xl">history_edu</span>
@@ -120,7 +120,7 @@ const Home = () => {
             {/* Donation Link */}
             <Link 
               to={ROUTES.DONATION} 
-              className="md:col-span-2 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col items-center justify-center text-center"
+              className="col-span-1 md:col-span-2 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col items-center justify-center text-center"
             >
               <div className="w-14 h-14 bg-secondary-container/30 rounded-xl flex items-center justify-center mb-6 group-hover:bg-secondary group-hover:text-white transition-colors duration-200">
                 <span className="material-symbols-outlined text-2xl">volunteer_activism</span>
@@ -132,7 +132,7 @@ const Home = () => {
             {/* Pooja Link */}
             <Link 
               to={ROUTES.POOJA_DETAILS} 
-              className="md:col-span-2 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col items-center justify-center text-center"
+              className="col-span-1 md:col-span-2 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col items-center justify-center text-center"
             >
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-200">
                 <span className="material-symbols-outlined text-2xl">spa</span>
@@ -144,7 +144,7 @@ const Home = () => {
             {/* Gallery Link */}
             <Link 
               to={ROUTES.GALLERY} 
-              className="md:col-span-3 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex items-center gap-6 text-left"
+              className="col-span-1 md:col-span-3 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col md:flex-row items-center gap-6 text-center md:text-left"
             >
               <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-200">
                 <span className="material-symbols-outlined text-2xl">photo_library</span>
@@ -158,7 +158,7 @@ const Home = () => {
             {/* Contact Link */}
             <Link 
               to={ROUTES.CONTACT} 
-              className="md:col-span-3 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex items-center gap-6 text-left"
+              className="col-span-2 md:col-span-3 group bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/20 card-hover-effect flex flex-col md:flex-row items-center gap-6 text-center md:text-left"
             >
               <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center shrink-0 group-hover:bg-secondary group-hover:text-white transition-colors duration-200">
                 <span className="material-symbols-outlined text-2xl">contact_support</span>
