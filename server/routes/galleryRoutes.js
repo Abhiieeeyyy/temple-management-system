@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { v2 as cloudinary } from 'cloudinary';
 import Gallery from '../models/Gallery.js';
 
 const router = express.Router();
@@ -15,7 +16,23 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Configure multer for file upload
+// Configure Cloudinary if credentials are provided in environment
+const isCloudinaryConfigured = process.env.CLOUDINARY_CLOUD_NAME && 
+                              process.env.CLOUDINARY_API_KEY && 
+                              process.env.CLOUDINARY_API_SECRET;
+
+if (isCloudinaryConfigured) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
+  console.log('☁️  Cloudinary integration configured for media uploads.');
+} else {
+  console.warn('⚠️  Cloudinary environment variables missing. Falling back to local ephemeral storage.');
+}
+
+// Configure multer for file upload (saves temporarily on disk first)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
@@ -31,8 +48,7 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     console.log('File upload attempt:', {
       originalname: file.originalname,
-      mimetype: file.mimetype,
-      size: file.size
+      mimetype: file.mimetype
     })
 
     const allowedTypes = /jpeg|jpg|png|gif|webp|mp4|mov|avi|wmv|webm|mkv/;
@@ -55,15 +71,35 @@ const upload = multer({
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const { title, description, category, size } = req.body;
-    const mediaUrl = `/uploads/gallery/${req.file.filename}`;
+    let mediaUrl = `/uploads/gallery/${req.file.filename}`;
     const mediaType = req.file.mimetype.startsWith('image') ? 'image' : 'video';
 
-    console.log('Media upload:', {
+    // If Cloudinary is configured, upload the temporary file to Cloudinary
+    if (isCloudinaryConfigured) {
+      try {
+        console.log('☁️ Uploading file to Cloudinary...');
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: 'temple-gallery',
+          resource_type: 'auto'
+        });
+        mediaUrl = result.secure_url;
+        
+        // Clean up temporary local file
+        fs.unlinkSync(req.file.path);
+        console.log('✅ Uploaded to Cloudinary successfully. URL:', mediaUrl);
+      } catch (uploadError) {
+        console.error('❌ Cloudinary upload failed, falling back to local file storage:', uploadError.message);
+        // Fallback is active, local file remains in server/public/uploads/gallery
+      }
+    }
+
+    console.log('Media upload item database record creation:', {
       filename: req.file.filename,
       mimetype: req.file.mimetype,
       mediaType: mediaType,
       title: title,
-      size: size || 'normal'
+      size: size || 'normal',
+      mediaUrl: mediaUrl
     })
 
     const galleryItem = new Gallery({
@@ -97,13 +133,32 @@ router.post('/upload', upload.array('files'), async (req, res) => {
     })
 
     for (const file of req.files) {
-      const mediaUrl = `/uploads/gallery/${file.filename}`;
+      let mediaUrl = `/uploads/gallery/${file.filename}`;
       const mediaType = file.mimetype.startsWith('image') ? 'image' : 'video';
 
-      console.log('Processing file:', {
+      // If Cloudinary is configured, upload the temporary file to Cloudinary
+      if (isCloudinaryConfigured) {
+        try {
+          console.log(`☁️ Uploading ${file.filename} to Cloudinary...`);
+          const result = await cloudinary.uploader.upload(file.path, {
+            folder: 'temple-gallery',
+            resource_type: 'auto'
+          });
+          mediaUrl = result.secure_url;
+          
+          // Clean up temporary local file
+          fs.unlinkSync(file.path);
+          console.log('✅ Uploaded to Cloudinary successfully. URL:', mediaUrl);
+        } catch (uploadError) {
+          console.error(`❌ Cloudinary upload failed for ${file.filename}, falling back to local storage:`, uploadError.message);
+        }
+      }
+
+      console.log('Processing file db record:', {
         filename: file.filename,
         mimetype: file.mimetype,
-        mediaType: mediaType
+        mediaType: mediaType,
+        mediaUrl: mediaUrl
       })
 
       const galleryItem = new Gallery({
@@ -144,7 +199,42 @@ router.delete('/:id', async (req, res) => {
     if (!galleryItem) {
       return res.status(404).json({ success: false, message: 'Gallery item not found' });
     }
-    // TODO: Also delete the file from the filesystem
+
+    // Attempt to delete physical file from storage
+    if (galleryItem.mediaUrl) {
+      if (galleryItem.mediaUrl.startsWith('http://') || galleryItem.mediaUrl.startsWith('https://')) {
+        // Cloudinary URL: Delete from Cloudinary
+        if (isCloudinaryConfigured) {
+          try {
+            const parts = galleryItem.mediaUrl.split('/');
+            const uploadIndex = parts.indexOf('upload');
+            if (uploadIndex !== -1) {
+              const remainingParts = parts.slice(uploadIndex + 1);
+              // Check if the next segment is a version parameter (e.g., v12345678)
+              if (remainingParts.length > 1 && /^v\d+$/.test(remainingParts[0])) {
+                remainingParts.shift();
+              }
+              const folderAndFile = remainingParts.join('/');
+              const publicId = folderAndFile.substring(0, folderAndFile.lastIndexOf('.'));
+              
+              console.log('☁️ Deleting resource from Cloudinary:', publicId);
+              await cloudinary.uploader.destroy(publicId, { resource_type: galleryItem.mediaType });
+              console.log('✅ Deleted from Cloudinary successfully.');
+            }
+          } catch (deleteError) {
+            console.error('❌ Failed to delete from Cloudinary:', deleteError.message);
+          }
+        }
+      } else {
+        // Local path: Delete local file
+        const localPath = path.join(__dirname, '../public', galleryItem.mediaUrl);
+        if (fs.existsSync(localPath)) {
+          fs.unlinkSync(localPath);
+          console.log('✅ Deleted local file:', localPath);
+        }
+      }
+    }
+
     await galleryItem.deleteOne();
     res.json({ success: true, message: 'Gallery item deleted successfully' });
   } catch (error) {
@@ -152,4 +242,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-export default router; 
+export default router;

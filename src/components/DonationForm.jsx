@@ -7,10 +7,14 @@ import {
   verifyPayment, 
   RAZORPAY_CONFIG
 } from '../utils/razorpay'
+import { generateReceiptPDF } from '../utils/receiptGenerator'
+
 
 const DonationForm = ({ initialAmount = '' }) => {
   const { user } = useAuth()
+  const [receiptData, setReceiptData] = useState(null)
   const [formData, setFormData] = useState({
+
     name: user?.firstName ? `${user.firstName} ${user.lastName}` : '',
     amount: initialAmount,
     phoneNumber: user?.phone || '',
@@ -125,6 +129,17 @@ const DonationForm = ({ initialAmount = '' }) => {
         if (saveData.success) {
           setSuccess(`Thank you for your generous donation of ₹${formData.amount}! Your donation has been recorded. Payment ID: ${paymentResponse.razorpay_payment_id}`)
           
+          const donationDetails = {
+            name: formData.name,
+            amount: parseFloat(formData.amount),
+            phoneNumber: formData.phoneNumber,
+            purpose: formData.purpose,
+            message: formData.message,
+            paymentId: paymentResponse.razorpay_payment_id
+          }
+          setReceiptData({ type: 'donation', details: donationDetails })
+          generateReceiptPDF('donation', donationDetails)
+
           // Reset form
           setFormData({
             name: user?.firstName ? `${user.firstName} ${user.lastName}` : '',
@@ -167,8 +182,18 @@ const DonationForm = ({ initialAmount = '' }) => {
         </div>
       )}
       {success && (
-        <div className="p-4 bg-surface-container text-primary font-medium rounded-lg text-sm border border-primary/20">
-          {success}
+        <div className="p-4 bg-surface-container text-primary font-medium rounded-lg text-sm border border-primary/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>{success}</div>
+          {receiptData && (
+            <button
+              type="button"
+              onClick={() => generateReceiptPDF(receiptData.type, receiptData.details)}
+              className="px-4 py-2 bg-primary text-white rounded-full font-bold text-xs hover:bg-tertiary transition-colors flex items-center gap-1.5 self-start sm:self-auto flex-shrink-0"
+            >
+              <span className="material-symbols-outlined text-sm">download</span>
+              Download Receipt
+            </button>
+          )}
         </div>
       )}
 

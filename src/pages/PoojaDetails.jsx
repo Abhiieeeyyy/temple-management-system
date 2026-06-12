@@ -10,6 +10,8 @@ import {
   RAZORPAY_CONFIG
 } from '../utils/razorpay'
 import { mainPoojas as staticMainPoojas, additionalPoojas } from '../data/poojas'
+import { generateReceiptPDF } from '../utils/receiptGenerator'
+
 
 const PoojaDetails = () => {
   const { isAuthenticated, user } = useAuth()
@@ -24,6 +26,8 @@ const PoojaDetails = () => {
   const [people, setPeople] = useState([])
   const [selectedPeople, setSelectedPeople] = useState([])
   const [bookingFor, setBookingFor] = useState('myself') // 'myself' or 'others'
+  const [receiptData, setReceiptData] = useState(null)
+
 
   // Cart system for additional poojas
   const [cart, setCart] = useState([])
@@ -145,7 +149,9 @@ const PoojaDetails = () => {
     setSelectedPooja(pooja)
     setSelectedMultiplePoojas([])
     setShowBookingForm(true)
+    setReceiptData(null)
     setFormData({
+
       name: '',
       birthStar: '',
       mobileNumber: '',
@@ -176,7 +182,9 @@ const PoojaDetails = () => {
     }
     // Open add to cart form
     setShowAddToCartForm(true)
+    setReceiptData(null)
     setCartFormData({
+
       name: '',
       birthStar: '',
       date: '',
@@ -338,6 +346,24 @@ const PoojaDetails = () => {
       const totalAmount = cart.reduce((sum, item) => sum + item.totalPrice, 0)
 
       setSuccess(`🎉 Payment Successful! ${totalBookings} booking(s) created. Total: ₹${totalAmount}. Payment ID: ${paymentResponse.razorpay_payment_id}`)
+      
+      const receiptDetails = {
+        name: cart[0]?.name || 'Devotee',
+        paymentId: paymentResponse.razorpay_payment_id,
+        totalPrice: totalAmount,
+        cartItems: cart.flatMap(item => 
+          item.poojas.map(pooja => ({
+            poojaName: pooja.name,
+            name: item.name,
+            birthStar: item.birthStar,
+            date: item.date,
+            price: pooja.price
+          }))
+        )
+      }
+      setReceiptData({ type: 'booking', details: receiptDetails })
+      generateReceiptPDF('booking', receiptDetails)
+
       setCart([])
       setShowCart(false)
       setLoading(false)
@@ -348,6 +374,7 @@ const PoojaDetails = () => {
       setLoading(false)
     }
   }
+
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -486,6 +513,29 @@ const PoojaDetails = () => {
       const totalPrice = poojas.reduce((sum, pooja) => sum + pooja.price, 0)
       setSuccess(`🎉 Payment Successful! Your ${poojas.length} pooja(s) have been booked. Total: ₹${totalPrice}. Payment ID: ${paymentResponse.razorpay_payment_id}`)
 
+      const receiptDetails = {
+        name: formData.name,
+        birthStar: formData.birthStar,
+        mobileNumber: formData.mobileNumber,
+        paymentId: paymentResponse.razorpay_payment_id,
+        totalPrice,
+        ...(poojas.length === 1 ? {
+          poojaName: poojas[0].name,
+          date: formData.date,
+          price: poojas[0].price
+        } : {
+          cartItems: poojas.map(pooja => ({
+            poojaName: pooja.name,
+            name: formData.name,
+            birthStar: formData.birthStar,
+            date: formData.date,
+            price: pooja.price
+          }))
+        })
+      }
+      setReceiptData({ type: 'booking', details: receiptDetails })
+      generateReceiptPDF('booking', receiptDetails)
+
       // Reset form
       setShowBookingForm(false)
       setSelectedPooja(null)
@@ -526,8 +576,17 @@ const PoojaDetails = () => {
           </div>
         )}
         {success && (
-          <div className="p-4 bg-surface-container text-primary font-medium rounded-lg text-sm border border-primary/20 mb-4">
-            {success}
+          <div className="p-4 bg-surface-container text-primary font-medium rounded-lg text-sm border border-primary/20 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>{success}</div>
+            {receiptData && (
+              <button
+                onClick={() => generateReceiptPDF(receiptData.type, receiptData.details)}
+                className="px-4 py-2 bg-primary text-white rounded-full font-bold text-xs hover:bg-tertiary transition-colors flex items-center gap-1.5 self-start sm:self-auto flex-shrink-0"
+              >
+                <span className="material-symbols-outlined text-sm">download</span>
+                Download Receipt
+              </button>
+            )}
           </div>
         )}
       </div>

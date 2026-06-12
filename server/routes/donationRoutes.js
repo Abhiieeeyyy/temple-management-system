@@ -1,6 +1,8 @@
 import express from 'express'
 import Donation from '../models/Donation.js'
 import { authenticateToken, requireAdmin } from '../middleware/auth.js'
+import { sendDonationNotification } from '../utils/emailService.js'
+
 
 const router = express.Router()
 
@@ -58,7 +60,11 @@ router.post('/', async (req, res) => {
 
     await donation.save()
 
+    // Send email alert asynchronously
+    sendDonationNotification(donation)
+
     res.json({ 
+
       success: true, 
       message: 'Donation recorded successfully', 
       donation,

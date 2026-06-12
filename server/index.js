@@ -188,14 +188,14 @@ const ensureDefaultPoojas = async () => {
   try {
     const Pooja = (await import('./models/Pooja.js')).default
     
-    // Always clean up default additional poojas from previous seeding attempts if category is Custom
-    const deleteResult = await Pooja.deleteMany({
-      name: { $in: ['Archana', 'Vidyarambham', 'Choroonu', 'Muttarukkal'] },
-      category: 'Custom'
-    })
-    if (deleteResult.deletedCount > 0) {
-      console.log(`🧹 Cleaned up ${deleteResult.deletedCount} default additional poojas from database.`)
-    }
+    // COMMENTED OUT: Do not delete custom poojas added by the admin on startup.
+    // const deleteResult = await Pooja.deleteMany({
+    //   name: { $in: ['Archana', 'Vidyarambham', 'Choroonu', 'Muttarukkal'] },
+    //   category: 'Custom'
+    // })
+    // if (deleteResult.deletedCount > 0) {
+    //   console.log(`🧹 Cleaned up ${deleteResult.deletedCount} default additional poojas from database.`)
+    // }
 
     const count = await Pooja.countDocuments()
     if (count === 0) {
