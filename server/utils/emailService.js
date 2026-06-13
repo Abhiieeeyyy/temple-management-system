@@ -7,14 +7,35 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.EMAIL_USER || '',
     pass: process.env.EMAIL_PASS || ''
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
+
+// Verify SMTP connection on startup
+if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('❌ Nodemailer transporter verification failed:', error.message);
+    } else {
+      console.log('📧 Nodemailer SMTP connection verified successfully - ready to send emails');
+    }
+  });
+} else {
+  console.warn('⚠️  Nodemailer: EMAIL_USER and EMAIL_PASS environment variables are not configured.');
+}
 
 /**
  * Sends an email notification to the temple when a pooja is booked.
  * @param {Object} booking - The saved booking document
  */
 export const sendBookingNotification = async (booking) => {
+  if (booking.paymentStatus !== 'paid') {
+    console.log(`ℹ️  Skipping booking email notification because paymentStatus is '${booking.paymentStatus}' (not 'paid')`);
+    return;
+  }
+
   const templeEmail = process.env.TEMPLE_EMAIL || 'srikainariayyappatemple@gmail.com';
   const emailUser = process.env.EMAIL_USER;
   const emailPass = process.env.EMAIL_PASS;
@@ -90,6 +111,11 @@ export const sendBookingNotification = async (booking) => {
  * @param {Object} donation - The saved donation document
  */
 export const sendDonationNotification = async (donation) => {
+  if (donation.status !== 'completed') {
+    console.log(`ℹ️  Skipping donation email notification because status is '${donation.status}' (not 'completed')`);
+    return;
+  }
+
   const templeEmail = process.env.TEMPLE_EMAIL || 'srikainariayyappatemple@gmail.com';
   const emailUser = process.env.EMAIL_USER;
   const emailPass = process.env.EMAIL_PASS;

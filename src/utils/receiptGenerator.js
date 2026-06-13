@@ -173,7 +173,7 @@ export const generateReceiptPDF = async (type, details) => {
   doc.setLineWidth(0.5);
   doc.line(14, 275, 196, 275);
   doc.setFontSize(7.5);
-  doc.text('© Sri Kainari Ayyappan Kavu. Valaamkulam PO, Kerala, India.', 14, 280);
+  doc.text('© Sri Kainari Ayyappan Kavu. Valamkulam PO, Kerala, India.', 14, 280);
 
   // Save the PDF
   const filename = `${type}_receipt_${receiptNo}.pdf`;

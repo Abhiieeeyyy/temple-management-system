@@ -32,16 +32,8 @@ if (isCloudinaryConfigured) {
   console.warn('⚠️  Cloudinary environment variables missing. Falling back to local ephemeral storage.');
 }
 
-// Configure multer for file upload (saves temporarily on disk first)
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
+// Configure multer for file upload (saves directly in memory)
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
@@ -63,43 +55,30 @@ const upload = multer({
     cb(new Error('Only image and video files are allowed!'));
   },
   limits: {
-    fileSize: 100 * 1024 * 1024 // 100MB limit for videos
+    fileSize: 15 * 1024 * 1024 // 15MB limit to prevent exceeding MongoDB's 16MB document limit
   }
 });
 
 // Upload a new media item (no authentication required)
 router.post('/', upload.single('image'), async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
     const { title, description, category, size } = req.body;
-    let mediaUrl = `/uploads/gallery/${req.file.filename}`;
+    
+    // Convert to Base64 to store directly in MongoDB
+    console.log('Converting file to Base64...');
+    const base64Data = req.file.buffer.toString('base64');
+    const mediaUrl = `data:${req.file.mimetype};base64,${base64Data}`;
     const mediaType = req.file.mimetype.startsWith('image') ? 'image' : 'video';
 
-    // If Cloudinary is configured, upload the temporary file to Cloudinary
-    if (isCloudinaryConfigured) {
-      try {
-        console.log('☁️ Uploading file to Cloudinary...');
-        const result = await cloudinary.uploader.upload(req.file.path, {
-          folder: 'temple-gallery',
-          resource_type: 'auto'
-        });
-        mediaUrl = result.secure_url;
-        
-        // Clean up temporary local file
-        fs.unlinkSync(req.file.path);
-        console.log('✅ Uploaded to Cloudinary successfully. URL:', mediaUrl);
-      } catch (uploadError) {
-        console.error('❌ Cloudinary upload failed, falling back to local file storage:', uploadError.message);
-        // Fallback is active, local file remains in server/public/uploads/gallery
-      }
-    }
-
     console.log('Media upload item database record creation:', {
-      filename: req.file.filename,
+      originalname: req.file.originalname,
       mimetype: req.file.mimetype,
       mediaType: mediaType,
       title: title,
-      size: size || 'normal',
-      mediaUrl: mediaUrl
+      size: size || 'normal'
     })
 
     const galleryItem = new Gallery({
@@ -123,6 +102,9 @@ router.post('/', upload.single('image'), async (req, res) => {
 // Upload multiple files endpoint for admin panel
 router.post('/upload', upload.array('files'), async (req, res) => {
   try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ success: false, message: 'No files uploaded' });
+    }
     const { title, category } = req.body;
     const uploadedItems = [];
 
@@ -133,32 +115,15 @@ router.post('/upload', upload.array('files'), async (req, res) => {
     })
 
     for (const file of req.files) {
-      let mediaUrl = `/uploads/gallery/${file.filename}`;
+      console.log(`Converting file ${file.originalname} to Base64...`);
+      const base64Data = file.buffer.toString('base64');
+      const mediaUrl = `data:${file.mimetype};base64,${base64Data}`;
       const mediaType = file.mimetype.startsWith('image') ? 'image' : 'video';
 
-      // If Cloudinary is configured, upload the temporary file to Cloudinary
-      if (isCloudinaryConfigured) {
-        try {
-          console.log(`☁️ Uploading ${file.filename} to Cloudinary...`);
-          const result = await cloudinary.uploader.upload(file.path, {
-            folder: 'temple-gallery',
-            resource_type: 'auto'
-          });
-          mediaUrl = result.secure_url;
-          
-          // Clean up temporary local file
-          fs.unlinkSync(file.path);
-          console.log('✅ Uploaded to Cloudinary successfully. URL:', mediaUrl);
-        } catch (uploadError) {
-          console.error(`❌ Cloudinary upload failed for ${file.filename}, falling back to local storage:`, uploadError.message);
-        }
-      }
-
       console.log('Processing file db record:', {
-        filename: file.filename,
+        originalname: file.originalname,
         mimetype: file.mimetype,
-        mediaType: mediaType,
-        mediaUrl: mediaUrl
+        mediaType: mediaType
       })
 
       const galleryItem = new Gallery({
@@ -202,7 +167,10 @@ router.delete('/:id', async (req, res) => {
 
     // Attempt to delete physical file from storage
     if (galleryItem.mediaUrl) {
-      if (galleryItem.mediaUrl.startsWith('http://') || galleryItem.mediaUrl.startsWith('https://')) {
+      if (galleryItem.mediaUrl.startsWith('data:')) {
+        // Skip deleting files for Base64 database-stored data
+        console.log('✅ Skipping file deletion for database Base64 stored item');
+      } else if (galleryItem.mediaUrl.startsWith('http://') || galleryItem.mediaUrl.startsWith('https://')) {
         // Cloudinary URL: Delete from Cloudinary
         if (isCloudinaryConfigured) {
           try {

@@ -3,6 +3,16 @@ import React, { useState } from 'react'
 const About = () => {
   const [language, setLanguage] = useState('en')
 
+  const handleScroll = (e, targetId) => {
+    e.preventDefault()
+    const targetElement = document.getElementById(targetId)
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth'
+      })
+    }
+  }
+
   const textContent = {
     en: {
       heroTitle: "Legacy of Sri Kainari Ayyappan Kavu",
@@ -149,16 +159,16 @@ const About = () => {
       {/* Content Navigator (Sticky Sub-nav) */}
       <div className="sticky top-[72px] bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 z-40">
         <div className="max-w-[1200px] mx-auto px-6 flex justify-center gap-6 md:gap-12 py-4 text-xs md:text-sm font-semibold">
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#origins">
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#origins" onClick={(e) => handleScroll(e, 'origins')}>
             {currentContent.navOrigins}
           </a>
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#discovery">
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#discovery" onClick={(e) => handleScroll(e, 'discovery')}>
             {currentContent.navDiscovery}
           </a>
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#heritage">
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#heritage" onClick={(e) => handleScroll(e, 'heritage')}>
             {currentContent.navHeritage}
           </a>
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#detailed-history">
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#detailed-history" onClick={(e) => handleScroll(e, 'detailed-history')}>
             {currentContent.navHistory}
           </a>
         </div>
@@ -289,18 +299,32 @@ const About = () => {
       {/* Detailed Timeline History Sections */}
       <section className="py-20 bg-surface-container-low px-6 scroll-mt-32" id="detailed-history">
         <div className="max-w-[1000px] mx-auto space-y-12">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h2 className="font-display-lg text-2xl md:text-3xl text-primary font-bold">
               {currentContent.navHistory}
             </h2>
             <div className="w-16 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
+          </div>
+
+          {/* History Category Pills Navigation */}
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 py-2 px-1 max-w-3xl mx-auto">
+            {currentContent.sections.map((section, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => handleScroll(e, `history-section-${idx}`)}
+                className="px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white text-primary border border-outline-variant/30 hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
+              >
+                {section.title}
+              </button>
+            ))}
           </div>
           
           <div className="space-y-8">
             {currentContent.sections.map((section, idx) => (
               <div 
                 key={idx}
-                className="bg-white p-6 md:p-8 rounded-xl border border-outline-variant/20 shadow-md card-hover-effect relative"
+                id={`history-section-${idx}`}
+                className="bg-white p-6 md:p-8 rounded-xl border border-outline-variant/20 shadow-md card-hover-effect relative scroll-mt-36"
               >
                 <h4 className="font-headline-md text-lg md:text-xl text-primary font-semibold mb-4 pt-2">
                   {section.title}

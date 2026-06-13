@@ -205,14 +205,14 @@ const Gallery = () => {
   const getSizeClass = (size) => {
     switch (size) {
       case 'wide':
-        return 'md:col-span-2 md:row-span-1 h-[250px] md:h-[250px]'
+        return 'col-span-2 row-span-1 md:col-span-2 md:row-span-1 h-[180px] md:h-[250px]'
       case 'tall':
-        return 'md:col-span-1 md:row-span-2 h-[250px] md:h-[524px]'
+        return 'col-span-1 row-span-2 md:col-span-1 md:row-span-2 h-[376px] md:h-[524px]'
       case 'large':
-        return 'md:col-span-2 md:row-span-2 h-[250px] md:h-[524px]'
+        return 'col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[376px] md:h-[524px]'
       case 'normal':
       default:
-        return 'md:col-span-1 md:row-span-1 h-[250px] md:h-[250px]'
+        return 'col-span-1 row-span-1 md:col-span-1 md:row-span-1 h-[180px] md:h-[250px]'
     }
   }
 
@@ -234,7 +234,7 @@ const Gallery = () => {
           </div>
         ) : !activeCategory ? (
           /* Category Grid View */
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[250px]">
             {categoryCards.map((cat) => (
               <div
                 key={cat.id}
@@ -272,7 +272,7 @@ const Gallery = () => {
               <h2 className="font-headline-lg text-2xl text-primary font-bold">{activeCategory}</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[250px]">
               {itemsToShow.map((item) => (
                 <div
                   key={item.id}
