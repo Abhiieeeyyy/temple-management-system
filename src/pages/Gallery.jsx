@@ -117,6 +117,7 @@ const Gallery = () => {
         category: 'Events',
         size: 'large'
       },
+      
     ]
 
     const fetchGallery = async () => {
@@ -165,9 +166,30 @@ const Gallery = () => {
       category: 'Video',
       mediaType: 'youtube',
       description: 'Watch our temple festival celebrations',
-      size: 'large'
-    }
+      size: 'normal'
+    }, 
+    {
+      id: 'youtube-2',
+      youtubeId: '6QjQQqYzK9E',
+      thumbnail: 'https://img.youtube.com/vi/6QjQQqYzK9E/maxresdefault.jpg',
+      alt: 'Temple Festival Highlights',
+      category: 'Video',
+      mediaType: 'youtube',
+      description: 'Watch our temple festival celebrations',
+      size: 'normal'
+    },
+    {
+      id: 'youtube-3',
+      youtubeId: 'djXXIyTBOuw',
+      thumbnail: 'https://img.youtube.com/vi/djXXIyTBOuw/maxresdefault.jpg',
+      alt: 'Temple Festival Highlights',
+      category: 'Video',
+      mediaType: 'youtube',
+      description: 'Watch our temple festival celebrations',
+      size: 'normal'
+    },  
   ]
+   
 
   // Compute category cards
   const categoryNames = [...new Set(galleryImages.map(img => img.category))]
@@ -205,14 +227,14 @@ const Gallery = () => {
   const getSizeClass = (size) => {
     switch (size) {
       case 'wide':
-        return 'col-span-2 row-span-1 md:col-span-2 md:row-span-1 h-[180px] md:h-[250px]'
+        return 'col-span-2 h-[150px] sm:h-[180px] md:col-span-2 md:row-span-1 md:h-[250px]'
       case 'tall':
-        return 'col-span-1 row-span-2 md:col-span-1 md:row-span-2 h-[376px] md:h-[524px]'
+        return 'col-span-1 h-[150px] sm:h-[180px] md:col-span-1 md:row-span-2 md:h-[524px]'
       case 'large':
-        return 'col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[376px] md:h-[524px]'
+        return 'col-span-2 h-[150px] sm:h-[180px] md:col-span-2 md:row-span-2 md:h-[524px]'
       case 'normal':
       default:
-        return 'col-span-1 row-span-1 md:col-span-1 md:row-span-1 h-[180px] md:h-[250px]'
+        return 'col-span-1 h-[150px] sm:h-[180px] md:col-span-1 md:row-span-1 md:h-[250px]'
     }
   }
 
@@ -234,11 +256,11 @@ const Gallery = () => {
           </div>
         ) : !activeCategory ? (
           /* Category Grid View */
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[250px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {categoryCards.map((cat) => (
               <div
                 key={cat.id}
-                className={`relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-md card-hover-effect cursor-pointer group ${getSizeClass(cat.size)}`}
+                className="relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-md card-hover-effect cursor-pointer group h-[200px] sm:h-[220px] md:h-[260px]"
                 onClick={() => setActiveCategory(cat.title)}
               >
                 <img
@@ -272,7 +294,7 @@ const Gallery = () => {
               <h2 className="font-headline-lg text-2xl text-primary font-bold">{activeCategory}</h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[250px]">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[150px] sm:auto-rows-[180px] md:auto-rows-[250px] grid-flow-row-dense">
               {itemsToShow.map((item) => (
                 <div
                   key={item.id}

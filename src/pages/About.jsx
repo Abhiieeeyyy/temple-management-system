@@ -274,7 +274,7 @@ const About = () => {
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="bg-surface-container-low p-6 rounded-lg border-l-4 border-primary">
-                <span className="font-headline-md text-2xl font-bold text-primary block">1000+</span>
+                <span className="font-headline-md text-2xl font-bold text-primary block">100+</span>
                 <span className="font-label-md text-xs md:text-sm text-on-surface-variant">Devotees Daily</span>
               </div>
               <div className="bg-surface-container-low p-6 rounded-lg border-l-4 border-secondary">

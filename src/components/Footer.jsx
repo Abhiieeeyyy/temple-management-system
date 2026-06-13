@@ -62,11 +62,11 @@ const Footer = () => {
         <div className="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-2 text-xs text-on-surface-variant pt-1">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-primary text-base">location_on</span>
-            <p className="font-body-md text-xs">Sri Kainari Ayyappan Kavu Temple, Valaamkulam PO, Kerala, India</p>
+            <p className="font-body-md text-xs">Sri Kainari Ayyappan Kavu Temple, Valamkulam PO, Kerala, India</p>
           </div>
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-primary text-base">schedule</span>
-            <p className="font-body-md text-xs">Daily: 5:00 AM - 8:30 PM</p>
+            <p className="font-body-md text-xs">Daily: 5:00 AM - 9:00 PM</p>
           </div>
         </div>
       </div>
@@ -83,19 +83,19 @@ const Footer = () => {
             Abhinav Parayanchola
           </span>
           {showSocial && (
-            <div className="absolute right-0 bottom-full mb-2 bg-white border border-outline-variant/20 rounded-lg shadow-xl p-2 min-w-[150px] z-50 flex flex-col gap-1.5 animate-fade-in text-left">
+            <div className="absolute right-0 bottom-full mb-2 bg-white border border-outline-variant/20 rounded-lg shadow-xl p-2 min-w-[160px] z-50 flex flex-col gap-1.5 animate-fade-in text-left">
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 p-1.5 rounded hover:bg-surface-container transition-colors duration-150 text-xs text-on-surface font-medium"
+                  className="flex items-center gap-3 p-2 rounded hover:bg-surface-container transition-colors duration-150 text-sm text-on-surface font-medium"
                 >
                   <img
                     src={link.image}
                     alt={link.name}
-                    className="w-4 h-4 rounded-full object-cover"
+                    className="w-7 h-7 rounded-full object-cover"
                     onError={(e) => {
                       e.target.style.display = 'none'
                     }}

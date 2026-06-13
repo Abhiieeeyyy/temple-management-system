@@ -44,6 +44,13 @@ const DonationForm = ({ initialAmount = '' }) => {
     e.preventDefault()
     setError('')
     setSuccess('')
+
+    const containsMalayalam = (text) => /[\u0D00-\u0D7F]/.test(text)
+    if (containsMalayalam(formData.name)) {
+      setError('Please enter name in English only')
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -201,7 +208,7 @@ const DonationForm = ({ initialAmount = '' }) => {
         {/* Name */}
         <div className="flex flex-col gap-1.5">
           <label htmlFor="name" className="text-sm font-semibold text-on-surface">
-            Full Name *
+            Full Name (In English only) *
           </label>
           <input
             type="text"

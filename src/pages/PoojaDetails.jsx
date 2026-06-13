@@ -197,10 +197,15 @@ const PoojaDetails = () => {
 
   const handleAddToCart = (e) => {
     e.preventDefault()
+    const containsMalayalam = (text) => /[\u0D00-\u0D7F]/.test(text)
 
     // Validation
     if (!cartFormData.name.trim()) {
       setError('Name is required')
+      return
+    }
+    if (containsMalayalam(cartFormData.name)) {
+      setError('Please enter devotee name in English only')
       return
     }
     if (!cartFormData.phoneNumber) {
@@ -403,9 +408,12 @@ const PoojaDetails = () => {
 
   const validateForm = () => {
     const errors = {}
+    const containsMalayalam = (text) => /[\u0D00-\u0D7F]/.test(text)
 
     if (!formData.name.trim()) {
       errors.name = 'Name is required'
+    } else if (containsMalayalam(formData.name)) {
+      errors.name = 'Please enter name in English only'
     }
 
     if (!formData.birthStar) {
@@ -420,6 +428,8 @@ const PoojaDetails = () => {
 
     if (!formData.address.trim()) {
       errors.address = 'Address is required'
+    } else if (containsMalayalam(formData.address)) {
+      errors.address = 'Please enter address in English only'
     }
 
     if (!formData.date) {
@@ -925,7 +935,7 @@ const PoojaDetails = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Full Name */}
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" className="text-xs font-semibold text-on-surface">Full Name *</label>
+                  <label htmlFor="name" className="text-xs font-semibold text-on-surface">Full Name (In English only) *</label>
                   <input
                     type="text"
                     id="name"
@@ -992,7 +1002,7 @@ const PoojaDetails = () => {
 
               {/* Address */}
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="address" className="text-xs font-semibold text-on-surface">Address *</label>
+                <label htmlFor="address" className="text-xs font-semibold text-on-surface">Address (In English only) *</label>
                 <textarea
                   id="address"
                   name="address"
@@ -1094,7 +1104,7 @@ const PoojaDetails = () => {
 
             <form onSubmit={handleAddToCart} className="space-y-4">
               <div className="flex flex-col gap-1">
-                <label htmlFor="cartName" className="text-xs font-semibold text-on-surface">Devotee Name *</label>
+                <label htmlFor="cartName" className="text-xs font-semibold text-on-surface">Devotee Name (In English only) *</label>
                 <input
                   type="text"
                   id="cartName"

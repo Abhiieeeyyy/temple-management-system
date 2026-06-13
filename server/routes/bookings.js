@@ -1,7 +1,6 @@
 import express from 'express';
 import Booking from '../models/Booking.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
-import { sendBookingNotification } from '../utils/emailService.js';
 
 
 const router = express.Router();
@@ -15,9 +14,6 @@ router.post('/', async (req, res) => {
     });
 
     await booking.save();
-    
-    // Send email alert asynchronously
-    sendBookingNotification(booking);
 
     res.status(201).json({
 
