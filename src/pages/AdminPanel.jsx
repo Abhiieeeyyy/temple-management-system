@@ -59,7 +59,7 @@ const AdminPanel = () => {
       const bookingData = [
         new Date(booking.createdAt).toLocaleDateString(),
         booking.name || 'Guest',
-        getBirthStarName(booking.birthStar),
+        getBirthStarEnglish(booking.birthStar),
         booking.mobileNumber || 'N/A',
         booking.poojaName,
         new Date(booking.date).toLocaleDateString(),
@@ -108,8 +108,44 @@ const AdminPanel = () => {
     'revati': 'രേവതി'
   }
 
+  // Birth star transliterated English mapping for PDF downloads (avoiding Sanskrit & Unicode issues)
+  const birthStarsEnglish = {
+    'ashwini': 'Aswathy',
+    'bharani': 'Bharani',
+    'karthika': 'Karthika',
+    'rohini': 'Rohini',
+    'mrigashira': 'Makayiram',
+    'ardra': 'Thiruvathira',
+    'punarvasu': 'Punartham',
+    'pushya': 'Pooyam',
+    'ashlesha': 'Ayilyam',
+    'magha': 'Makam',
+    'purva_phalguni': 'Pooram',
+    'uttara_phalguni': 'Uthram',
+    'hasta': 'Atham',
+    'chitra': 'Chithira',
+    'swati': 'Chothi',
+    'vishakha': 'Vishakham',
+    'anooradha': 'Anizham',
+    'jyeshtha': 'Thrikketta',
+    'moola': 'Moolam',
+    'purva_ashadha': 'Pooradam',
+    'uttara_ashadha': 'Uthradam',
+    'shravana': 'Thiruvonam',
+    'dhanishta': 'Avittam',
+    'shatabhisha': 'Chathayam',
+    'purva_bhadrapada': 'Pooruruttathi',
+    'uttara_bhadrapada': 'Uthruttathi',
+    'revati': 'Revathi'
+  }
+
   const getBirthStarName = (birthStarId) => {
     return birthStars[birthStarId] || birthStarId || 'N/A'
+  }
+
+  const getBirthStarEnglish = (birthStarId) => {
+    if (!birthStarId) return 'N/A'
+    return birthStarsEnglish[birthStarId.toLowerCase()] || birthStarId
   }
 
   // Gallery state
@@ -400,7 +436,6 @@ const AdminPanel = () => {
     { id: 'donations', label: 'Donations', icon: 'volunteer_activism' },
     { id: 'bookings', label: 'Pooja Bookings', icon: 'spa' },
     { id: 'messages', label: 'User Messages', icon: 'mail' },
-    { id: 'gallery', label: 'Manage Gallery', icon: 'photo_library' },
     { id: 'poojas', label: 'Manage Poojas', icon: 'auto_awesome' }
   ]
 

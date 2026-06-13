@@ -2,8 +2,11 @@ import nodemailer from 'nodemailer';
 
 // Configure SMTP transporter
 // Note: For Gmail, EMAIL_PASS must be an App Password, not the personal login password.
+// Configure SMTP transporter explicitly for Gmail (avoids resolution/auto-discover issues)
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER || '',
     pass: process.env.EMAIL_PASS || ''
@@ -102,7 +105,7 @@ export const sendBookingNotification = async (booking) => {
     const info = await transporter.sendMail(mailOptions);
     console.log('📧 Booking notification email sent successfully:', info.response);
   } catch (error) {
-    console.error('❌ Failed to send booking notification email:', error.message);
+    console.error('❌ Failed to send booking notification email:', error);
   }
 };
 
@@ -177,6 +180,6 @@ export const sendDonationNotification = async (donation) => {
     const info = await transporter.sendMail(mailOptions);
     console.log('📧 Donation notification email sent successfully:', info.response);
   } catch (error) {
-    console.error('❌ Failed to send donation notification email:', error.message);
+    console.error('❌ Failed to send donation notification email:', error);
   }
 };

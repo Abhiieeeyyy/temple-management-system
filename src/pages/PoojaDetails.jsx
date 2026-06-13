@@ -37,7 +37,8 @@ const PoojaDetails = () => {
     name: '',
     birthStar: '',
     date: '',
-    deity: 'ayyappa'
+    deity: 'ayyappa',
+    phoneNumber: ''
   })
 
   const [formData, setFormData] = useState({
@@ -71,7 +72,7 @@ const PoojaDetails = () => {
     { value: 'chitra', label: 'ചിത്തിര' },
     { value: 'swati', label: 'ചോതി' },
     { value: 'vishakha', label: 'വിശാഖം' },
-    { value: 'anooradha', label: 'അниഴം' },
+    { value: 'anooradha', label: 'അനീഴം' },
     { value: 'jyeshtha', label: 'തൃക്കേട്ട' },
     { value: 'moola', label: 'മൂലം' },
     { value: 'purva_ashadha', label: 'പൂരാടം' },
@@ -184,11 +185,11 @@ const PoojaDetails = () => {
     setShowAddToCartForm(true)
     setReceiptData(null)
     setCartFormData({
-
       name: '',
       birthStar: '',
       date: '',
-      deity: 'ayyappa'
+      deity: 'ayyappa',
+      phoneNumber: ''
     })
     setError('')
     setValidationErrors({})
@@ -200,6 +201,13 @@ const PoojaDetails = () => {
     // Validation
     if (!cartFormData.name.trim()) {
       setError('Name is required')
+      return
+    }
+    if (!cartFormData.phoneNumber) {
+      setError('Phone number is required')
+      return
+    } else if (!/^[0-9]{10}$/.test(cartFormData.phoneNumber)) {
+      setError('Please enter a valid 10-digit phone number')
       return
     }
     if (!cartFormData.birthStar) {
@@ -223,6 +231,7 @@ const PoojaDetails = () => {
       birthStar: cartFormData.birthStar,
       date: cartFormData.date,
       deity: cartFormData.deity,
+      phoneNumber: cartFormData.phoneNumber,
       totalPrice: selectedMultiplePoojas.reduce((sum, pooja) => sum + pooja.price, 0)
     }
 
@@ -236,7 +245,8 @@ const PoojaDetails = () => {
       name: '',
       birthStar: '',
       date: '',
-      deity: 'ayyappa'
+      deity: 'ayyappa',
+      phoneNumber: ''
     })
 
     setTimeout(() => setSuccess(''), 3000)
@@ -324,7 +334,7 @@ const PoojaDetails = () => {
             name: cartItem.name,
             birthStar: cartItem.birthStar,
             deity: cartItem.deity,
-            mobileNumber: user?.phone || '',
+            mobileNumber: cartItem.phoneNumber,
             address: '',
             date: cartItem.date,
             poojaId: pooja._id,
@@ -349,6 +359,7 @@ const PoojaDetails = () => {
       
       const receiptDetails = {
         name: cart[0]?.name || 'Devotee',
+        phoneNumber: cart[0]?.phoneNumber || '',
         paymentId: paymentResponse.razorpay_payment_id,
         totalPrice: totalAmount,
         cartItems: cart.flatMap(item => 
@@ -517,6 +528,7 @@ const PoojaDetails = () => {
         name: formData.name,
         birthStar: formData.birthStar,
         mobileNumber: formData.mobileNumber,
+        phoneNumber: formData.mobileNumber,
         paymentId: paymentResponse.razorpay_payment_id,
         totalPrice,
         ...(poojas.length === 1 ? {
@@ -1090,6 +1102,20 @@ const PoojaDetails = () => {
                   onChange={(e) => setCartFormData({ ...cartFormData, name: e.target.value })}
                   placeholder="Enter devotee name"
                   required
+                  className="px-4 py-2.5 border border-outline-variant/50 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="cartPhoneNumber" className="text-xs font-semibold text-on-surface">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="cartPhoneNumber"
+                  value={cartFormData.phoneNumber}
+                  onChange={(e) => setCartFormData({ ...cartFormData, phoneNumber: e.target.value })}
+                  placeholder="Enter devotee phone number"
+                  required
+                  pattern="[0-9]{10}"
                   className="px-4 py-2.5 border border-outline-variant/50 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>

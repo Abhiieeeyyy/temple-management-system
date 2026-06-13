@@ -131,21 +131,19 @@ const About = () => {
             <div className="pt-6">
               <div className="inline-flex bg-surface-container-lowest/10 backdrop-blur-md p-1.5 rounded-full border border-white/20">
                 <button
-                  className={`px-6 py-2 rounded-full font-label-md text-xs md:text-sm transition-all duration-300 ${
-                    language === 'en'
+                  className={`px-6 py-2 rounded-full font-label-md text-xs md:text-sm transition-all duration-300 ${language === 'en'
                       ? 'bg-primary text-white shadow-lg'
                       : 'text-white hover:bg-white/10'
-                  }`}
+                    }`}
                   onClick={() => setLanguage('en')}
                 >
                   English
                 </button>
                 <button
-                  className={`px-6 py-2 rounded-full font-label-md text-xs md:text-sm transition-all duration-300 ${
-                    language === 'ml'
+                  className={`px-6 py-2 rounded-full font-label-md text-xs md:text-sm transition-all duration-300 ${language === 'ml'
                       ? 'bg-primary text-white shadow-lg'
                       : 'text-white hover:bg-white/10'
-                  }`}
+                    }`}
                   onClick={() => setLanguage('ml')}
                 >
                   മലയാളം
@@ -217,7 +215,7 @@ const About = () => {
             </h3>
             <div className="w-24 h-1 bg-secondary-container mx-auto"></div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Bento Item 1 */}
             <div className="md:col-span-2 bg-white p-8 md:p-10 rounded-lg parchment-glow border border-outline-variant/10 flex flex-col md:flex-row gap-8 items-center">
@@ -239,7 +237,7 @@ const About = () => {
                 />
               </div>
             </div>
-            
+
             {/* Bento Item 2 */}
             <div className="bg-primary text-on-primary p-8 md:p-10 rounded-lg shadow-xl flex flex-col justify-between">
               <div className="space-y-4">
@@ -318,10 +316,10 @@ const About = () => {
               </button>
             ))}
           </div>
-          
+
           <div className="space-y-8">
             {currentContent.sections.map((section, idx) => (
-              <div 
+              <div
                 key={idx}
                 id={`history-section-${idx}`}
                 className="bg-white p-6 md:p-8 rounded-xl border border-outline-variant/20 shadow-md card-hover-effect relative scroll-mt-36"
