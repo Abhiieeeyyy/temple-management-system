@@ -126,15 +126,7 @@ const Contact = () => {
               >
                 <img src="/images/ig.jpg" alt="Instagram" className="w-full h-full object-cover" />
               </a>
-              <a
-                href="https://www.facebook.com/abhinav.p.108963/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Facebook"
-                className="w-10 h-10 rounded-full overflow-hidden hover:scale-110 transition-transform duration-200 shadow-sm border border-outline-variant/30"
-              >
-                <img src="/images/fb.jpg" alt="Facebook" className="w-full h-full object-cover" />
-              </a>
+              
             </div>
           </div>
 
