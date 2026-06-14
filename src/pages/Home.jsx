@@ -186,16 +186,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Floating Action Button */}
-      <Link 
-        to={ROUTES.DONATION}
-        className="fixed bottom-8 right-8 bg-primary text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center group hover:scale-110 active:scale-95 transition-all duration-300 z-50 hover:bg-tertiary"
-      >
-        <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>volunteer_activism</span>
-        <span className="absolute right-full mr-4 bg-primary px-4 py-2 rounded-lg text-white text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all pointer-events-none shadow-lg">
-          Donate Now
-        </span>
-      </Link>
+      
     </div>
   )
 }
