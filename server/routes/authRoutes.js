@@ -399,13 +399,15 @@ router.get('/init-admin', async (req, res) => {
       email: 'srikainariayyappatemple@gmail.com' 
     })
     
+    const defaultPassword = process.env.ADMIN_PASSWORD || 'Srkainari@Valamkulam53'
+
     if (existingAdmin) {
       return res.status(200).json({
         success: true,
         message: 'Admin user already exists',
         credentials: {
           email: 'srikainariayyappatemple@gmail.com',
-          password: 'Use existing password: Skat@666'
+          password: `Use existing password: ${defaultPassword}`
         }
       })
     }
@@ -416,7 +418,7 @@ router.get('/init-admin', async (req, res) => {
       lastName: 'Admin',
       email: 'srikainariayyappatemple@gmail.com',
       phone: '9999999999',
-      password: 'Skat@666',
+      password: defaultPassword,
       role: 'admin',
       isActive: true
     })
@@ -426,7 +428,7 @@ router.get('/init-admin', async (req, res) => {
       message: 'Admin user created successfully',
       credentials: {
         email: 'srikainariayyappatemple@gmail.com',
-        password: 'Skat@666'
+        password: defaultPassword
       }
     })
   } catch (error) {

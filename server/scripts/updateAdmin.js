@@ -11,7 +11,7 @@ dotenv.config({ path: path.join(__dirname, '../.env') })
 
 const newAdminData = {
   email: 'srikainariayyappatemple@gmail.com',
-  password: 'Skat@666'
+  password: process.env.ADMIN_PASSWORD || 'Srkainari@Valamkulam53'
 }
 
 async function updateAdmin() {

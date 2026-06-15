@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename)
 dotenv.config({ path: path.join(__dirname, '../.env') })
 
 const ADMIN_EMAIL = 'srikainariayyappatemple@gmail.com'
-const ADMIN_PASSWORD = 'Skat@valamkulam53'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Srkainari@Valamkulam53'
 
 async function ensureAdmin() {
   try {

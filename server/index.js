@@ -130,7 +130,7 @@ const ensureAdminUser = async () => {
   try {
     const User = (await import('./models/User.js')).default
     const ADMIN_EMAIL = 'srikainariayyappatemple@gmail.com'
-    const DEFAULT_ADMIN_PASSWORD = 'Skat@valamkulam53'
+    const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Srkainari@Valamkulam53'
     
     // Find admin user
     let admin = await User.findOne({ email: ADMIN_EMAIL })
