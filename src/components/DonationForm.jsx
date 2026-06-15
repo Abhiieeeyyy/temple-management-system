@@ -14,12 +14,12 @@ const DonationForm = ({ initialAmount = '' }) => {
   const { user } = useAuth()
   const [receiptData, setReceiptData] = useState(null)
   const [formData, setFormData] = useState({
-
     name: user?.firstName ? `${user.firstName} ${user.lastName}` : '',
     amount: initialAmount,
     phoneNumber: user?.phone || '',
     purpose: 'general',
-    message: ''
+    message: '',
+    address: ''
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -51,6 +51,15 @@ const DonationForm = ({ initialAmount = '' }) => {
       return
     }
 
+    if (!formData.address.trim()) {
+      setError('Address is required')
+      return
+    }
+    if (containsMalayalam(formData.address)) {
+      setError('Please enter address in English only')
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -70,6 +79,7 @@ const DonationForm = ({ initialAmount = '' }) => {
           phone: formData.phoneNumber,
           purpose: formData.purpose,
           message: formData.message,
+          address: formData.address,
           type: 'donation'
         }
       }
@@ -117,6 +127,7 @@ const DonationForm = ({ initialAmount = '' }) => {
           phoneNumber: formData.phoneNumber,
           purpose: formData.purpose,
           message: formData.message,
+          address: formData.address,
           paymentId: paymentResponse.razorpay_payment_id,
           orderId: paymentResponse.razorpay_order_id,
           status: 'completed'
@@ -142,6 +153,7 @@ const DonationForm = ({ initialAmount = '' }) => {
             phoneNumber: formData.phoneNumber,
             purpose: formData.purpose,
             message: formData.message,
+            address: formData.address,
             paymentId: paymentResponse.razorpay_payment_id
           }
           setReceiptData({ type: 'donation', details: donationDetails })
@@ -153,7 +165,8 @@ const DonationForm = ({ initialAmount = '' }) => {
             amount: '',
             phoneNumber: user?.phone || '',
             purpose: 'general',
-            message: ''
+            message: '',
+            address: ''
           })
         } else {
           throw new Error('Payment successful but failed to record donation. Please contact support.')
@@ -287,6 +300,24 @@ const DonationForm = ({ initialAmount = '' }) => {
               <span className="material-symbols-outlined text-sm">arrow_drop_down</span>
             </div>
           </div>
+        </div>
+
+        {/* Address */}
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="address" className="text-sm font-semibold text-on-surface">
+            Address (In English only) *
+          </label>
+          <textarea
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+            disabled={loading}
+            placeholder="Enter your complete address"
+            rows="3"
+            className="w-full px-5 py-3 rounded-xl border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-sm resize-none"
+          />
         </div>
 
         {/* Message */}

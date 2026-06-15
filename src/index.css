@@ -341,3 +341,33 @@ label {
   animation-delay: 0.2s;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+/* About page sub-navigation mobile grid to force 2 columns */
+.about-sub-nav {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 12px 16px !important;
+  padding: 16px 24px !important;
+}
+
+@media (min-width: 1024px) {
+  .about-sub-nav {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 48px !important;
+    padding: 16px !important;
+  }
+}
+
+
+

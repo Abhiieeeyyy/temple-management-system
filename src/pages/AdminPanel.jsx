@@ -25,7 +25,7 @@ const AdminPanel = () => {
   const downloadDonationsPDF = () => {
     const doc = new jsPDF()
     doc.text("Donation List", 14, 15)
-    const tableColumn = ["Date", "Donor Name", "Phone", "Amount", "Purpose", "Payment ID", "Status"]
+    const tableColumn = ["Date", "Donor Name", "Phone", "Address", "Amount", "Purpose", "Payment ID", "Status"]
     const tableRows = []
 
     donations.forEach(donation => {
@@ -33,6 +33,7 @@ const AdminPanel = () => {
         new Date(donation.createdAt).toLocaleDateString(),
         donation.name,
         donation.phoneNumber,
+        donation.address || 'N/A',
         `Rs ${donation.amount}`,
         donation.purpose,
         donation.paymentId,
@@ -52,7 +53,7 @@ const AdminPanel = () => {
   const downloadBookingsPDF = () => {
     const doc = new jsPDF()
     doc.text("Pooja Booking List", 14, 15)
-    const tableColumn = ["Date", "Name", "Birth Star", "Phone", "Pooja", "Booking Date", "Amount", "Status"]
+    const tableColumn = ["Date", "Name", "Birth Star", "Phone", "Address", "Pooja", "Booking Date", "Amount", "Status"]
     const tableRows = []
 
     bookings.forEach(booking => {
@@ -61,6 +62,7 @@ const AdminPanel = () => {
         booking.name || 'Guest',
         getBirthStarEnglish(booking.birthStar),
         booking.mobileNumber || 'N/A',
+        booking.address || 'N/A',
         booking.poojaName,
         new Date(booking.date).toLocaleDateString(),
         `Rs ${booking.price}`,
@@ -509,6 +511,7 @@ const AdminPanel = () => {
                         <th className="p-4">Date</th>
                         <th className="p-4">Donor Name</th>
                         <th className="p-4">Phone Number</th>
+                        <th className="p-4">Address</th>
                         <th className="p-4">Amount</th>
                         <th className="p-4">Purpose</th>
                         <th className="p-4">Payment ID</th>
@@ -521,6 +524,7 @@ const AdminPanel = () => {
                           <td className="p-4 whitespace-nowrap">{new Date(donation.createdAt).toLocaleDateString()}</td>
                           <td className="p-4 font-semibold text-on-surface">{donation.name}</td>
                           <td className="p-4 whitespace-nowrap">{donation.phoneNumber}</td>
+                          <td className="p-4 max-w-[200px] truncate" title={donation.address}>{donation.address || 'N/A'}</td>
                           <td className="p-4 font-bold text-primary">₹{donation.amount}</td>
                           <td className="p-4 capitalize">{donation.purpose}</td>
                           <td className="p-4 font-mono select-all">{donation.paymentId}</td>
@@ -569,6 +573,7 @@ const AdminPanel = () => {
                         <th className="p-4">Name</th>
                         <th className="p-4">Birth Star</th>
                         <th className="p-4">Phone</th>
+                        <th className="p-4">Address</th>
                         <th className="p-4">Pooja</th>
                         <th className="p-4">Performance Date</th>
                         <th className="p-4">Amount</th>
@@ -583,6 +588,7 @@ const AdminPanel = () => {
                           <td className="p-4 font-semibold text-on-surface">{booking.name || 'Guest'}</td>
                           <td className="p-4 whitespace-nowrap">{getBirthStarName(booking.birthStar)}</td>
                           <td className="p-4">{booking.mobileNumber || 'N/A'}</td>
+                          <td className="p-4 max-w-[200px] truncate" title={booking.address}>{booking.address || 'N/A'}</td>
                           <td className="p-4 font-semibold text-primary">{booking.poojaName}</td>
                           <td className="p-4 whitespace-nowrap">{new Date(booking.date).toLocaleDateString()}</td>
                           <td className="p-4 font-bold text-primary">₹{booking.price}</td>

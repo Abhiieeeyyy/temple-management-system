@@ -156,17 +156,17 @@ const About = () => {
 
       {/* Content Navigator (Sticky Sub-nav) */}
       <div className="sticky top-[72px] bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 z-40">
-        <div className="max-w-[1200px] mx-auto px-6 flex justify-center gap-6 md:gap-12 py-4 text-xs md:text-sm font-semibold">
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#origins" onClick={(e) => handleScroll(e, 'origins')}>
+        <div className="max-w-[1200px] mx-auto about-sub-nav text-xs md:text-sm font-semibold text-center">
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors block py-1" href="#origins" onClick={(e) => handleScroll(e, 'origins')}>
             {currentContent.navOrigins}
           </a>
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#discovery" onClick={(e) => handleScroll(e, 'discovery')}>
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors block py-1" href="#discovery" onClick={(e) => handleScroll(e, 'discovery')}>
             {currentContent.navDiscovery}
           </a>
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#heritage" onClick={(e) => handleScroll(e, 'heritage')}>
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors block py-1" href="#heritage" onClick={(e) => handleScroll(e, 'heritage')}>
             {currentContent.navHeritage}
           </a>
-          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#detailed-history" onClick={(e) => handleScroll(e, 'detailed-history')}>
+          <a className="font-label-md text-on-surface-variant hover:text-primary transition-colors block py-1" href="#detailed-history" onClick={(e) => handleScroll(e, 'detailed-history')}>
             {currentContent.navHistory}
           </a>
         </div>
@@ -305,7 +305,7 @@ const About = () => {
           </div>
 
           {/* History Category Pills Navigation */}
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3 py-2 px-1 max-w-3xl mx-auto">
+          <div className="flex flex-wrap justify-center items-center gap-x-2 gap-y-2 py-2 px-4 max-w-3xl mx-auto">
             {currentContent.sections.map((section, idx) => (
               <button
                 key={idx}

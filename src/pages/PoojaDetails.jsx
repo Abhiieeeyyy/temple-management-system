@@ -16,6 +16,7 @@ import { generateReceiptPDF } from '../utils/receiptGenerator'
 const PoojaDetails = () => {
   const { isAuthenticated, user } = useAuth()
   const [selectedPooja, setSelectedPooja] = useState(null)
+  const [detailPooja, setDetailPooja] = useState(null)
   const [selectedMultiplePoojas, setSelectedMultiplePoojas] = useState([])
   const [showBookingForm, setShowBookingForm] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -38,7 +39,8 @@ const PoojaDetails = () => {
     birthStar: '',
     date: '',
     deity: 'ayyappa',
-    phoneNumber: ''
+    phoneNumber: '',
+    address: ''
   })
 
   const [formData, setFormData] = useState({
@@ -189,7 +191,8 @@ const PoojaDetails = () => {
       birthStar: '',
       date: '',
       deity: 'ayyappa',
-      phoneNumber: ''
+      phoneNumber: '',
+      address: ''
     })
     setError('')
     setValidationErrors({})
@@ -227,6 +230,14 @@ const PoojaDetails = () => {
       setError('Please select deity')
       return
     }
+    if (!cartFormData.address.trim()) {
+      setError('Address is required')
+      return
+    }
+    if (containsMalayalam(cartFormData.address)) {
+      setError('Please enter devotee address in English only')
+      return
+    }
 
     // Add to cart
     const cartItem = {
@@ -237,6 +248,7 @@ const PoojaDetails = () => {
       date: cartFormData.date,
       deity: cartFormData.deity,
       phoneNumber: cartFormData.phoneNumber,
+      address: cartFormData.address,
       totalPrice: selectedMultiplePoojas.reduce((sum, pooja) => sum + pooja.price, 0)
     }
 
@@ -251,7 +263,8 @@ const PoojaDetails = () => {
       birthStar: '',
       date: '',
       deity: 'ayyappa',
-      phoneNumber: ''
+      phoneNumber: '',
+      address: ''
     })
 
     setTimeout(() => setSuccess(''), 3000)
@@ -340,7 +353,7 @@ const PoojaDetails = () => {
             birthStar: cartItem.birthStar,
             deity: cartItem.deity,
             mobileNumber: cartItem.phoneNumber,
-            address: '',
+            address: cartItem.address,
             date: cartItem.date,
             poojaId: pooja._id,
             poojaName: pooja.name,
@@ -365,6 +378,7 @@ const PoojaDetails = () => {
       const receiptDetails = {
         name: cart[0]?.name || 'Devotee',
         phoneNumber: cart[0]?.phoneNumber || '',
+        address: cart[0]?.address || '',
         paymentId: paymentResponse.razorpay_payment_id,
         totalPrice: totalAmount,
         cartItems: cart.flatMap(item => 
@@ -372,6 +386,7 @@ const PoojaDetails = () => {
             poojaName: pooja.name,
             name: item.name,
             birthStar: item.birthStar,
+            address: item.address,
             date: item.date,
             price: pooja.price
           }))
@@ -625,7 +640,10 @@ const PoojaDetails = () => {
           
           {/* Ganapathi Homam */}
           {mainPoojas[0] && (
-            <div className="bento-card relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20">
+            <div 
+              onClick={() => setDetailPooja(mainPoojas[0])}
+              className="bento-card cursor-pointer relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20"
+            >
               <img
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 alt={mainPoojas[0].name}
@@ -640,7 +658,7 @@ const PoojaDetails = () => {
                 <div className="flex justify-between items-center mt-1 md:mt-2">
                   <span className="text-white font-bold text-xs md:text-base">₹{mainPoojas[0].price}</span>
                   <button
-                    onClick={() => handleBookingClick(mainPoojas[0])}
+                    onClick={(e) => { e.stopPropagation(); setDetailPooja(mainPoojas[0]); }}
                     className="px-3 py-1 bg-primary text-white rounded-full font-bold hover:bg-tertiary transition-colors text-[10px] md:text-xs"
                   >
                     Book
@@ -652,7 +670,10 @@ const PoojaDetails = () => {
 
           {/* Daily Pooja */}
           {mainPoojas[1] && (
-            <div className="bento-card relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20">
+            <div 
+              onClick={() => setDetailPooja(mainPoojas[1])}
+              className="bento-card cursor-pointer relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20"
+            >
               <img
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 alt={mainPoojas[1].name}
@@ -667,7 +688,7 @@ const PoojaDetails = () => {
                 <div className="flex justify-between items-center mt-1 md:mt-2">
                   <span className="text-white font-bold text-xs md:text-base">₹{mainPoojas[1].price}</span>
                   <button
-                    onClick={() => handleBookingClick(mainPoojas[1])}
+                    onClick={(e) => { e.stopPropagation(); setDetailPooja(mainPoojas[1]); }}
                     className="px-3 py-1 bg-primary text-white rounded-full font-bold hover:bg-tertiary transition-colors text-[10px] md:text-xs"
                   >
                     Book
@@ -679,7 +700,10 @@ const PoojaDetails = () => {
 
           {/* Naga Pooja */}
           {mainPoojas[2] && (
-            <div className="bento-card relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20">
+            <div 
+              onClick={() => setDetailPooja(mainPoojas[2])}
+              className="bento-card cursor-pointer relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20"
+            >
               <img
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 alt={mainPoojas[2].name}
@@ -694,7 +718,7 @@ const PoojaDetails = () => {
                 <div className="flex justify-between items-center mt-1 md:mt-2">
                   <span className="text-white font-bold text-xs md:text-base">₹{mainPoojas[2].price}</span>
                   <button
-                    onClick={() => handleBookingClick(mainPoojas[2])}
+                    onClick={(e) => { e.stopPropagation(); setDetailPooja(mainPoojas[2]); }}
                     className="px-3 py-1 bg-primary text-white rounded-full font-bold hover:bg-tertiary transition-colors text-[10px] md:text-xs"
                   >
                     Book
@@ -706,7 +730,10 @@ const PoojaDetails = () => {
 
           {/* Chuttu Vilakku */}
           {mainPoojas[3] && (
-            <div className="bento-card relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20">
+            <div 
+              onClick={() => setDetailPooja(mainPoojas[3])}
+              className="bento-card cursor-pointer relative overflow-hidden rounded-lg group h-[220px] md:h-[380px] shadow-lg border border-outline-variant/20"
+            >
               <img
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 alt={mainPoojas[3].name}
@@ -721,7 +748,7 @@ const PoojaDetails = () => {
                 <div className="flex justify-between items-center mt-1 md:mt-2">
                   <span className="text-white font-bold text-xs md:text-base">₹{mainPoojas[3].price}</span>
                   <button
-                    onClick={() => handleBookingClick(mainPoojas[3])}
+                    onClick={(e) => { e.stopPropagation(); setDetailPooja(mainPoojas[3]); }}
                     className="px-3 py-1 bg-primary text-white rounded-full font-bold hover:bg-tertiary transition-colors text-[10px] md:text-xs"
                   >
                     Book
@@ -762,6 +789,61 @@ const PoojaDetails = () => {
                 >
                   ✕
                 </button>
+              )}
+            </div>
+
+            {/* Mobile View Cart Actions (Add to Cart / Cart Preview) */}
+            <div className="block lg:hidden space-y-4">
+              {/* Selected multiple poojas buffer */}
+              {selectedMultiplePoojas.length > 0 && (
+                <div className="p-4 bg-secondary-container/20 border border-secondary-container rounded-lg space-y-3">
+                  <p className="text-xs text-on-secondary-container font-semibold">
+                    {selectedMultiplePoojas.length} pooja(s) selected:
+                  </p>
+                  <ul className="text-xs text-on-surface-variant space-y-1 pl-4 list-disc">
+                    {selectedMultiplePoojas.map(p => (
+                      <li key={p._id}>{p.name} (₹{p.price})</li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={handleMultipleBookingClick}
+                    className="w-full py-3 bg-secondary text-white rounded-full font-bold text-xs hover:bg-opacity-95 transition-all"
+                  >
+                    Add Selections to Cart
+                  </button>
+                </div>
+              )}
+
+              {/* Cart Preview Bar */}
+              {cart.length > 0 && (
+                <div className="bg-white rounded-xl border-2 border-primary/20 p-4 shadow-md flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-primary text-xl">shopping_cart</span>
+                    <div>
+                      <p className="font-bold text-on-surface text-xs">
+                        {cart.length} {cart.length === 1 ? 'Devotee' : 'Devotees'} Booked
+                      </p>
+                      <p className="text-[10px] text-on-surface-variant mt-0.5">
+                        Total: <span className="font-bold text-primary">₹{cart.reduce((sum, item) => sum + item.totalPrice, 0)}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowCart(true)}
+                      className="px-4 py-2 border border-primary text-primary text-[10px] font-bold rounded-full hover:bg-primary/5 transition-colors"
+                    >
+                      View Cart
+                    </button>
+                    <button
+                      onClick={handleCartCheckout}
+                      disabled={loading}
+                      className="px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-full hover:bg-tertiary transition-colors shadow-sm"
+                    >
+                      {loading ? '...' : 'Checkout'}
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
 
@@ -808,7 +890,7 @@ const PoojaDetails = () => {
           </div>
 
           {/* Right: Cart Summary Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="hidden lg:block lg:col-span-1">
             <div className="bg-white rounded-lg border-2 border-primary/25 p-6 sticky top-28 shadow-xl shadow-primary/5 space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-outline-variant/20">
                 <h3 className="font-headline-md text-lg text-primary font-bold flex items-center gap-2">
@@ -861,6 +943,9 @@ const PoojaDetails = () => {
                         <p className="text-[10px] text-on-surface-variant mt-0.5">
                           Star: {birthStars.find(s => s.value === item.birthStar)?.label} • Date: {new Date(item.date).toLocaleDateString()}
                         </p>
+                        <p className="text-[10px] text-on-surface-variant truncate">
+                          Address: {item.address}
+                        </p>
                         <ul className="text-[10px] text-on-surface-variant pl-4 list-disc mt-1 space-y-0.5">
                           {item.poojas.map(p => (
                             <li key={p._id}>{p.name}</li>
@@ -912,6 +997,96 @@ const PoojaDetails = () => {
           </div>
         </div>
       </section>
+
+      {/* Pooja Detail Modal */}
+      {detailPooja && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto">
+          <div 
+            className="relative w-full max-w-[650px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 text-white min-h-[450px] flex flex-col justify-between p-6 md:p-8 animate-fade-in"
+            style={{ 
+              backgroundImage: `url(${detailPooja.imageUrl})`, 
+              backgroundSize: 'cover', 
+              backgroundPosition: 'center' 
+            }}
+          >
+            {/* Dark gradient overlay for readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/85 to-black/60 z-0"></div>
+            
+            {/* Close Button */}
+            <button
+              onClick={() => setDetailPooja(null)}
+              className="absolute top-4 right-4 text-white/80 hover:text-white text-3xl font-bold bg-black/40 hover:bg-black/60 rounded-full w-8 h-8 flex items-center justify-center transition-all focus:outline-none z-20"
+              aria-label="Close details"
+            >
+              ×
+            </button>
+            
+            {/* Modal Content */}
+            <div className="relative z-10 space-y-6 mt-4 flex-1">
+              <div>
+                <span className="inline-block px-3 py-1 rounded-full bg-[#fed65b]/20 text-[#fed65b] font-label-md text-[10px] md:text-xs uppercase tracking-wider font-semibold border border-[#fed65b]/30 mb-2">
+                  Main Pooja
+                </span>
+                <h2 className="font-display-lg text-2xl md:text-3xl font-bold text-white leading-tight">
+                  {detailPooja.name}
+                </h2>
+                {detailPooja.malayalamName && (
+                  <p className="text-white/70 font-body-md text-sm md:text-base mt-1">
+                    {detailPooja.malayalamName}
+                  </p>
+                )}
+              </div>
+              
+              <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm font-semibold">
+                <span className="text-xl md:text-2xl font-bold text-[#fed65b]">
+                  ₹{detailPooja.price}
+                </span>
+                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/90">
+                  Duration: {detailPooja.duration || 'Daily'}
+                </span>
+              </div>
+              
+              <div className="space-y-4">
+                <p className="font-body-md text-sm md:text-base leading-relaxed text-white/90">
+                  {detailPooja.description}
+                </p>
+                
+                {detailPooja.benefits && detailPooja.benefits.length > 0 && (
+                  <div className="pt-2">
+                    <h4 className="font-headline-md text-xs md:text-sm font-bold text-[#fed65b] uppercase tracking-wider mb-2">
+                      Key Benefits
+                    </h4>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {detailPooja.benefits.map((benefit, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-xs md:text-sm text-white/80">
+                          <span className="material-symbols-outlined text-green-400 text-sm md:text-base flex-shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>
+                            check_circle
+                          </span>
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* Book Button */}
+            <div className="relative z-10 pt-6 mt-6 border-t border-white/15">
+              <button
+                onClick={() => {
+                  handleBookingClick(detailPooja)
+                  setDetailPooja(null)
+                }}
+                className="w-full py-3 md:py-3.5 bg-primary hover:bg-tertiary text-white rounded-full font-bold text-xs md:text-sm transition-all duration-300 shadow-lg flex items-center justify-center gap-2 hover:scale-[1.01]"
+              >
+                <span className="material-symbols-outlined text-sm md:text-base">calendar_month</span>
+                Book Pooja Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Booking Form Modal (Direct / Single Booking) */}
       {showBookingForm && (selectedPooja || selectedMultiplePoojas.length > 0) && (
@@ -1175,6 +1350,19 @@ const PoojaDetails = () => {
                 </select>
               </div>
 
+              <div className="flex flex-col gap-1">
+                <label htmlFor="cartAddress" className="text-xs font-semibold text-on-surface">Devotee Address (In English only) *</label>
+                <textarea
+                  id="cartAddress"
+                  value={cartFormData.address}
+                  onChange={(e) => setCartFormData({ ...cartFormData, address: e.target.value })}
+                  placeholder="Enter devotee address"
+                  required
+                  rows="3"
+                  className="px-4 py-2.5 border border-outline-variant/50 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                />
+              </div>
+
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-outline-variant/20">
                 <button
                   type="button"
@@ -1241,6 +1429,7 @@ const PoojaDetails = () => {
                       <div className="grid grid-cols-2 gap-2 text-xs mt-2 text-on-surface-variant">
                         <p><strong>Birth Star:</strong> {birthStars.find(s => s.value === item.birthStar)?.label}</p>
                         <p><strong>Date:</strong> {new Date(item.date).toLocaleDateString()}</p>
+                        <p className="col-span-2"><strong>Address:</strong> {item.address}</p>
                         <p className="col-span-2"><strong>Deity:</strong> {item.deity === 'ayyappa' ? 'Ayyappa (അയ്യപ്പൻ)' : 'Bhagavathi (ഭഗവതി)'}</p>
                       </div>
 

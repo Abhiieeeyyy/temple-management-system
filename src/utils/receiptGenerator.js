@@ -143,6 +143,7 @@ export const generateReceiptPDF = async (type, details) => {
     tableData.push(
       { field: 'Devotee Name', value: details.name || 'N/A' },
       { field: 'Phone Number', value: details.phoneNumber || 'N/A' },
+      { field: 'Address', value: details.address || 'N/A' },
       { field: 'Purpose of Donation', value: details.purpose ? details.purpose.toUpperCase() : 'GENERAL' },
       { field: 'Message', value: details.message || 'N/A' },
       { field: 'Razorpay Payment ID', value: details.paymentId || 'N/A' },
@@ -157,6 +158,7 @@ export const generateReceiptPDF = async (type, details) => {
         { field: 'Devotee Name', value: details.name || 'N/A' },
         { field: 'Birth Star', value: getBirthStarName(details.birthStar) },
         { field: 'Phone Number', value: details.mobileNumber || details.phoneNumber || 'N/A' },
+        { field: 'Address', value: details.address || 'N/A' },
         { field: 'Pooja Name', value: details.poojaName || 'N/A' },
         { field: 'Pooja Date', value: formatDate(details.date) },
         { field: 'Razorpay Payment ID', value: details.paymentId || 'N/A' },
@@ -168,6 +170,7 @@ export const generateReceiptPDF = async (type, details) => {
       tableData.push(
         { field: 'Devotee Name', value: details.name || 'Devotee' },
         { field: 'Phone Number', value: details.phoneNumber || details.mobileNumber || 'N/A' },
+        { field: 'Address', value: details.address || 'N/A' },
         { field: 'Razorpay Payment ID', value: details.paymentId || 'N/A' },
         { field: 'Payment Status', value: 'COMPLETED (PAID)' }
       );
@@ -175,7 +178,7 @@ export const generateReceiptPDF = async (type, details) => {
       details.cartItems.forEach((item, idx) => {
         tableData.push({
           field: `Booking #${idx + 1}`,
-          value: `${item.poojaName || 'N/A'} for ${item.name || 'N/A'} (${getBirthStarName(item.birthStar)}) on ${formatDate(item.date)} - INR ${item.price || '0'}/-`
+          value: `${item.poojaName || 'N/A'} for ${item.name || 'N/A'} (${getBirthStarName(item.birthStar)}) on ${formatDate(item.date)} - INR ${item.price || '0'}/- \nAddress: ${item.address || 'N/A'}`
         });
       });
 

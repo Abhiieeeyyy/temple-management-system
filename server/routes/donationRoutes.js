@@ -22,13 +22,13 @@ router.get('/', authenticateToken, requireAdmin, async (req, res) => {
 // Create new donation
 router.post('/', async (req, res) => {
   try {
-    const { name, amount, phoneNumber, purpose, message } = req.body
+    const { name, amount, phoneNumber, purpose, message, address } = req.body
 
     // Validate required fields
-    if (!name || !amount || !phoneNumber || !purpose) {
+    if (!name || !amount || !phoneNumber || !purpose || !address) {
       return res.status(400).json({ 
         success: false, 
-        message: 'Name, amount, phone number, and purpose are required' 
+        message: 'Name, amount, phone number, purpose, and address are required' 
       })
     }
 
@@ -51,6 +51,7 @@ router.post('/', async (req, res) => {
       phoneNumber,
       purpose,
       message,
+      address,
       userId: null, // No user authentication
       paymentId,
       orderId,

@@ -25,7 +25,45 @@ function ScrollToTop() {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    // Disable browser default scroll restoration behavior
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    const performScroll = () => {
+      // Scroll window
+      window.scrollTo(0, 0)
+      
+      // Scroll documentElement and body
+      if (document.documentElement) document.documentElement.scrollTo(0, 0)
+      if (document.body) document.body.scrollTo(0, 0)
+      
+      // Scroll common layout wrapper elements in single page applications
+      const root = document.getElementById('root')
+      if (root) root.scrollTo(0, 0)
+      
+      const appContainer = document.querySelector('.app')
+      if (appContainer) appContainer.scrollTo(0, 0)
+
+      const mainContent = document.querySelector('.main-content')
+      if (mainContent) mainContent.scrollTo(0, 0)
+    }
+
+    // Scroll immediately
+    performScroll()
+
+    // Scroll again on sequential timeouts to guarantee reset after layout paints, shifts and hydration
+    const t0 = setTimeout(performScroll, 0)
+    const t1 = setTimeout(performScroll, 50)
+    const t2 = setTimeout(performScroll, 150)
+    const t3 = setTimeout(performScroll, 300)
+
+    return () => {
+      clearTimeout(t0)
+      clearTimeout(t1)
+      clearTimeout(t2)
+      clearTimeout(t3)
+    }
   }, [pathname])
 
   return null
