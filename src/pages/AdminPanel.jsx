@@ -159,13 +159,6 @@ const AdminPanel = () => {
     image: null
   })
 
-  // Settings State
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  })
-  const [passwordLoading, setPasswordLoading] = useState(false)
 
   // Poojas State
   const [poojas, setPoojas] = useState([])
@@ -316,47 +309,6 @@ const AdminPanel = () => {
     }
   }
 
-  const handlePasswordChange = async (e) => {
-    e.preventDefault()
-    setError('')
-    setSuccess('')
-
-    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      setError('New passwords do not match')
-      return
-    }
-
-    if (passwordForm.newPassword.length < 6) {
-      setError('New password must be at least 6 characters long')
-      return
-    }
-
-    try {
-      setPasswordLoading(true)
-      await api.put('/api/auth/update-profile', {
-        currentPassword: passwordForm.currentPassword,
-        newPassword: passwordForm.newPassword
-      })
-
-      setSuccess('Password updated successfully!')
-      setPasswordForm({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-      })
-    } catch (err) {
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        setError('Authentication required. Please log in again.')
-        setTimeout(() => {
-          window.location.href = '/admin'
-        }, 2000)
-      } else {
-        setError(err.response?.data?.message || 'Failed to update password')
-      }
-    } finally {
-      setPasswordLoading(false)
-    }
-  }
 
   const handlePoojaSubmit = async (e) => {
     e.preventDefault()
@@ -867,70 +819,6 @@ const AdminPanel = () => {
             </div>
           )}
 
-          {/* Settings Tab */}
-          {activeTab === 'settings' && (
-            <div className="bg-white p-6 rounded-xl border border-outline-variant/20 shadow-md max-w-[550px] mx-auto space-y-6">
-              <h2 className="font-display-lg text-xl md:text-2xl text-primary font-bold text-center">Admin Settings</h2>
-
-              <div className="space-y-4">
-                <h3 className="font-bold text-xs md:text-sm text-on-surface border-b border-outline-variant/10 pb-2">Change Password</h3>
-                
-                <form onSubmit={handlePasswordChange} className="space-y-4">
-                  {/* Current Password */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="currentPassword" className="text-xs font-semibold text-on-surface">Current Password *</label>
-                    <input
-                      type="password"
-                      id="currentPassword"
-                      value={passwordForm.currentPassword}
-                      onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
-                      required
-                      placeholder="Enter current password"
-                      className="w-full px-4 py-2.5 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary text-xs"
-                    />
-                  </div>
-
-                  {/* New Password */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="newPassword" className="text-xs font-semibold text-on-surface">New Password *</label>
-                    <input
-                      type="password"
-                      id="newPassword"
-                      value={passwordForm.newPassword}
-                      onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
-                      required
-                      placeholder="Enter new password (min. 6 characters)"
-                      minLength={6}
-                      className="w-full px-4 py-2.5 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary text-xs"
-                    />
-                  </div>
-
-                  {/* Confirm Password */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="confirmPassword" className="text-xs font-semibold text-on-surface">Confirm New Password *</label>
-                    <input
-                      type="password"
-                      id="confirmPassword"
-                      value={passwordForm.confirmPassword}
-                      onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
-                      required
-                      placeholder="Confirm new password"
-                      minLength={6}
-                      className="w-full px-4 py-2.5 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary text-xs"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={passwordLoading}
-                    className="w-full py-3 bg-primary text-white rounded-full font-bold hover:bg-tertiary transition-all text-xs uppercase tracking-wider mt-2 shadow"
-                  >
-                    {passwordLoading ? 'Updating...' : 'Update Password'}
-                  </button>
-                </form>
-              </div>
-            </div>
-          )}
 
           {/* Manage Poojas Tab */}
           {activeTab === 'poojas' && (

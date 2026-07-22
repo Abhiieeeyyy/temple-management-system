@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { auth, googleProvider } from '../config/firebase'
+import { signInWithPopup } from 'firebase/auth'
 
 const AdminLogin = () => {
   const navigate = useNavigate()
-  const { login, isAuthenticated, isAdmin, loading: authLoading } = useAuth()
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  })
+  const { loginWithGoogleAdmin, isAuthenticated, isAdmin, loading: authLoading } = useAuth()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -33,40 +31,39 @@ const AdminLogin = () => {
     return null
   }
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleGoogleSignIn = async () => {
     setLoading(true)
     setError('')
 
     try {
-      const result = await login(formData.email, formData.password)
+      if (!auth || !googleProvider) {
+        throw new Error('Firebase Auth is not properly initialized. Check your environment configuration.')
+      }
 
-      if (result.success) {
-        const userRole = result.user?.role
-        const isUserAdmin = result.user?.isAdmin || userRole === 'admin'
+      console.log('Initiating Google Sign-In pop-up...')
+      const result = await signInWithPopup(auth, googleProvider)
+      const idToken = await result.user.getIdToken()
+      
+      console.log('Google Sign-In successful. Authenticating with backend...')
+      const response = await loginWithGoogleAdmin(idToken)
 
-        if (isUserAdmin) {
-          setTimeout(() => {
-            navigate('/admin-panel', { replace: true })
-          }, 150)
-        } else {
-          setError('Access denied. Admin credentials required.')
-          setLoading(false)
-        }
+      if (response.success) {
+        setTimeout(() => {
+          navigate('/admin-panel', { replace: true })
+        }, 150)
       } else {
-        setError(result.message || 'Invalid credentials')
+        setError(response.message || 'Access denied. Admin credentials required.')
         setLoading(false)
       }
     } catch (err) {
-      console.error('Login error:', err)
-      setError('Login failed. Please try again.')
+      console.error('Google login error details:', err)
+      let displayError = 'Google Sign-In failed. Please try again.'
+      if (err.code === 'auth/popup-closed-by-user') {
+        displayError = 'Sign-in window closed before completing login.'
+      } else if (err.message) {
+        displayError = err.message
+      }
+      setError(displayError)
       setLoading(false)
     }
   }
@@ -89,63 +86,41 @@ const AdminLogin = () => {
           <p className="text-xs text-on-surface-variant tracking-wider uppercase font-semibold">Sri Kainari Ayyappan Kavu</p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Content */}
+        <div className="space-y-6">
           {error && (
             <div className="p-4 bg-error-container text-on-error-container rounded-lg text-xs border border-error/20">
               {error}
             </div>
           )}
 
-          {/* Email */}
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="email" className="text-xs font-semibold text-on-surface">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              disabled={loading}
-              placeholder="Enter admin email"
-              autoComplete="email"
-              className="w-full px-5 py-3 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-white"
-            />
-          </div>
-
-          {/* Password */}
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="password" className="text-xs font-semibold text-on-surface">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              disabled={loading}
-              placeholder="Enter password"
-              autoComplete="current-password"
-              className="w-full px-5 py-3 rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-white"
-            />
-          </div>
+          <p className="text-xs text-on-surface-variant text-center leading-relaxed">
+            Please log in with your authorized Google email address to access the temple administration dashboard.
+          </p>
 
           <button
-            type="submit"
-            className="w-full py-3.5 bg-primary text-white rounded-full font-bold hover:bg-tertiary transition-all duration-200 shadow-md text-xs uppercase tracking-wider mt-2 flex items-center justify-center gap-2"
+            onClick={handleGoogleSignIn}
             disabled={loading}
+            className="w-full py-3 px-5 border border-outline-variant hover:border-primary/50 bg-white hover:bg-primary/5 rounded-full text-on-surface hover:text-primary font-bold shadow-sm transition-all duration-200 text-xs uppercase tracking-wider flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? (
               <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Logging in...
+                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                Authenticating...
               </>
             ) : (
-              'Login'
+              <>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.82 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                </svg>
+                Continue with Google
+              </>
             )}
           </button>
-        </form>
+        </div>
 
         <div className="text-center pt-4 border-t border-outline-variant/10">
           <p className="text-[10px] text-on-surface-variant font-medium tracking-widest uppercase">
@@ -159,3 +134,4 @@ const AdminLogin = () => {
 }
 
 export default AdminLogin
+

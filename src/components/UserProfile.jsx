@@ -23,13 +23,6 @@ const UserProfile = ({ onAction }) => {
     if (onAction) onAction()
   }
 
-  const handleSettings = (e) => {
-    e.stopPropagation()
-    navigate(ROUTES.ADMIN_PANEL, { state: { activeTab: 'settings' } })
-    setShowDropdown(false)
-    if (onAction) onAction()
-  }
-
   return (
     <div className="user-profile" onClick={(e) => e.stopPropagation()}>
       <button
@@ -55,9 +48,6 @@ const UserProfile = ({ onAction }) => {
           <div className="dropdown-divider"></div>
           <button className="dropdown-menu-item" onClick={handleAdminPanel}>
             Admin Panel
-          </button>
-          <button className="dropdown-menu-item" onClick={handleSettings}>
-            Settings
           </button>
           <button className="logout-button" onClick={handleLogout}>
             Logout

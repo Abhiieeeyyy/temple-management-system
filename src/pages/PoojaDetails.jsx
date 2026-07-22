@@ -362,7 +362,8 @@ const PoojaDetails = () => {
             paymentStatus: 'paid',
             paymentMethod: 'online',
             paymentId: paymentResponse.razorpay_payment_id,
-            orderId: paymentResponse.razorpay_order_id
+            orderId: paymentResponse.razorpay_order_id,
+            razorpaySignature: paymentResponse.razorpay_signature
           }
           bookingPromises.push(api.post('/api/bookings', bookingData))
         }
@@ -540,7 +541,8 @@ const PoojaDetails = () => {
           paymentStatus: 'paid',
           paymentMethod: 'online',
           paymentId: paymentResponse.razorpay_payment_id,
-          orderId: paymentResponse.razorpay_order_id
+          orderId: paymentResponse.razorpay_order_id,
+          razorpaySignature: paymentResponse.razorpay_signature
         }
         return api.post('/api/bookings', bookingData)
       })

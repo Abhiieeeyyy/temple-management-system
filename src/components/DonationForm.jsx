@@ -109,70 +109,57 @@ const DonationForm = ({ initialAmount = '' }) => {
       // Open Razorpay checkout
       const paymentResponse = await openRazorpayCheckout(options)
       
-      // Verify payment
-      const verificationData = {
-        razorpay_order_id: paymentResponse.razorpay_order_id,
-        razorpay_payment_id: paymentResponse.razorpay_payment_id,
-        razorpay_signature: paymentResponse.razorpay_signature,
-        donationData: formData
+      // Save donation to database (server will verify the payment signature)
+      const donationRecord = {
+        name: formData.name,
+        amount: parseFloat(formData.amount),
+        phoneNumber: formData.phoneNumber,
+        purpose: formData.purpose,
+        message: formData.message,
+        address: formData.address,
+        paymentId: paymentResponse.razorpay_payment_id,
+        orderId: paymentResponse.razorpay_order_id,
+        razorpaySignature: paymentResponse.razorpay_signature,
+        status: 'completed'
       }
 
-      const verification = await verifyPayment(verificationData)
-      
-      if (verification.success) {
-        // Save donation to database
-        const donationRecord = {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
+      const saveResponse = await fetch(`${API_URL}/api/donations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(donationRecord)
+      })
+
+      const saveData = await saveResponse.json()
+
+      if (saveData.success) {
+        setSuccess(`Thank you for your generous donation of ₹${formData.amount}! Your donation has been recorded. Payment ID: ${paymentResponse.razorpay_payment_id}`)
+        
+        const donationDetails = {
           name: formData.name,
           amount: parseFloat(formData.amount),
           phoneNumber: formData.phoneNumber,
           purpose: formData.purpose,
           message: formData.message,
           address: formData.address,
-          paymentId: paymentResponse.razorpay_payment_id,
-          orderId: paymentResponse.razorpay_order_id,
-          status: 'completed'
+          paymentId: paymentResponse.razorpay_payment_id
         }
+        setReceiptData({ type: 'donation', details: donationDetails })
+        generateReceiptPDF('donation', donationDetails)
 
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
-        const saveResponse = await fetch(`${API_URL}/api/donations`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(donationRecord)
+        // Reset form
+        setFormData({
+          name: user?.firstName ? `${user.firstName} ${user.lastName}` : '',
+          amount: '',
+          phoneNumber: user?.phone || '',
+          purpose: 'general',
+          message: '',
+          address: ''
         })
-
-        const saveData = await saveResponse.json()
-
-        if (saveData.success) {
-          setSuccess(`Thank you for your generous donation of ₹${formData.amount}! Your donation has been recorded. Payment ID: ${paymentResponse.razorpay_payment_id}`)
-          
-          const donationDetails = {
-            name: formData.name,
-            amount: parseFloat(formData.amount),
-            phoneNumber: formData.phoneNumber,
-            purpose: formData.purpose,
-            message: formData.message,
-            address: formData.address,
-            paymentId: paymentResponse.razorpay_payment_id
-          }
-          setReceiptData({ type: 'donation', details: donationDetails })
-          generateReceiptPDF('donation', donationDetails)
-
-          // Reset form
-          setFormData({
-            name: user?.firstName ? `${user.firstName} ${user.lastName}` : '',
-            amount: '',
-            phoneNumber: user?.phone || '',
-            purpose: 'general',
-            message: '',
-            address: ''
-          })
-        } else {
-          throw new Error('Payment successful but failed to record donation. Please contact support.')
-        }
       } else {
-        throw new Error('Payment verification failed')
+        throw new Error(saveData.message || 'Payment successful but failed to record donation. Please contact support.')
       }
 
     } catch (err) {

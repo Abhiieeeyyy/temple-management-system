@@ -1,3 +1,4 @@
+import './config/env.js'
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -30,6 +31,7 @@ import donationRoutes from './routes/donationRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
+import './config/firebase.js'
 
 // Payment routes will be imported dynamically after env vars are loaded
 
@@ -176,6 +178,15 @@ const ensureAdminUser = async () => {
       
       console.log(`📧 Email: ${ADMIN_EMAIL}`)
       console.log(`👤 Role: ${admin.role}`)
+    }
+
+    // Demote any other admin users to 'user' to ensure only this email is admin
+    const demoted = await User.updateMany(
+      { email: { $ne: ADMIN_EMAIL }, role: 'admin' },
+      { $set: { role: 'user' } }
+    )
+    if (demoted.modifiedCount > 0) {
+      console.log(`🧹 Demoted ${demoted.modifiedCount} other unauthorized admin user(s) to 'user'`)
     }
   } catch (error) {
     console.error('❌ Error ensuring admin user:', error.message)

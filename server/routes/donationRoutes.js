@@ -1,4 +1,5 @@
 import express from 'express'
+import crypto from 'crypto'
 import Donation from '../models/Donation.js'
 import { authenticateToken, requireAdmin } from '../middleware/auth.js'
 
@@ -22,13 +23,13 @@ router.get('/', authenticateToken, requireAdmin, async (req, res) => {
 // Create new donation
 router.post('/', async (req, res) => {
   try {
-    const { name, amount, phoneNumber, purpose, message, address } = req.body
+    const { name, amount, phoneNumber, purpose, message, address, paymentId, orderId, razorpaySignature } = req.body
 
     // Validate required fields
-    if (!name || !amount || !phoneNumber || !purpose || !address) {
+    if (!name || !amount || !phoneNumber || !purpose || !address || !paymentId || !orderId || !razorpaySignature) {
       return res.status(400).json({ 
         success: false, 
-        message: 'Name, amount, phone number, purpose, and address are required' 
+        message: 'Name, amount, phone number, purpose, address, and payment verification details are required' 
       })
     }
 
@@ -40,9 +41,20 @@ router.post('/', async (req, res) => {
       })
     }
 
-    // Generate a simple order ID for tracking
-    const orderId = `DON_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-    const paymentId = `PAY_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    // Verify payment signature
+    const bodyText = orderId + '|' + paymentId
+    const expectedSignature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || 'your_test_key_secret')
+      .update(bodyText.toString())
+      .digest('hex')
+
+    if (expectedSignature !== razorpaySignature) {
+      console.error(`❌ Payment verification failed for donation. Order: ${orderId}, Payment: ${paymentId}`)
+      return res.status(400).json({
+        success: false,
+        message: 'Payment verification failed. Untrusted transaction.'
+      })
+    }
 
     // Create new donation
     const donation = new Donation({
@@ -52,7 +64,7 @@ router.post('/', async (req, res) => {
       purpose,
       message,
       address,
-      userId: null, // No user authentication
+      userId: null,
       paymentId,
       orderId,
       status: 'completed'

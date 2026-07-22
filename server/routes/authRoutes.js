@@ -1,6 +1,7 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
+import { getAuth } from '../config/firebase.js'
 
 const router = express.Router()
 
@@ -97,6 +98,14 @@ router.post('/login', async (req, res) => {
       })
     }
 
+    // Restrict admin login via password
+    if (user.role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin authentication is restricted to Google Sign-In only.'
+      })
+    }
+
     // Check if user is active
     if (!user.isActive) {
       return res.status(401).json({
@@ -152,6 +161,102 @@ router.post('/login', async (req, res) => {
     })
   }
 })
+
+// POST /api/auth/google-admin-login - Login admin using Firebase Google Sign-In
+router.post('/google-admin-login', async (req, res) => {
+  try {
+    const { idToken } = req.body
+
+    if (!idToken) {
+      return res.status(400).json({
+        success: false,
+        message: 'Firebase ID token is required'
+      })
+    }
+
+    console.log('📡 Verifying Firebase ID token...')
+    // Verify the Firebase ID token
+    const decodedToken = await getAuth().verifyIdToken(idToken)
+    const email = decodedToken.email
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email address not found in Google token'
+      })
+    }
+
+    console.log(`👤 Verified Google account: ${email}`)
+
+    // Restrict strictly to the designated admin email
+    const REQUIRED_ADMIN_EMAIL = 'srikainariayyappatemple@gmail.com'
+    if (email !== REQUIRED_ADMIN_EMAIL) {
+      console.warn(`⚠️ Access denied: Email ${email} is not the allowed admin email.`)
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. Unauthorized admin email.'
+      })
+    }
+
+    // Find user by email
+    const user = await User.findOne({ email })
+    if (!user) {
+      console.warn(`⚠️ Access denied: Email ${email} is not registered in the system`)
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. You do not have an account in the system.'
+      })
+    }
+
+    // Check role is admin
+    if (user.role !== 'admin') {
+      console.warn(`⚠️ Access denied: User ${email} does not have admin permissions (Role: ${user.role})`)
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. Admin credentials required.'
+      })
+    }
+
+    // Check if user is active
+    if (!user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: 'Account is deactivated. Please contact support.'
+      })
+    }
+
+    // Generate token
+    const token = generateToken(user._id)
+
+    // Update last login
+    user.lastLogin = new Date()
+    await user.save()
+
+    const userData = user.toJSON()
+    const userResponse = {
+      ...userData,
+      role: 'admin',
+      isAdmin: true
+    }
+
+    console.log(`✅ Admin Google login successful: ${email}`)
+
+    res.json({
+      success: true,
+      message: 'Admin login successful',
+      user: userResponse,
+      token
+    })
+
+  } catch (error) {
+    console.error('❌ Google admin login error:', error)
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Google authentication failed. Please try again.'
+    })
+  }
+})
+
 
 // POST /api/auth/login-phone - Login user with phone (after OTP verification)
 router.post('/login-phone', async (req, res) => {

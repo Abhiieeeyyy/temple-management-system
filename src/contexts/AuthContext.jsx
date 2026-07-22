@@ -100,6 +100,62 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const loginWithGoogleAdmin = async (idToken) => {
+    console.log('🔐 Google Admin Login attempt:', { API_URL })
+    try {
+      console.log('📡 Making request to:', `${API_URL}/api/auth/google-admin-login`)
+      const response = await fetch(`${API_URL}/api/auth/google-admin-login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken }),
+      })
+
+      console.log('📥 Response status:', response.status)
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('❌ Response error:', errorText)
+        let parsedError
+        try {
+          parsedError = JSON.parse(errorText)
+        } catch (e) {}
+        throw new Error(parsedError?.message || `HTTP ${response.status}: ${errorText}`)
+      }
+
+      const data = await response.json()
+      console.log('✅ Response data:', {
+        success: data.success,
+        hasUser: !!data.user,
+        userRole: data.user?.role,
+        isAdmin: data.user?.isAdmin
+      })
+
+      if (data.success) {
+        const userData = {
+          ...data.user,
+          role: 'admin',
+          isAdmin: true
+        }
+        setUser(userData)
+        setIsAuthenticated(true)
+        localStorage.setItem('temple_token', data.token)
+        localStorage.setItem('temple_user', JSON.stringify(userData))
+        return { success: true, user: userData }
+      } else {
+        console.warn('⚠️ Google admin login failed:', data.message)
+        return { success: false, message: data.message }
+      }
+    } catch (error) {
+      console.error('❌ Google admin login error:', error)
+      return {
+        success: false,
+        message: error.message || 'Google Login failed. Please check your connection and try again.'
+      }
+    }
+  }
+
   const signup = async (userData) => {
     // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5011'
     try {
@@ -242,6 +298,7 @@ export const AuthProvider = ({ children }) => {
     isAdmin,
     loading,
     login,
+    loginWithGoogleAdmin,
     signup,
     logout,
     updateUser,

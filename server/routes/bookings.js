@@ -1,4 +1,5 @@
 import express from 'express';
+import crypto from 'crypto';
 import Booking from '../models/Booking.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 
@@ -8,6 +9,31 @@ const router = express.Router();
 // Create a new booking
 router.post('/', async (req, res) => {
   try {
+    const { paymentId, orderId, razorpaySignature } = req.body
+
+    // Ensure payment details are provided
+    if (!paymentId || !orderId || !razorpaySignature) {
+      return res.status(400).json({
+        success: false,
+        message: 'Payment verification details are missing'
+      })
+    }
+
+    // Verify payment signature
+    const body = orderId + '|' + paymentId
+    const expectedSignature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || 'your_test_key_secret')
+      .update(body.toString())
+      .digest('hex')
+
+    if (expectedSignature !== razorpaySignature) {
+      console.error(`❌ Payment verification failed for booking. Order: ${orderId}, Payment: ${paymentId}`)
+      return res.status(400).json({
+        success: false,
+        message: 'Payment signature verification failed. Untrusted transaction.'
+      })
+    }
+
     const booking = new Booking({
       ...req.body,
       userId: req.body.userId || null
